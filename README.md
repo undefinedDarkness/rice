@@ -1,5 +1,5 @@
 <center>
-  <img src="" />
+  <img src="https://i.redd.it/0c4g5tt88aw61.png" />
   <h1>🍙 My Awesome Rice.</h1>
 </center>
 
