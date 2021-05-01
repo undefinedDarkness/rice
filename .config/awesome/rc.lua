@@ -22,14 +22,12 @@ dpi = require("beautiful.xresources").apply_dpi
 require("awful.hotkeys_popup.keys")
 require("awful.autofocus")
 
--- 🚀 Load Launch Script 
--- CHANGE
+-- 🚀 Load Launch Script
 awful.spawn.with_shell("~/Documents/Scripts/launch.sh")
 
 -- 🔨 Variable definitions
 
--- CHANGE
-terminal = "st"
+terminal = "wezterm"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
 

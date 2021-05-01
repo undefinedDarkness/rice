@@ -2,7 +2,6 @@
 
 " Auto-toggles statusline based on window size
 function! CheckWindowSize()
-  " -- CHANGE
   if winwidth(0) > 100 && winheight(0) > 30
     set laststatus=2
     set noshowmode

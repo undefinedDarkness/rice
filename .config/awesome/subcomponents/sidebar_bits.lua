@@ -97,7 +97,7 @@ end)
 
 -- TODO!
 
-local todo_script = "deno run --allow-read --allow-run --allow-write /home/david/Documents/Scripts/todo/todo.ts "
+local todo_script = user_home .. "/Documents/Scripts/todo.sh " 
 
 M.todo_items = wibox.widget {
     layout = wibox.layout.fixed.vertical,
@@ -133,7 +133,7 @@ function todo_item(id, title, txt, widget_index)
                     id = "finish_task_btn",
                     buttons = awful.button({}, 1, function()
                         M.todo_items:remove(widget_index)
-                        awful.spawn(todo_script .. "complete-task " .. id)
+                        awful.spawn.with_shell(todo_script .. "complete-task " .. id)
                     end),
                     font = _nerd_font,
                 },
@@ -161,17 +161,13 @@ end
 
 
 M.update_tasklist = function()
-    awful.spawn.easy_async_with_shell(todo_script .. "output-awesome", function(out)
-        out = out:gsub("\n", "")
+    awful.spawn.easy_async_with_shell(todo_script .. "output-awesome", function(out, err)
 
-        if out == "EMPTY" then
-            return
-        end
-
-        local tasks = gears.string.split(out, "?")
+        local tasks = gears.string.split(out, "\n")
         M.todo_items:reset() -- remove all items!
 
         for i, v in ipairs(tasks) do
+            if i == #tasks then return end
             local td = gears.string.split(v, ":")
             M.todo_items:add(todo_item(td[1], td[2], td[3], i))
         end

@@ -6,6 +6,7 @@ command Qa :qa
 
 " Man page support
 "runtime ftplugin/man.vim
+let g:mkdp_auto_start = 0
 
 " Hide ~
 highlight EndOfBuffer ctermfg=black ctermbg=black
@@ -43,7 +44,7 @@ set pastetoggle=<F2>
 call neomake#configure#automake('w')
 
 " Ack
-let g:ackprg = 'ag --vimgrep' " -- CHANGE
+let g:ackprg = 'ag --vimgrep'
 cnoreabbrev Ack Ack!
 set shellpipe=> " Prevent Ack Output Leaking Into Terminal
 
@@ -63,7 +64,7 @@ function! Runfile()
   let file=expand('%:p') 
 
   if filetype == "rust"
-    let is_rust_project = system("bash ~/Documents/Scripts/is_rust_project.sh " . file) 
+    let is_rust_project = system("bash ~/Documents/Scripts/is_rust_project.sh " . file)
     if !empty(is_rust_project)
       :Term cargo build
     else

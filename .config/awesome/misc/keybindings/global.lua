@@ -65,8 +65,8 @@ globalkeys =
     awful.key(
         {modkey},
         "d",
-        function() 
-            awful.spawn("dmenu_run -h 30") -- CHANGE
+        function()
+            awful.spawn("dmenu_run -h 30")
         end,
         {description = "Launch Dmenu (Run)", group = "User"}
     ),
@@ -92,7 +92,7 @@ globalkeys =
         {modkey, "Shift"},
         "p",
         function()
-            awful.spawn.with_shell("xcolor | xclip -sel clip") -- CHANGE
+            awful.spawn.with_shell("xcolor | xclip -sel clip")
         end,
         {description = "Launch Color Picker", group = "User"}
     ),
@@ -165,7 +165,7 @@ globalkeys =
         {modkey},
         "t",
         function()
-            awful.spawn(terminal)
+            awful.spawn("st")
         end,
         {description = "open a terminal", group = "launcher"}
     ),

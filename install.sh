@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+main() {
 echo "Stuff you will want to change:"
 echo "Once you're done ~ run ./install.sh -F"
 grep --color=always -rPn "\-\-\s+CHANGE" .config
@@ -54,17 +55,31 @@ You can see any keybinds in awesome using Super+s
 My bash prompt: (Copy paste to bashrc)
   $(tput setaf 3)\e[3mexport PS1=\"\[\$(tput setaf 4)\]\w\[\$(tput sgr0)\] \[\$(tput setaf 2)\]➜ \[\$(tput sgr0)\] \"$(tput sgr0)
 
+You will need to install vim - plug
+
 $(tput bold)$(tput setaf 3)CHECK OUT BLING$(tput sgr0): https://github.com/BlingCorp/bling
 $(tput bold)$(tput setaf 3)CHECK OUT EWW$(tput sgr0): https://github.com/elkowar/eww/
 "
+}
 
 case $1 in
   "-F")
     # im not entirely sure if symlinks will work here maybe replace `ln -s` with `cp` but ... I dont care.
-    git submodule update --init --recursive
     mkdir -p ~/.config/awesome
     ln -s "$(realpath .config/awesome)" $HOME/.config/awesome 
     ln -s "$(realpath .config/nvim)" $HOME/.config/nvim
     ln -s "$(realpath .config/picom.conf)" $HOME/.config/picom.conf
+    ln -s $(realpath Scripts) $HOME/Documents/Scripts
+    echo "Finished Installation"
+  ;;
+  "-P")
+    mkdir -p .config/nvim
+    cp -r ~/.config/awesome .config
+    cp ~/.config/nvim/* .config/nvim
+    cp -r ~/Documents/Scripts .
+    cp -r ~/.config/picom.conf .config
+  ;;
+  *)
+    main
   ;;
 esac

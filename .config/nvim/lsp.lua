@@ -2,7 +2,6 @@ local lsp = require('lspconfig')
 local lsp_compe = require('compe')
 
 -- Setup Languagn Servers
--- CHANGE
 lsp.rust_analyzer.setup{
   settings = {
     ["rust-analyzer.checkOnSave.command"] = "clippy"
@@ -26,7 +25,6 @@ vim.cmd("set shortmess+=c")
 require('lspkind').init {}
 
 -- Compe
--- CHANGE
 lsp_compe.setup {
   enabled = true;
   autocomplete = true;

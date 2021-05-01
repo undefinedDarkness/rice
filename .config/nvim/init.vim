@@ -14,6 +14,7 @@ call plug#begin("~/.config/nvim/plugged")
   Plug 'itchyny/lightline.vim'
   Plug 'sainnhe/gruvbox-material'
   Plug 'airblade/vim-gitgutter'
+  Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
   " Fern File Manager
   Plug 'lambdalisue/fern.vim'
@@ -108,7 +109,6 @@ set encoding=utf-8
 set splitbelow
 
 " Include Tab Line & Fern Config & Vim Config
-" -- CHANGE
 source $HOME/.config/nvim/custom.vim
 source $HOME/.config/nvim/fern.vim
 source $HOME/.config/nvim/tabline.vim
