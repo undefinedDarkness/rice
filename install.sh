@@ -61,6 +61,7 @@ $(tput bold)$(tput setaf 3)CHECK OUT EWW$(tput sgr0): https://github.com/elkowar
 case $1 in
   "-F")
     # im not entirely sure if symlinks will work here maybe replace `ln -s` with `cp` but ... I dont care.
+    git submodule update --init --recursive
     mkdir -p ~/.config/awesome
     ln -s "$(realpath .config/awesome)" $HOME/.config/awesome 
     ln -s "$(realpath .config/nvim)" $HOME/.config/nvim

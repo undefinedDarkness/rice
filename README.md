@@ -1,4 +1,5 @@
 <center>
+  <img src="" />
   <h1>🍙 My Awesome Rice.</h1>
 </center>
 
@@ -6,6 +7,9 @@ Hello :wave: and thank you for dropping by,
 these are the dotfiles for my Ubuntu based rice using the [awesome](awesomewm.org/) window manager
 
 As of 1 May 2021, My rice uses [gruvbox material](https://github.com/sainnhe/gruvbox-material) as the primary colorscheme.
+
+*so umm, I deleted my script folder on accident so... some bits wont work (mainly todo), will recreate*
+
 ```
 primary:
   background: '#1d2021'
