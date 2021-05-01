@@ -1,0 +1,227 @@
+diff --git a/LICENSE b/LICENSE
+deleted file mode 100644
+index 3afd28e..0000000
+--- a/LICENSE
++++ /dev/null
+@@ -1,30 +0,0 @@
+-MIT/X Consortium License
+-
+-© 2006-2019 Anselm R Garbe <anselm@garbe.ca>
+-© 2006-2008 Sander van Dijk <a.h.vandijk@gmail.com>
+-© 2006-2007 Michał Janeczek <janeczek@gmail.com>
+-© 2007 Kris Maglione <jg@suckless.org>
+-© 2009 Gottox <gottox@s01.de>
+-© 2009 Markus Schnalke <meillo@marmaro.de>
+-© 2009 Evan Gates <evan.gates@gmail.com>
+-© 2010-2012 Connor Lane Smith <cls@lubutu.com>
+-© 2014-2020 Hiltjo Posthuma <hiltjo@codemadness.org>
+-© 2015-2019 Quentin Rameau <quinq@fifth.space>
+-
+-Permission is hereby granted, free of charge, to any person obtaining a
+-copy of this software and associated documentation files (the "Software"),
+-to deal in the Software without restriction, including without limitation
+-the rights to use, copy, modify, merge, publish, distribute, sublicense,
+-and/or sell copies of the Software, and to permit persons to whom the
+-Software is furnished to do so, subject to the following conditions:
+-
+-The above copyright notice and this permission notice shall be included in
+-all copies or substantial portions of the Software.
+-
+-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+-DEALINGS IN THE SOFTWARE.
+diff --git a/config.def.h b/config.def.h
+index 1edb647..aadd1f2 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -7,6 +7,7 @@ static const char *fonts[] = {
+ 	"monospace:size=10"
+ };
+ static const char *prompt      = NULL;      /* -p  option; prompt to the left of input field */
++static const char *dynamic     = NULL;      /* -dy option; dynamic command to run on input change */
+ static const char *colors[SchemeLast][2] = {
+ 	/*     fg         bg       */
+ 	[SchemeNorm] = { "#bbbbbb", "#222222" },
+@@ -15,6 +16,9 @@ static const char *colors[SchemeLast][2] = {
+ };
+ /* -l option; if nonzero, dmenu uses vertical list with given number of lines */
+ static unsigned int lines      = 0;
++/* -h option; minimum height of a menu line */
++static unsigned int lineheight = 0;
++static unsigned int min_lineheight = 8;
+ 
+ /*
+  * Characters not considered part of a word while deleting words
+diff --git a/dmenu.1 b/dmenu.1
+index 323f93c..f2a82b4 100644
+--- a/dmenu.1
++++ b/dmenu.1
+@@ -6,6 +6,8 @@ dmenu \- dynamic menu
+ .RB [ \-bfiv ]
+ .RB [ \-l
+ .IR lines ]
++.RB [ \-h
++.IR height ]
+ .RB [ \-m
+ .IR monitor ]
+ .RB [ \-p
+@@ -50,6 +52,9 @@ dmenu matches menu items case insensitively.
+ .BI \-l " lines"
+ dmenu lists items vertically, with the given number of lines.
+ .TP
++.BI \-h " height"
++dmenu uses a menu line of at least 'height' pixels tall, but no less than 8.
++.TP
+ .BI \-m " monitor"
+ dmenu is displayed on the monitor number supplied. Monitor numbers are starting
+ from 0.
+diff --git a/dmenu.c b/dmenu.c
+index 65f25ce..a266e0a 100644
+--- a/dmenu.c
++++ b/dmenu.c
+@@ -131,7 +131,7 @@ drawmenu(void)
+ {
+ 	unsigned int curpos;
+ 	struct item *item;
+-	int x = 0, y = 0, w;
++	int x = 0, y = 0, fh = drw->fonts->h, w;
+ 
+ 	drw_setscheme(drw, scheme[SchemeNorm]);
+ 	drw_rect(drw, 0, 0, mw, mh, 1, 1);
+@@ -148,7 +148,7 @@ drawmenu(void)
+ 	curpos = TEXTW(text) - TEXTW(&text[cursor]);
+ 	if ((curpos += lrpad / 2 - 1) < w) {
+ 		drw_setscheme(drw, scheme[SchemeNorm]);
+-		drw_rect(drw, x + curpos, 2, 2, bh - 4, 1, 0);
++		drw_rect(drw, x + curpos, 2 + (bh - fh) / 2, 2, fh - 4, 1, 0);
+ 	}
+ 
+ 	if (lines > 0) {
+@@ -210,9 +210,33 @@ grabkeyboard(void)
+ 	die("cannot grab keyboard");
+ }
+ 
++static void readstdin(FILE* stream);
++
++static void
++refreshoptions(){
++	int dynlen = strlen(dynamic);
++	char* cmd= malloc(dynlen + strlen(text)+2);
++	if(cmd == NULL)
++		die("malloc:");
++	sprintf(cmd,"%s %s",dynamic, text);
++	FILE *stream = popen(cmd, "r");
++	if(!stream)
++		die("popen(%s):",cmd);
++	readstdin(stream);
++	int pc = pclose(stream);
++	if(pc == -1)
++		die("pclose:");
++	free(cmd);
++	curr = sel = items;
++}
++
+ static void
+ match(void)
+ {
++	if(dynamic && *dynamic){
++		refreshoptions();
++	}
++
+ 	static char **tokv = NULL;
+ 	static int tokn = 0;
+ 
+@@ -234,7 +258,7 @@ match(void)
+ 		for (i = 0; i < tokc; i++)
+ 			if (!fstrstr(item->text, tokv[i]))
+ 				break;
+-		if (i != tokc) /* not all tokens match */
++		if (i != tokc && !(dynamic && *dynamic)) /* not all tokens match */
+ 			continue;
+ 		/* exact matches go first, then prefixes, then substrings */
+ 		if (!tokc || !fstrncmp(text, item->text, textsize))
+@@ -519,14 +543,14 @@ paste(void)
+ }
+ 
+ static void
+-readstdin(void)
++readstdin(FILE* stream)
+ {
+ 	char buf[sizeof text], *p;
+ 	size_t i, imax = 0, size = 0;
+ 	unsigned int tmpmax = 0;
+ 
+ 	/* read each line from stdin and add it to the item list */
+-	for (i = 0; fgets(buf, sizeof buf, stdin); i++) {
++	for (i = 0; fgets(buf, sizeof buf, stream); i++) {
+ 		if (i + 1 >= size / sizeof *items)
+ 			if (!(items = realloc(items, (size += BUFSIZ))))
+ 				die("cannot realloc %u bytes:", size);
+@@ -544,7 +568,8 @@ readstdin(void)
+ 	if (items)
+ 		items[i].text = NULL;
+ 	inputw = items ? TEXTW(items[imax].text) : 0;
+-	lines = MIN(lines, i);
++	if (!dynamic || !*dynamic)
++		lines = MIN(lines, i);
+ }
+ 
+ static void
+@@ -609,6 +634,7 @@ setup(void)
+ 
+ 	/* calculate menu geometry */
+ 	bh = drw->fonts->h + 2;
++	bh = MAX(bh,lineheight);	/* make a menu line AT LEAST 'lineheight' tall */
+ 	lines = MAX(lines, 0);
+ 	mh = (lines + 1) * bh;
+ #ifdef XINERAMA
+@@ -689,8 +715,9 @@ setup(void)
+ static void
+ usage(void)
+ {
+-	fputs("usage: dmenu [-bfiv] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
+-	      "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]\n", stderr);
++	fputs("usage: dmenu [-bfiv] [-l lines] [-h height] [-p prompt] [-fn font] [-m monitor]\n"
++	      "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]\n"
++				"							[-dy command]\n", stderr);
+ 	exit(1);
+ }
+ 
+@@ -717,6 +744,10 @@ main(int argc, char *argv[])
+ 		/* these options take one argument */
+ 		else if (!strcmp(argv[i], "-l"))   /* number of lines in vertical list */
+ 			lines = atoi(argv[++i]);
++		else if (!strcmp(argv[i], "-h")) { /* minimum height of one menu line */
++			lineheight = atoi(argv[++i]);
++			lineheight = MAX(lineheight, min_lineheight);
++		}
+ 		else if (!strcmp(argv[i], "-m"))
+ 			mon = atoi(argv[++i]);
+ 		else if (!strcmp(argv[i], "-p"))   /* adds prompt to left of input field */
+@@ -733,6 +764,8 @@ main(int argc, char *argv[])
+ 			colors[SchemeSel][ColFg] = argv[++i];
+ 		else if (!strcmp(argv[i], "-w"))   /* embedding window id */
+ 			embed = argv[++i];
++		else if (!strcmp(argv[i], "-dy"))  /* dynamic command to run */
++			dynamic = argv[++i];
+ 		else
+ 			usage();
+ 
+@@ -759,9 +792,11 @@ main(int argc, char *argv[])
+ 
+ 	if (fast && !isatty(0)) {
+ 		grabkeyboard();
+-		readstdin();
++		if(!(dynamic && *dynamic))
++			readstdin(stdin);
+ 	} else {
+-		readstdin();
++		if(!(dynamic && *dynamic))
++			readstdin(stdin);
+ 		grabkeyboard();
+ 	}
+ 	setup();
