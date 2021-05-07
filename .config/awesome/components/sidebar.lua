@@ -192,7 +192,7 @@ local main_widget = wibox.widget {
                         font = "Arimo Nerd Font Bold 13",
                         markup = '<span color="#45403d">樂</span>',
                         buttons = awful.button({}, 1, function() 
-                            awful.spawn.easy_async("deno run --allow-read --allow-run --allow-write /home/david/Documents/Scripts/todo/todo.ts add-task-gui", function()
+                            awful.spawn.easy_async_with_shell("~/Documents/Scripts/todo.sh add-task-gui", function()
                                 B.update_tasklist()
                             end)
                         end)
