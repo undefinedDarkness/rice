@@ -101,8 +101,8 @@ local todo_script = user_home .. "/Documents/Scripts/todo.sh "
 
 M.todo_items = wibox.widget {
     layout = wibox.layout.fixed.vertical,
-    spacing = 8,
-    forced_height = 250
+    spacing = dpi(8),
+    forced_height = dpi(250)
 }
 
 function todo_item(id, title, txt, widget_index)
@@ -110,7 +110,7 @@ function todo_item(id, title, txt, widget_index)
         {
             {
                 {
-                        {
+                    {
                         {
                             widget = wibox.widget.textbox,
                             text = title,
@@ -123,28 +123,27 @@ function todo_item(id, title, txt, widget_index)
                         layout = wibox.layout.flex.vertical,
                     },
                     widget = wibox.container.constraint,
-                    width = dpi(160)
+                    forced_width = dpi(140)
                 },
                 {
-                    widget = wibox.widget.textbox,
-                    text = " ",
-                    visible = false,
-                    align = "right",
-                    id = "finish_task_btn",
-                    buttons = awful.button({}, 1, function()
-                        M.todo_items:remove(widget_index)
-                        awful.spawn.with_shell(todo_script .. "complete-task " .. id)
-                    end),
-                    font = _nerd_font,
+                        widget = wibox.widget.textbox,
+                        text = " ",
+                        visible = false,
+                        align = "right",
+                        id = "finish_task_btn",
+                        buttons = awful.button({}, 1, function()
+                            M.todo_items:remove(widget_index)
+                            awful.spawn.with_shell(todo_script .. "complete-task " .. id)
+                        end),
+                        font = _nerd_font
                 },
-                layout = wibox.layout.fixed.horizontal,
-                spacing = dpi(40)
+                layout = wibox.layout.align.horizontal,
             },
             widget = wibox.container.margin,
-            top = 6,
-            bottom = 6,
-            left = 14,
-            right = 6
+            top = dpi(6),
+            bottom = dpi(6),
+            left = dpi(14),
+            right = dpi(6)
         },
         widget = wibox.container.background,
         shape = function(cr, w, h) gears.shape.rounded_rect(cr, w, h, 8) end,
@@ -174,11 +173,21 @@ M.update_tasklist = function()
     end)
 end
 
+M.show_notifications = function()
+    M.todo_items:reset()
+    for k, v in ipairs(require("naughty").active) do
+        M.todo_items:add(wibox.widget {
+            text = v.title,
+            widget = wibox.widget.textbox
+        })
+    end
+end
+
 M.update_tasklist()
 
 M.layout_box = awful.widget.layoutbox()
-M.layout_box.forced_width = 25
-M.layout_box.forced_height = 25
+M.layout_box.forced_width = dpi(25)
+M.layout_box.forced_height = dpi(25)
 
 
 return gears.table.join(M, require("subcomponents.hardware_meters"))

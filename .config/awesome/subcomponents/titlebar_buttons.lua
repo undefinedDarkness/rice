@@ -19,11 +19,11 @@ function M.custom_maximized_button(c)
             {
                 {
                     widget = wibox.container.background,
-                    forced_width = 4,
-                    forced_height = 4
+                    forced_width = dpi(4),
+                    forced_height = dpi(4)
                 },
                 widget = wibox.container.margin,
-                margins = 2,
+                margins = dpi(2),
                 id = "icon",
                 color = colr
             },
@@ -32,8 +32,8 @@ function M.custom_maximized_button(c)
             expand = "none"
         },
         widget = wibox.container.margin,
-        left = 16,
-        right = 16
+        left = dpi(16),
+        right = dpi(16)
     },
     widget = wibox.widget.background
     }, function(w, m)
@@ -67,8 +67,8 @@ function M.custom_minimized_button(c)
             {
                 widget = wibox.container.background,
                 bg = colr,
-                forced_width = 10,
-                forced_height = 3,
+                forced_width = dpi(10),
+                forced_height = dpi(3),
                 id = 'icon'
             },
             nil,
@@ -76,9 +76,9 @@ function M.custom_minimized_button(c)
             expand = "none"
         },
         widget = wibox.container.margin,
-        left = 16,
-        top = 5,
-        right = 16
+        left = dpi(16),
+        top = dpi(5),
+        right = dpi(16)
     },
     widget = wibox.widget.background
     }, function(w, m)
@@ -112,18 +112,18 @@ function M.custom_close_button(c)
                 widget = wibox.container.background,
                 -- Definately not stolen from java's dots
                 shape = gears.shape.transform(gears.shape.cross):rotate_at(6.5, 6.5, math.pi / 4),
-                forced_width = 12,
+                forced_width = dpi(12),
                 id = 'icon',
                 bg = '#d94331',
-                forced_height = 12
+                forced_height = dpi(12)
             },
             nil,
             layout = wibox.layout.align.vertical,
             expand = "none"
         },
         widget = wibox.container.margin,
-        left = 16,
-        right = 16
+        left = dpi(16),
+        right = dpi(16)
     },
     widget = wibox.container.background
     }, function(w, m)

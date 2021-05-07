@@ -5,14 +5,17 @@ command Qa :qa
 " -- Vim Tweaks --
 
 " Man page support
-"runtime ftplugin/man.vim
 let g:mkdp_auto_start = 0
 
 " Hide ~
 highlight EndOfBuffer ctermfg=black ctermbg=black
 
 " Italic Rust Comments
-highlight rustCommentLineDoc cterm=italic gui=italic term=italic ctermfg=150 guifg=#b4be82
+highlight rustCommentLineDoc cterm=italic gui=italic term=italic guifg=#a9b665
+
+" Rust Analyzer - Inlay Hints
+autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
+\ lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
 
 " Fern Text
 highlight FernRoot cterm=bold gui=bold term=bold
@@ -44,7 +47,7 @@ set pastetoggle=<F2>
 call neomake#configure#automake('w')
 
 " Ack
-let g:ackprg = 'ag --vimgrep'
+let g:ackprg = "grep -PrnbaHi --color=never"
 cnoreabbrev Ack Ack!
 set shellpipe=> " Prevent Ack Output Leaking Into Terminal
 
@@ -58,39 +61,13 @@ inoremap <silent> <F3> <C-O>:update<CR>
 " F7 to format a document
 nmap <F7> gg=G<C-o><C-o>
 
-" Run File On F5 (Cargo aware)
-function! Runfile()
-  let filetype=&filetype
-  let file=expand('%:p') 
-
-  if filetype == "rust"
-    let is_rust_project = system("bash ~/Documents/Scripts/is_rust_project.sh " . file)
-    if !empty(is_rust_project)
-      :Term cargo build
-    else
-      :QuickRun
-    endif
-  else
-    :QuickRun
-  endif
-endfunc
-nnoremap <F5> :call Runfile()<CR>
-
 " Open Terminal On Ctrl - T
 nnoremap <C-T> :Term<Enter>
 
 " Ctrl+C/Ctrl+V to copy/paste to/from system clipboard
-
-function! Pastetext()
-  set paste
-  <ESC>"+pa
-  set nopaste
-endfunc
-
-inoremap <C-v> :call Pastetext()<CR>
+inoremap <C-v> <ESC>"+pa
 vnoremap <C-c> "+y
 vnoremap <C-d> "+d
-
 
 " Ctrl - F to open Fern
 nnoremap <silent> <C-f> :Fern . -drawer -toggle<CR>
@@ -98,7 +75,12 @@ nnoremap <silent> <C-f> :Fern . -drawer -toggle<CR>
 " Ctrl A to save
 nmap <C-a> <esc>ggVG<CR>
 
-" -- Etc --
+" -- Functions --
+
+" Entr Job For Current File
+function! EntrJob(cmd)
+  silent exec "!(echo '" .. expand('%:p') .."' | entr -p " .. a:cmd .. " &) > /dev/null"
+endfunc
 
 " Highlight Group Under Cursor
 function! HighlightGroup()

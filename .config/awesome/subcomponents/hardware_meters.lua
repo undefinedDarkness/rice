@@ -9,13 +9,13 @@ M.ram_meter = wibox.widget {
         widget = wibox.widget.textbox,
         text = "RAM",
         align = "center",
-        forced_width = 60,
-        forced_height = 60
+        forced_width = dpi(60),
+        forced_height = dpi(60)
     },
     border_color = "#45403d",
     max_value = 100, -- DONT CHANGE
     min_value = 0,
-    border_width = 6,
+    border_width = dpi(6),
     color = "#a9b665",
     widget = wibox.container.radialprogressbar
 }
@@ -40,13 +40,13 @@ M.cpu_meter = wibox.widget {
         widget = wibox.widget.textbox,
         text = "CPU",
         align = "center",
-        forced_width = 60,
-        forced_height = 60
+        forced_width = dpi(60),
+        forced_height = dpi(60)
     },
     border_color = "#45403d",
     max_value = 100, -- DONT CHANGE
     min_value = 0,
-    border_width = 6,
+    border_width = dpi(6),
     color = "#7daea3",
     widget = wibox.container.radialprogressbar
 }

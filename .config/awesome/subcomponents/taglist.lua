@@ -1,8 +1,8 @@
 
 bling.widget.tag_preview.enable {
     show_client_content = false,
-    x = 10,
-    y = 30,
+    x = dpi(10),
+    y = dpi(30),
     scale = 0.25,
     honor_padding = true,
     honor_workarea = true
@@ -25,7 +25,7 @@ return function(s)
                     widget = wibox.widget.textbox
                 },
                 widget = wibox.container.margin,
-                margins = 6,
+                margins = dpi(6),
                 create_callback = function(self, c3, _, _)
                     self:connect_signal("mouse::enter", function()
                         if #c3:clients() > 0 then

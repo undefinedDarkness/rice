@@ -1,4 +1,4 @@
-
+let g:fern#default_hidden = 1
 let g:fern#renderer#nerdfont#padding = "  "
 let g:fern#renderer = "nerdfont"
 

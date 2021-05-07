@@ -13,6 +13,7 @@ naughty.connect_signal("request::display", function(n)
         notification = n,
         type = "notification",
         border_width = 4,
+        hide_on_right_click = true,
         border_color = border_color,
         position = "bottom_right",
         widget_template = {

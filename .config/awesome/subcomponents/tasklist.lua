@@ -5,7 +5,7 @@ return function(s)
         filter  = awful.widget.tasklist.filter.currenttags,
         layout = {
             layout = wibox.layout.fixed.horizontal,
-            spacing = 12
+            spacing = dpi(12)
         },
         widget_template = {
             widget = awful.widget.clienticon,

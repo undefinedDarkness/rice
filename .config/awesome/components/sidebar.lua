@@ -177,16 +177,29 @@ local main_widget = wibox.widget {
                     markup = C.colorify("#45403d", string.upper("TODO")),
                     font = "Sarasa UI HC Bold 10"
                 },
-                C.force_right(C.hover_effect({
-                    widget = wibox.widget.textbox,
-                    font = "Arimo Nerd Font Bold 13",
-                    markup = '<span color="#45403d">樂</span>',
-                    buttons = awful.button({}, 1, function() 
-                        awful.spawn.easy_async("deno run --allow-read --allow-run --allow-write /home/david/Documents/Scripts/todo/todo.ts add-task-gui", function()
-                            B.update_tasklist()
+                {
+                    nil,
+                    C.hover_effect({
+                        widget = wibox.widget.textbox,
+                        font = "Arimo Nerd Font Bold 13",
+                        markup = '<span color="#45403d"> </span>',
+                        buttons = awful.button({}, 1, function() 
+                            B.show_notifications()
                         end)
-                    end)
-                }, B.highlight_txt)),
+                    }, B.highlight_txt),
+                    C.hover_effect({
+                        widget = wibox.widget.textbox,
+                        font = "Arimo Nerd Font Bold 13",
+                        markup = '<span color="#45403d">樂</span>',
+                        buttons = awful.button({}, 1, function() 
+                            awful.spawn.easy_async("deno run --allow-read --allow-run --allow-write /home/david/Documents/Scripts/todo/todo.ts add-task-gui", function()
+                                B.update_tasklist()
+                            end)
+                        end)
+                    }, B.highlight_txt),
+                    layout = wibox.layout.align.horizontal,
+                    expand = "none"
+                },
                 layout = wibox.layout.flex.horizontal
             },
             widget = wibox.container.margin,

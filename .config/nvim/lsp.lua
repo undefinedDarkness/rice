@@ -4,9 +4,9 @@ local lsp_compe = require('compe')
 -- Setup Languagn Servers
 lsp.rust_analyzer.setup{
   settings = {
-    ["rust-analyzer.checkOnSave.command"] = "clippy"
+      ["rust-analyzer.checkOnSave.command"] = "clippy"
+    }
   }
-}
 lsp.denols.setup{
   init_options = {
     enable = true,

@@ -21,6 +21,7 @@ call plug#begin("~/.config/nvim/plugged")
   Plug 'lambdalisue/nerdfont.vim'
   Plug 'lambdalisue/fern-renderer-nerdfont.vim'
   Plug 'lambdalisue/glyph-palette.vim'  
+  Plug 'lambdalisue/fern-hijack.vim'
 
   " Run Current File
   " Plug 'thinca/vim-quickrun'
@@ -32,6 +33,7 @@ call plug#begin("~/.config/nvim/plugged")
 
   " Other
   Plug 'mileszs/ack.vim'
+  Plug 'mhinz/vim-startify'
   Plug 'Valloric/MatchTagAlways'
   Plug 'tpope/vim-commentary'
 
@@ -41,6 +43,8 @@ call plug#begin("~/.config/nvim/plugged")
   Plug 'neovim/nvim-lspconfig'
   Plug 'hrsh7th/nvim-compe'
   Plug 'onsails/lspkind-nvim'
+  Plug 'folke/lsp-colors.nvim'
+  Plug 'nvim-lua/lsp_extensions.nvim'
 
   Plug 'nvim-treesitter/nvim-treesitter'
 
@@ -111,6 +115,7 @@ set splitbelow
 " Include Tab Line & Fern Config & Vim Config
 source $HOME/.config/nvim/custom.vim
 source $HOME/.config/nvim/fern.vim
+source $HOME/.config/nvim/startify.vim
 source $HOME/.config/nvim/tabline.vim
 source $HOME/.config/nvim/lightline.vim
 
