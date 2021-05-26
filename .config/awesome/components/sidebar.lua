@@ -131,7 +131,7 @@ local main_widget = wibox.widget {
                     font = "Arimo Nerd Font Bold 13",
                     markup = '<span color="#45403d"> </span>',
                     buttons = awful.button({}, 1, function() 
-                        awful.spawn.easy_async_with_shell('echo -e "Shutdown\nRestart\nLogout\nLockscreen" | dmenu -p " "  -h 30', function(out)
+                        awful.spawn.easy_async_with_shell('echo -e "Shutdown\nRestart\nLogout\nLockscreen" | dmenu -p " "  -h 30 -c', function(out)
                             out = out:gsub("\n", "") 
                             if string.find(out, "Shutdown") then 
                                 awful.spawn("systemctl poweroff")
@@ -220,13 +220,10 @@ local main_widget = wibox.widget {
 local main = wibox({
     type = "splash", -- change this if neccessary
     width = 250,
-    -- x = 1569,
-    x = 1350,
-    y = 0,
     visible = true,
-    -- bg = transparent,
     bg = "#282828",
     height = 1000,
     screen = awful.screen.focused(),
     widget = main_widget
 })
+awful.placement.right(main, { margins = { top = 100, right = 25 } })

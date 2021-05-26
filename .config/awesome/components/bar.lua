@@ -45,7 +45,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
 
     -- Create the wibox
     s.mywibar = awful.wibar{
-            position = "top",
+            position = "right",
             screen = s,
             ontop = true,
             background = "#1d2021"
@@ -56,7 +56,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
         {
             require("subcomponents.taglist")(s),
             s.mypromptbox,
-            layout = wibox.layout.fixed.horizontal
+            layout = wibox.layout.fixed.vertical
         },
         {
             require("subcomponents.tasklist")(s),
@@ -68,7 +68,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
             wibox.widget.systray(),
             layout = wibox.layout.fixed.horizontal
         },
-        layout = wibox.layout.align.horizontal,
+        layout = wibox.layout.align.vertical,
         expand = "none"
     }
 end)

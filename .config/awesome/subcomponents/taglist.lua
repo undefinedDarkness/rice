@@ -13,7 +13,7 @@ return function(s)
     return awful.widget.taglist {
             screen  = s,
             filter  = awful.widget.taglist.filter.all,
-            layout = wibox.layout.fixed.horizontal,
+            layout = wibox.layout.fixed.vertical,
             style = {
                 fg_focus = "#ea6962",
                 fg_occupied = "#d4be98",

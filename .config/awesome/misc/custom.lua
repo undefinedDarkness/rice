@@ -1,5 +1,4 @@
 --- MY LIST OF SMOL HELPER FUNCTIONS
-
 local M = {}
 
 function is_widget(w) 
@@ -34,7 +33,6 @@ end
 function M.trim_string(x)
     return (x:gsub("^%s*(.-)%s*$", "%1"))
 end
-
 
 
 function M.force_left(x)
@@ -75,7 +73,4 @@ function M.hover_effect(w, exe)
     w:connect_signal("mouse::leave", function() exe(w, false) end)
     return w
 end
-
-
-
 return M

@@ -27,12 +27,17 @@ awful.spawn.with_shell("~/Documents/Scripts/launch.sh")
 
 -- 🔨 Variable definitions
 
-terminal = "wezterm"
+terminal = "st"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
 
+if terminal == "wezterm" then
+	editor_cmd = "wezterm start " .. editor
+end
+
 modkey = "Mod4"
 user_home = os.getenv("HOME")
+local get_icon = require('menubar.utils').lookup_icon
 
 -- For Convienience 
 workspaces = { "", "", "", "", "V" }
@@ -48,9 +53,9 @@ mouse = {
 _nerd_font = "Arimo Nerd Font 12"
 
 -- Window Layouts
-awful.layout.layouts = {
-    awful.layout.suit.floating,
+awful.layout.layouts = {    
     awful.layout.suit.tile,
+    awful.layout.suit.floating,
     awful.layout.suit.spiral.dwindle,
     --awful.layout.suit.spiral
 }
@@ -179,14 +184,14 @@ client.connect_signal("manage", function (c)
     end
 
     -- Give icons to some apps that lack icons 
-    if c.class == "St" then
-        local new_icon = gears.surface(user_home .. "/.config/awesome/theme/terminal.png")
+    if c.class == "St" or c.class == "st-256color" then
+        local new_icon = gears.surface(get_icon("gnome-terminal"))
         c.icon = new_icon._native
     elseif c.class == "Discord" then
-        local new_icon = gears.surface("/usr/share/icons/Papirus-Dark/128x128/apps/discord.svg")
+        local new_icon = gears.surface(get_icon("discord"))
         c.icon = new_icon._native
     elseif c.class == "Spotify" then
-        local new_icon = gears.surface("/usr/share/icons/Papirus-Dark/128x128/apps/spotify-client.svg")
+        local new_icon = gears.surface(get_icon("spotify"))
         c.icon = new_icon._native
     end
 

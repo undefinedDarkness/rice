@@ -1,8 +1,12 @@
-local lookup_icon = require("menubar.utils").lookup_icon
 local C = require("misc.custom")
 
+local terminal_launch_cmd = terminal .. " -e "
+if terminal == 'wezterm' then
+    terminal_launch_cmd = "wezterm start "
+end
+
 function app_launcher(app_cmd, icon)
-  icon = lookup_icon(icon or gears.string.split(app_cmd, ' ')[1])
+  icon = require("menubar.utils").lookup_icon(icon or gears.string.split(app_cmd, ' ')[1])
   local w = wibox.widget {
       widget = wibox.widget.imagebox,
       image = icon,
@@ -33,7 +37,7 @@ local widget_structure = {
         {
             {
                 app_launcher("export GTK_THEME=Adwaita;firefox -P default-release", "firefox"),
-                app_launcher("st -e nvim", "nvim"),
+                app_launcher(terminal_launch_cmd.."vim", "vim"),
                 app_launcher("minecraft-launcher"),
                 layout = wibox.layout.fixed.vertical,
                 spacing = dpi(16)

@@ -4,7 +4,7 @@ return function(s)
         screen  = s,
         filter  = awful.widget.tasklist.filter.currenttags,
         layout = {
-            layout = wibox.layout.fixed.horizontal,
+            layout = wibox.layout.fixed.vertical,
             spacing = dpi(12)
         },
         widget_template = {

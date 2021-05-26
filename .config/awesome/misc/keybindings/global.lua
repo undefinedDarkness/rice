@@ -33,7 +33,7 @@ globalkeys =
         function()
             local filepath = user_home .. "/Pictures/Screenshots/" .. tostring(os.time()) .. ".png"
             awful.spawn.easy_async(
-                "maim --select " .. filepath,
+                "import " .. filepath,
                 function()
                     require("naughty").notification(
                         {
@@ -66,7 +66,7 @@ globalkeys =
         {modkey},
         "d",
         function()
-            awful.spawn("dmenu_run -h 30")
+            awful.spawn("dmenu_run -W 260 -l 8 -bw 10")
         end,
         {description = "Launch Dmenu (Run)", group = "User"}
     ),
@@ -165,7 +165,7 @@ globalkeys =
         {modkey},
         "t",
         function()
-            awful.spawn("st")
+            awful.spawn(terminal)
         end,
         {description = "open a terminal", group = "launcher"}
     ),
