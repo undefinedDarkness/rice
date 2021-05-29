@@ -1,7 +1,5 @@
 local hotkeys_popup = require("awful.hotkeys_popup")
 
--- {{{ Key bindings
--- LuaFormatter off
 globalkeys =
     gears.table.join(
     awful.key(
@@ -24,8 +22,7 @@ globalkeys =
         }
     ),
     awful.key({modkey}, "Escape", awful.tag.history.restore, {description = "go back", group = "tag"}),
-
-    -- Personal Section --
+    -- Personal Section {{{
 
     awful.key(
         {modkey},
@@ -48,12 +45,14 @@ globalkeys =
         end,
         {description = "Take Screenshot", group = "User"}
     ),
-
-    awful.key({modkey, "Shift"}, "l", function() 
-        require("components.lockscreen").init()
-        lock_screen_show()
-    end),
-
+    awful.key(
+        {modkey, "Shift"},
+        "l",
+        function()
+            require("components.lockscreen").init()
+            lock_screen_show()
+        end
+    ),
     awful.key(
         {modkey},
         "w",
@@ -66,18 +65,18 @@ globalkeys =
         {modkey},
         "d",
         function()
-            awful.spawn("dmenu_run -W 260 -l 8 -bw 10")
+            awful.spawn("rofi -theme drun -show drun")
         end,
         {description = "Launch Dmenu (Run)", group = "User"}
     ),
-    -- BLING TABS
+    -- BLING TABS {{{
     awful.key(
         {modkey, "Shift"},
         "t",
         function()
             bling.module.tabbed.pick()
         end,
-        { description = "Add tab to tabbing group", group = "User" }
+        {description = "Add tab to tabbing group", group = "User"}
     ),
     awful.key(
         {modkey, "Shift"},
@@ -87,7 +86,7 @@ globalkeys =
         end,
         {description = "Remove tab from tabbing group", group = "User"}
     ),
-    -- END
+    -- }}}
     awful.key(
         {modkey, "Shift"},
         "p",
@@ -96,8 +95,7 @@ globalkeys =
         end,
         {description = "Launch Color Picker", group = "User"}
     ),
-
-    -- END --
+    -- }}}
 
     awful.key(
         {modkey},
@@ -107,7 +105,6 @@ globalkeys =
         end,
         {description = "focus next by index", group = "client"}
     ),
-
     -- Layout manipulation
     awful.key(
         {modkey, "Shift"},
@@ -355,4 +352,3 @@ for i = 1, 9 do
 end
 
 root.keys(globalkeys)
-

@@ -1,5 +1,5 @@
 local awful = require("awful")
-local gfs = require('gears.filesystem')
+local gfs = require("gears.filesystem")
 
 local lock_screen = {}
 

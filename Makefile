@@ -1,5 +1,6 @@
 
-.DEFAULT_GOAL := push
+info:
+	@echo "To install run 'make push'"
 
 clean:
 	rm -rf Scripts .config misc
@@ -16,12 +17,12 @@ req:
 push: req
 	@mkdir -p $(HOME)/.local/fonts
 	@echo "Installing Configurations"
-	ln -s `realpath .config/wezterm` $(HOME)/.config/wezterm
-	ln -s `realpath .config/awesome` $(HOME)/.config/awesome
-	ln -s `realpath .config/vim` $(HOME)/.config/vim
-	ln -s `realpath $(HOME)/.config/vim` $(HOME)/.vim # Make Vim Read Config
+	cp -s `realpath .config/wezterm` $(HOME)/.config
+	cp -s `realpath .config/awesome` $(HOME)/.config
+	cp -s `realpath .config/nvim` $(HOME)/.config
+	cp -s `realpath $(HOME)/.config/nvim` $(HOME)/.vim # Make Vim Read Config
 	@echo "Installing Scripts"
-	ln -s `realpath Scripts` $(HOME)/Documents/Scripts
+	cp -s `realpath Scripts` $(HOME)/Documents
 	@echo "Installing Fonts"
 	cp -r misc/fonts/* $(HOME)/.local/fonts
 	fc-cache -f -v
@@ -30,12 +31,15 @@ push: req
 pull: clean
 	@echo "Pulling in configuration from system."
 	@mkdir -p .config misc misc/fonts
-	cp -r ~/.config/awesome .config
-	cp  -r ~/.config/vim .config
-	cp -r ~/.config/wezterm .config
+	cp -ruf ~/.config/awesome .config
+	@mkdir -p .config/nvim
+	cp -ruf ~/.config/rofi .config
+	cp -uf ~/.config/nvim/* .config/nvim || true
+	cp -ruf ~/.config/wezterm .config
 	@echo "Pulling in scripts"
-	cp -r ~/Documents/Scripts .
+	cp -ruf ~/Documents/Scripts .
 	@echo "Pulling in fonts"
-	cp -r ~/.local/share/fonts/* ./misc/fonts
-	@echo "MANUAL: Put Stylus configs in misc/discord.css"
+	cp -ruf ~/.local/share/fonts/* ./misc/fonts
+	@echo -e "$$(tput bold)MANUAL: $$(tput sgr0) Put Stylus configs in misc/NAME.css"
+	@echo -e "$$(tput bold)MANUAL:$$(tput sgr0) Copy patches for any suckless software as misc/SOFTWARE/MAIN.patch"
 

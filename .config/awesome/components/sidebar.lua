@@ -1,6 +1,6 @@
+-- Imports & Misc {{{
 local C = require("misc.custom")
 local B = require("subcomponents.sidebar_bits")
-
 
 function section_header(txt)
     return wibox.widget {
@@ -14,11 +14,15 @@ function section_header(txt)
         bottom = 5
     }
 end
+-- }}}
 
-local main_widget = wibox.widget {
+-- Layout {{{
+local main_widget =
+    wibox.widget {
+    -- DATE & TIME {{{
     {
         section_header("DATE / TIME"),
-        -- CLOCK
+        -- Clock {{{
         {
             C.force_center {
                 {
@@ -34,9 +38,10 @@ local main_widget = wibox.widget {
                 gears.shape.rounded_rect(cr, w, h, 12)
             end
         },
+        -- }}}
         {
             {
-                -- DATE
+                -- DATE {{{
                 {
                     {
                         C.force_center {
@@ -53,10 +58,11 @@ local main_widget = wibox.widget {
                     widget = wibox.container.background,
                     shape = gears.shape.rounded_bar
                 },
-                -- WEATHER
+                -- }}}
+                -- WEATHER {{{
                 {
                     {
-                        C.force_center (B.weather_widget),
+                        C.force_center(B.weather_widget),
                         widget = wibox.container.margin,
                         left = 8,
                         top = 8,
@@ -66,7 +72,8 @@ local main_widget = wibox.widget {
                     bg = "#ea6962",
                     widget = wibox.container.background,
                     shape = gears.shape.rounded_bar
-                }, 
+                },
+                -- }}}
                 spacing = 10,
                 layout = wibox.layout.flex.horizontal
             },
@@ -74,38 +81,55 @@ local main_widget = wibox.widget {
             bottom = 10,
             widget = wibox.container.margin
         },
-        -- MUSIC WIDGET
+        -- }}}
+        -- MUSIC WIDGET {{{
         section_header("NOW PLAYING"),
         {
             B.music_image_widget,
             widget = wibox.container.constraint,
             height = 200,
-            width = nil,
+            width = nil
         },
         {
+            -- Buttons {{{
             {
                 {
-                    C.hover_effect({
-                        text = "玲",
-                        align = "right",
-                        font = _nerd_font,
-                        widget = wibox.widget.textbox,
-                        buttons = awful.button({}, mouse.LEFT, function()
-                                awful.spawn("playerctl previous")
-                            end)
-                    }, B.highlight_txt),
+                    C.hover_effect(
+                        {
+                            text = "玲",
+                            align = "right",
+                            font = _nerd_font,
+                            widget = wibox.widget.textbox,
+                            buttons = awful.button(
+                                {},
+                                mouse.LEFT,
+                                function()
+                                    awful.spawn("playerctl previous")
+                                end
+                            )
+                        },
+                        B.highlight_txt
+                    ),
                     B.play_pause,
-                    C.hover_effect({
-                        text = "怜",
-                        font = _nerd_font,
-                        align = "left",
-                        widget = wibox.widget.textbox,
-                        buttons = awful.button({}, mouse.LEFT, function()
-                                awful.spawn("playerctl next")
-                            end)
-                    }, B.highlight_txt),
+                    C.hover_effect(
+                        {
+                            text = "怜",
+                            font = _nerd_font,
+                            align = "left",
+                            widget = wibox.widget.textbox,
+                            buttons = awful.button(
+                                {},
+                                mouse.LEFT,
+                                function()
+                                    awful.spawn("playerctl next")
+                                end
+                            )
+                        },
+                        B.highlight_txt
+                    ),
                     layout = wibox.layout.flex.horizontal
                 },
+                -- }}}
                 widget = wibox.container.margin,
                 left = 12,
                 right = 12,
@@ -115,10 +139,11 @@ local main_widget = wibox.widget {
             widget = wibox.container.background,
             bg = "#32302f",
             shape = function(cr, w, h)
-                gears.shape.partially_rounded_rect(cr, w, h, false, false, true,
-                                                   true, 12)
+                gears.shape.partially_rounded_rect(cr, w, h, false, false, true, true, 12)
             end
         },
+        -- }}}
+        -- Hardware {{{
         {
             {
                 C.force_left {
@@ -126,26 +151,38 @@ local main_widget = wibox.widget {
                     markup = C.colorify("#45403d", string.upper("HARWARE")),
                     font = "Sarasa UI HC Bold 10"
                 },
-                C.force_right(C.hover_effect({
-                    widget = wibox.widget.textbox,
-                    font = "Arimo Nerd Font Bold 13",
-                    markup = '<span color="#45403d"> </span>',
-                    buttons = awful.button({}, 1, function() 
-                        awful.spawn.easy_async_with_shell('echo -e "Shutdown\nRestart\nLogout\nLockscreen" | dmenu -p " "  -h 30 -c', function(out)
-                            out = out:gsub("\n", "") 
-                            if string.find(out, "Shutdown") then 
-                                awful.spawn("systemctl poweroff")
-                            elseif string.find(out, "Restart") then
-                                awful.spawn("systemctl reboot")
-                            elseif string.find(out, "Logout") then
-                                awesome.quit()
-                            elseif string.find(out, "Lockscreen") then
-                                 require("components.lockscreen").init()
-                                 lock_screen_show()
-                            end
-                        end)
-                    end)
-                }, B.highlight_txt)),
+                C.force_right(
+                    C.hover_effect(
+                        {
+                            widget = wibox.widget.textbox,
+                            font = "Arimo Nerd Font Bold 13",
+                            markup = '<span color="#45403d"> </span>',
+                            buttons = awful.button(
+                                {},
+                                1,
+                                function()
+                                    awful.spawn.easy_async_with_shell(
+                                        [[echo -en "Shutdown\0icon\x1fsystem-shutdown\nRestart\0icon\x1fsystem-restart\nLogout\0icon\x1fsystem-log-out\nLockscreen\0icon\x1fgnome-lockscreen\n" | rofi -dmenu -theme powermenu]],
+                                        function(out)
+                                            out = out:gsub("\n", "")
+                                            if string.find(out, "Shutdown") then
+                                                awful.spawn("systemctl poweroff")
+                                            elseif string.find(out, "Restart") then
+                                                awful.spawn("systemctl reboot")
+                                            elseif string.find(out, "Logout") then
+                                                awesome.quit()
+                                            elseif string.find(out, "Lockscreen") then
+                                                require("components.lockscreen").init()
+                                                lock_screen_show()
+                                            end
+                                        end
+                                    )
+                                end
+                            )
+                        },
+                        B.highlight_txt
+                    )
+                ),
                 layout = wibox.layout.flex.horizontal
             },
             widget = wibox.container.margin,
@@ -170,6 +207,8 @@ local main_widget = wibox.widget {
             spacing = 20,
             layout = wibox.layout.fixed.horizontal
         },
+        -- }}}
+        -- Todo {{{
         {
             {
                 C.force_left {
@@ -179,24 +218,41 @@ local main_widget = wibox.widget {
                 },
                 {
                     nil,
-                    C.hover_effect({
-                        widget = wibox.widget.textbox,
-                        font = "Arimo Nerd Font Bold 13",
-                        markup = '<span color="#45403d"> </span>',
-                        buttons = awful.button({}, 1, function() 
-                            B.show_notifications()
-                        end)
-                    }, B.highlight_txt),
-                    C.hover_effect({
-                        widget = wibox.widget.textbox,
-                        font = "Arimo Nerd Font Bold 13",
-                        markup = '<span color="#45403d">樂</span>',
-                        buttons = awful.button({}, 1, function() 
-                            awful.spawn.easy_async_with_shell("~/Documents/Scripts/todo.sh add-task-gui", function()
-                                B.update_tasklist()
-                            end)
-                        end)
-                    }, B.highlight_txt),
+                    C.hover_effect(
+                        {
+                            widget = wibox.widget.textbox,
+                            font = "Arimo Nerd Font Bold 13",
+                            markup = '<span color="#45403d"> </span>',
+                            buttons = awful.button(
+                                {},
+                                1,
+                                function()
+                                    B.show_notifications()
+                                end
+                            )
+                        },
+                        B.highlight_txt
+                    ),
+                    C.hover_effect(
+                        {
+                            widget = wibox.widget.textbox,
+                            font = "Arimo Nerd Font Bold 13",
+                            markup = '<span color="#45403d">樂</span>',
+                            buttons = awful.button(
+                                {},
+                                1,
+                                function()
+                                    awful.spawn.easy_async_with_shell(
+                                        "~/Documents/Scripts/todo.sh add-task-gui",
+                                        function()
+                                            B.update_tasklist()
+                                        end
+                                    )
+                                end
+                            )
+                        },
+                        B.highlight_txt
+                    ),
                     layout = wibox.layout.align.horizontal,
                     expand = "none"
                 },
@@ -209,6 +265,7 @@ local main_widget = wibox.widget {
         B.todo_items,
         C.force_center(B.layout_box),
         layout = wibox.layout.fixed.vertical
+        -- }}}
     },
     widget = wibox.container.margin,
     left = 25,
@@ -217,13 +274,20 @@ local main_widget = wibox.widget {
     bottom = 35
 }
 
-local main = wibox({
-    type = "splash", -- change this if neccessary
-    width = 250,
-    visible = true,
-    bg = "#282828",
-    height = 1000,
-    screen = awful.screen.focused(),
-    widget = main_widget
-})
-awful.placement.right(main, { margins = { top = 100, right = 25 } })
+-- }}}
+-- Window {{{
+
+local main =
+    wibox(
+    {
+        type = "splash", -- change this if neccessary
+        width = 250,
+        visible = true,
+        bg = "#282828",
+        height = 1000,
+        screen = awful.screen.focused(),
+        widget = main_widget
+    }
+)
+awful.placement.right(main, {margins = {top = 100, right = 25}})
+-- }}}

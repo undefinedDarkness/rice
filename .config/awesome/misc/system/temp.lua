@@ -1,4 +1,3 @@
-
 local update_interval = 15
 local temp_script = [[
   sh -c "
@@ -6,6 +5,10 @@ local temp_script = [[
   "]]
 
 -- Periodically get temperature info
-awful.widget.watch(temp_script, update_interval, function(widget, stdout)
-    awesome.emit_signal("system::temp", tonumber(stdout))
-end)
+awful.widget.watch(
+    temp_script,
+    update_interval,
+    function(widget, stdout)
+        awesome.emit_signal("system::temp", tonumber(stdout))
+    end
+)

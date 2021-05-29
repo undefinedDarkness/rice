@@ -1,7 +1,7 @@
 --- MY LIST OF SMOL HELPER FUNCTIONS
 local M = {}
 
-function is_widget(w) 
+function is_widget(w)
     if w["connect_signal"] ~= nil then
         return w
     else
@@ -12,18 +12,24 @@ end
 -- Courtesy of no37
 function M.hexagon_shape(cr, width, height)
     temp = 0
-    if width > height then temp = height else temp = width end
-    cr:move_to(temp/2, 0)
-    cr:line_to(temp, temp * 3/11)
-    cr:line_to(temp, temp * 8/11)
-    cr:line_to(temp/2, temp)
-    cr:line_to(0, temp * 8/11)
-    cr:line_to(0, temp * 3/11)
+    if width > height then
+        temp = height
+    else
+        temp = width
+    end
+    cr:move_to(temp / 2, 0)
+    cr:line_to(temp, temp * 3 / 11)
+    cr:line_to(temp, temp * 8 / 11)
+    cr:line_to(temp / 2, temp)
+    cr:line_to(0, temp * 8 / 11)
+    cr:line_to(0, temp * 3 / 11)
     cr:close_path()
 end
 
+-- Text & Color {{{
+
 function M.colorify(color, txt)
-    return "<span color=\"" .. color .. "\">" .. txt .. "</span>"
+    return '<span color="' .. color .. '">' .. txt .. "</span>"
 end
 
 function M.rgba(r, g, b, a)
@@ -34,6 +40,8 @@ function M.trim_string(x)
     return (x:gsub("^%s*(.-)%s*$", "%1"))
 end
 
+-- }}}
+-- Layout {{{
 
 function M.force_left(x)
     return wibox.widget {
@@ -65,12 +73,25 @@ function M.force_right(x)
     }
 end
 
-
+-- }}}
+-- Misc {{{
 
 function M.hover_effect(w, exe)
     w = is_widget(w)
-    w:connect_signal("mouse::enter", function() exe(w, true) end)
-    w:connect_signal("mouse::leave", function() exe(w, false) end)
+    w:connect_signal(
+        "mouse::enter",
+        function()
+            exe(w, true)
+        end
+    )
+    w:connect_signal(
+        "mouse::leave",
+        function()
+            exe(w, false)
+        end
+    )
     return w
 end
+
+-- }}}
 return M

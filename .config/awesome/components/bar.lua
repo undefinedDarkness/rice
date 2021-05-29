@@ -1,75 +1,108 @@
-screen.connect_signal("request::wallpaper", function(s)
+-- Wallpaper Setter {{{
+function set_wallpaper(s, wallpaper)
     -- Wallpaper
-    if beautiful.wallpaper then
-        local wallpaper = beautiful.wallpaper
+    if wallpaper then
         -- If wallpaper is a function, call it with the screen
         if type(wallpaper) == "function" then
             wallpaper = wallpaper(s)
         end
         gears.wallpaper.maximized(wallpaper, s, true)
     end
-end)
+end
+-- }}}
 
+screen.connect_signal(
+    "request::wallpaper",
+    function(s)
+        set_wallpaper(s, beautiful.wallpaper)
+    end
+)
 
+screen.connect_signal(
+    "request::desktop_decoration",
+    function(s)
+        -- Each screen has its own tag table.
+        awful.tag(workspaces, s, awful.layout.layouts[1])
 
-screen.connect_signal("request::desktop_decoration", function(s)
-    -- Each screen has its own tag table.
-    awful.tag(workspaces, s, awful.layout.layouts[1])
-
-    -- Create an imagebox widget which will contain an icon indicating which layout we're using.
-    -- We need one layoutbox per screen.
-    s.mylayoutbox = awful.widget.layoutbox {
-        screen  = s,
-        buttons = {
-            awful.button({ }, mouse.LEFT, function () awful.layout.inc( 1) end),
-            awful.button({ }, mouse.RIGHT, function () awful.layout.inc(-1) end),
-            awful.button({ }, mouse.SCROLL_UP, function () awful.layout.inc(-1) end),
-            awful.button({ }, mouse.SCROLL_DOWN, function () awful.layout.inc( 1) end),
+        -- Create an imagebox widget which will contain an icon indicating which layout we're using.
+        -- LAYOUTBOX {{{
+        s.mylayoutbox =
+            awful.widget.layoutbox {
+            screen = s,
+            buttons = {
+                awful.button(
+                    {},
+                    mouse.LEFT,
+                    function()
+                        awful.layout.inc(1)
+                    end
+                ),
+                awful.button(
+                    {},
+                    mouse.RIGHT,
+                    function()
+                        awful.layout.inc(-1)
+                    end
+                ),
+                awful.button(
+                    {},
+                    mouse.SCROLL_UP,
+                    function()
+                        awful.layout.inc(-1)
+                    end
+                ),
+                awful.button(
+                    {},
+                    mouse.SCROLL_DOWN,
+                    function()
+                        awful.layout.inc(1)
+                    end
+                )
+            }
         }
-    }
+        -- }}}
 
-    --[[local textclock = wibox.widget.textclock("%I:%M%P")
-    textclock:connect_signal("button::press", function()
-        if textclock.format == "%I:%M%P" then
-            textclock.format = "%I:%M%P ~ %d/%m/%y"
-        else
-            textclock.format = "%I:%M%P"
-        end
-    end)--]]
+        -- PROMPT BOX & TRAY {{{
+        s.mypromptbox =
+            awful.widget.prompt {
+            prompt = "🚀: ",
+            fg = "#d4be98",
+            font = "Sarasa UI HC Italic 10"
+        }
 
-    s.mypromptbox = awful.widget.prompt {
-        prompt = "🚀: ",
-        fg = "#d4be98",
-        font = "Sarasa UI HC Italic 10"
-    }
+        local tray = wibox.widget.systray()
+        tray:set_horizontal(false)
+        -- }}}
 
-    -- Create the wibox
-    s.mywibar = awful.wibar{
+        -- Create the wibox
+        s.mywibar =
+            awful.wibar {
             position = "right",
             screen = s,
             ontop = true,
             background = "#1d2021"
         }
 
-    -- Add widgets to the wibox
-    s.mywibar.widget = {
-        {
-            require("subcomponents.taglist")(s),
-            s.mypromptbox,
-            layout = wibox.layout.fixed.vertical
-        },
-        {
-            require("subcomponents.tasklist")(s),
-            widget = wibox.container.margin,
-            margins = 3
-        },
-        {
-            --textclock,
-            wibox.widget.systray(),
-            layout = wibox.layout.fixed.horizontal
-        },
-        layout = wibox.layout.align.vertical,
-        expand = "none"
-    }
-end)
--- }}}
+        -- Wibar Layout {{{
+        s.mywibar.widget = {
+            {
+                require("subcomponents.taglist")(s),
+                s.mypromptbox,
+                layout = wibox.layout.fixed.vertical
+            },
+            {
+                require("subcomponents.tasklist")(s),
+                widget = wibox.container.margin,
+                margins = 3
+            },
+            {
+                --textclock,
+                tray,
+                layout = wibox.layout.fixed.horizontal
+            },
+            layout = wibox.layout.align.vertical,
+            expand = "none"
+        }
+        -- }}}
+    end
+)
