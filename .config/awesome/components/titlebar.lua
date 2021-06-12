@@ -4,7 +4,7 @@ client.connect_signal(
     "request::titlebars",
     function(c)
         local titlewidget = awful.titlebar.widget.titlewidget(c)
-        titlewidget.font = "Sarasa UI HC 0"
+        titlewidget.font = "Victor Mono Italic 0"
 
         -- buttons for the titlebar {{{
         local buttons =
@@ -15,7 +15,7 @@ client.connect_signal(
                 function()
                     c:emit_signal("request::activate", "titlebar", {raise = true})
                     awful.mouse.client.move(c)
-                    titlewidget.font = "Sarasa UI HC Semibold 10"
+                    titlewidget.font = "Victor Mono Bold Italic 10"
                 end
             ),
             awful.button(
@@ -42,7 +42,7 @@ client.connect_signal(
         main:connect_signal(
             "mouse::leave",
             function()
-                titlewidget.font = "Sarasa UI HC Italic 0"
+                titlewidget.font = "Victor Mono Italic 0"
             end
         )
 

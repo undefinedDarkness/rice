@@ -3,9 +3,6 @@ call plug#begin('~/.vim/plugged')
 " Color Scheme
 Plug 'sainnhe/gruvbox-material'
 
-" LSP Integration & Linter
-Plug 'dense-analysis/ale'
-
 " File Tree
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
@@ -20,11 +17,20 @@ Plug 'ap/vim-css-color'
 " Language Pack & Compatability
 Plug 'sheerun/vim-polyglot'
 Plug 'ollykel/v-vim'
+Plug 'mattn/emmet-vim'
 
 " Commenting Plugin
 Plug 'tpope/vim-commentary'
 
+" Vim LSP Impl And Linter
+Plug 'dense-analysis/ale'
+
 if has('nvim')
+
+      " Language Server Configs
+      Plug 'neovim/nvim-lspconfig'
+      Plug 'hrsh7th/nvim-compe'
+      Plug 'onsails/lspkind-nvim'
 
       " Scrollbar
       Plug 'dstein64/nvim-scrollview'

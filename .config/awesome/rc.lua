@@ -33,7 +33,7 @@ awful.spawn.with_shell("~/Documents/Scripts/launch.sh")
 
 -- 🔨 Variable definitions
 
-terminal = "st"
+terminal = "wezterm"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -79,7 +79,7 @@ require("components.menu")
 require("components.titlebar")
 require("components.bar")
 -- require("components.hello_user")
-require("components.sidebar")
+-- require("components.sidebar")
 require("components.notifications")
 
 -- Load Global Keybindings

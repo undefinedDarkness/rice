@@ -64,6 +64,13 @@ vnoremap <C-d> "+d
 
 " }}}
 
+" Wildmenu {{{
+cnoremap <expr> <Up>    pumvisible() ? "\<Left>"  : "\<Up>"
+cnoremap <expr> <Down>  pumvisible() ? "\<Right>" : "\<Down>"
+cnoremap <expr> <Left>  pumvisible() ? "\<Up>"    : "\<Left>"
+cnoremap <expr> <Right> pumvisible() ? "\<Down>"  : "\<Right>"
+" }}}
+
 " Scrollbar {{{
 
 let g:scrollview_on_startup = 0

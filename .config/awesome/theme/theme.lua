@@ -115,7 +115,7 @@ theme.titlebar_maximized_button_focus_inactive = themes_path .. "theme/titlebar/
 theme.titlebar_maximized_button_normal_active = themes_path .. "theme/titlebar/maximized_normal_active.png"
 theme.titlebar_maximized_button_focus_active = themes_path .. "theme/titlebar/maximized_focus_active.png"
 
-theme.wallpaper = themes_path .. "theme/streets.jpg"
+theme.wallpaper = themes_path .. "theme/cabin.png"
 theme.lockscreen_wallpaper = themes_path .. "theme/camera.jpg"
 theme.pfp = themes_path .. "theme/pfp.png"
 

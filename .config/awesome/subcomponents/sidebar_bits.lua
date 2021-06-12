@@ -11,7 +11,7 @@ M.highlight_txt = function(w, m)
     end
 end
 
---- WEATHER WIDGET
+-- {{{ WEATHER WIDGET
 -- CHANGE
 local city = "Panjim"
 
@@ -19,7 +19,7 @@ M.weather_widget =
     wibox.widget {
     widget = wibox.widget.textbox,
     text = "Strange",
-    font = "Sarasa Term K 10"
+    font = "Victor Mono Italic 10"
 }
 
 awful.spawn.easy_async(
@@ -33,7 +33,8 @@ awful.spawn.easy_async(
     end
 )
 
---- MUSIC WIDGET
+-- }}}
+--- {{{ MUSIC WIDGET
 
 playerctl_state = {
     image = user_home .. "/.config/awesome/theme/record.jpg",
@@ -117,7 +118,8 @@ awesome.connect_signal(
     end
 )
 
--- TODO!
+-- }}}
+-- todo widget {{{
 
 local todo_script = user_home .. "/Documents/Scripts/todo.sh "
 
@@ -225,5 +227,7 @@ M.update_tasklist()
 M.layout_box = awful.widget.layoutbox()
 M.layout_box.forced_width = dpi(25)
 M.layout_box.forced_height = dpi(25)
+
+-- }}}
 
 return gears.table.join(M, require("subcomponents.hardware_meters"))

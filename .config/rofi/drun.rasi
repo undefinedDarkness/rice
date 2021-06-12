@@ -29,7 +29,7 @@ inputbar, element {
 }
 
 entry {
-  font: "Sarasa UI HC Italic 12";
+  font: "Victor Mono Italic 12";
 }
 
 element.selected {

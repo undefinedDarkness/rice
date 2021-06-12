@@ -1,8 +1,10 @@
 bling.widget.tag_preview.enable {
     show_client_content = false,
-    x = dpi(10),
-    y = dpi(30),
     scale = 0.25,
+    -- CHANGE
+    x = dpi(1145),
+    y = dpi(10),
+    placement = (awful.placement.right + awful.placement.center_vertical),
     honor_padding = true,
     honor_workarea = true
 }

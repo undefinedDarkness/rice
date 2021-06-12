@@ -28,9 +28,9 @@ globalkeys =
         {modkey},
         "Print",
         function()
-            local filepath = user_home .. "/Pictures/Screenshots/" .. tostring(os.time()) .. ".png"
-            awful.spawn.easy_async(
-                "import " .. filepath,
+            local filepath = user_home .. "/Pictures/Screenshots/" .. os.time(os.date("*t")) .. ".png"
+            awful.spawn.easy_async_with_shell(
+                'slop=$(slop -f "%g") || exit 1; read -r G < <(echo $slop); import -window root -crop $G  ' .. filepath,
                 function()
                     require("naughty").notification(
                         {
@@ -61,6 +61,7 @@ globalkeys =
         end,
         {description = "Open Web Browser", group = "User"}
     ),
+    awful.key({modkey}, "e", function() awful.spawn('rofi -modi "emoji:/usr/local/lib/python3.9/site-packages/picker/rofimoji.py" -show emoji -theme emoji') end),
     awful.key(
         {modkey},
         "d",
@@ -96,7 +97,7 @@ globalkeys =
         {description = "Launch Color Picker", group = "User"}
     ),
     -- }}}
-
+ 
     awful.key(
         {modkey},
         "j",

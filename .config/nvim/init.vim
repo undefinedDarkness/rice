@@ -64,6 +64,31 @@ set foldmethod=marker
 " Auto load file changes
 set autoread
 
+" For Nvim-Compe
+set completeopt=menuone,noselect
+
+" }}}
+
+" Plugin Configs {{{
+
+" ALE:
+let g:ale_linters = {
+      \'sh': ['shellcheck'],
+      \'rust': ['cargo'],
+      \'lua': ['luafmt']
+      \}
+let g:ale_fix_on_save = 1
+
+if executable('cargo-clippy')
+  let g:ale_rust_cargo_use_clippy = 1
+else
+  let g:ale_rust_cargo_use_check = 1
+endif
+
+if !has('nvim') 
+  let g:ale_completion_enabled = 1
+endif
+
 " }}}
 
 " Load Configs {{{
@@ -71,8 +96,10 @@ set autoread
 " Load matchit
 runtime macros/matchit.vim
 
-" ALE Config
-source $HOME/.vim/ale.vim
+" Neovim Language Server
+if has('nvim')
+  luafile $HOME/.vim/lsp.lua
+endif
 
 " Fern Config
 source $HOME/.vim/fern.vim
@@ -82,19 +109,4 @@ source $HOME/.vim/bindings.vim
 
 " }}}
 
-" Folding Text {{{
 
-function! Fold_text()
-    let line = substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g')
-    let lines_count = v:foldend - v:foldstart + 1
-    let lines_count_text = '  [' . printf("%s", lines_count . ' lines') . '] '
-    let foldchar = " "
-    let foldtextstart = strpart('  ' . line, 0, (winwidth(0)*2)/3) . lines_count_text
-    let foldtextend = repeat(foldchar, 8)
-    let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-    return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
-endfunction
-
-set foldtext=Fold_text()
-
-" }}}

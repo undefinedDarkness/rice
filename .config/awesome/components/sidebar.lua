@@ -46,7 +46,7 @@ local main_widget =
                     {
                         C.force_center {
                             widget = wibox.widget.textclock,
-                            format = "<span foreground='#32302f' font='Sarasa Term K 10'>%d-%m-%y</span>"
+                            format = "<span foreground='#32302f' font='Victor Mono Italic 10'>%d-%m-%y</span>"
                         },
                         widget = wibox.container.margin,
                         left = 8,
