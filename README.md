@@ -22,6 +22,7 @@ I use most of the following software becuase I find it either interesting or the
 - **Web Browser**: Firefox ~ It mostly works well enough for my needs and I dont see the point of a *minimal* web-browser
 - **Terminal**: [Wezterm](https://wezfurlong.org/wezterm/index.html) ~ Stuffed to the gills with features, reasonably fast, overall a really nice terminal
 
+You need emacs (27+) to be compiled with [native comp](https://www.emacswiki.org/emacs/GccEmacs), My config might work without it but no guaratees
 In addition to awesomewm I also use the [bling utilities](https://github.com/BlingCorp/bling/) that provide some neat extensions that are really neat
 
 Here's a list of other cool software I like:
