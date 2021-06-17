@@ -42,7 +42,7 @@ function M.custom_maximized_button(c)
                 left = dpi(16),
                 right = dpi(16)
             },
-            widget = wibox.widget.background
+            widget = wibox.container.background
         },
         function(w, m)
             if m then
@@ -96,7 +96,7 @@ function M.custom_minimized_button(c)
                 top = dpi(5),
                 right = dpi(16)
             },
-            widget = wibox.widget.background
+            widget = wibox.container.background
         },
         function(w, m)
             if m then

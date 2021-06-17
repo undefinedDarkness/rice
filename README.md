@@ -38,7 +38,7 @@ Here's a list of other cool software I like:
 Not all of these are inspiration some are just good
 
 - [JavaCafe's Awesomewm](https://github.com/JavaCafe01/awedots) - 90% of my awesomewm config is just his but refurbished, great resource
-- [Bunny's Emacs](https://github.com/rayes0/emacs/) - Splash screen and general design stolen from here
+- [Bunny's Emacs](https://github.com/rayes0/emacs/) - Splash screen and some general design stolen from here
 - [f2k's Emacs](https://github.com/fortuneteller2k/.emacs.d/) - How to make emacs go brr
 
 Ill write more as I come up with them

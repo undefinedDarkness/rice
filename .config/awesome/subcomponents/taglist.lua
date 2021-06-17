@@ -2,37 +2,43 @@ bling.widget.tag_preview.enable {
     show_client_content = false,
     scale = 0.25,
     -- CHANGE
-    x = dpi(1145),
-    y = dpi(10),
-    placement = (awful.placement.right + awful.placement.center_vertical),
+    placement_fn = function(c) awful.placement.top_left(c, {margins={top=30,left=50}}) end,
     honor_padding = true,
     honor_workarea = true
 }
 
 -- Create a taglist widget
 return function(s)
-    return awful.widget.taglist {
+   return wibox.widget {
+      awful.widget.taglist {
         screen = s,
         filter = awful.widget.taglist.filter.all,
         layout = wibox.layout.fixed.vertical,
         style = {
             fg_focus = "#ea6962",
             fg_occupied = "#d4be98",
-            fg_empty = "#d4be98"
+            fg_empty = "#d4be98",
+            font = "Arimo Nerd Font 12"
         },
         widget_template = {
-            {
+           {
+              {
                 id = "text_role",
-                widget = wibox.widget.textbox
-            },
-            widget = wibox.container.margin,
-            margins = dpi(6),
+                widget = wibox.widget.textbox,
+                align='center',
+                valign='center'
+              },
+              widget = wibox.container.margin,
+              top = dpi(6),
+              bottom = dpi(6)
+              --margins = dpi(6),
+           },
+           layout = wibox.layout.fixed.vertical,
             create_callback = function(self, c3, _, _)
                 self:connect_signal(
                     "mouse::enter",
                     function()
                         if #c3:clients() > 0 then
-                            --require("naughty").notify({text = "Taglist entered"})
                             awesome.emit_signal("bling::tag_preview::update", c3)
                             awesome.emit_signal("bling::tag_preview::visibility", s, true)
                         end
@@ -89,5 +95,8 @@ return function(s)
                 end
             )
         }
-    }
+      },
+      widget = wibox.container.background,
+      bg = "#1d2021",
+      shape = function(cr,w,h) gears.shape.partially_rounded_rect(cr,w,h,false,false,true,true,16) end}
 end

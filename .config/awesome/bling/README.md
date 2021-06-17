@@ -3,7 +3,7 @@
 </p>
 <h1 align="center"></h1>
 
-All documentation, instructions, and previews are [here](https://nooo37.github.io/bling).
+All documentation, instructions, and previews are [here](https://blingcorp.github.io/bling/).
 
 ## Features
 
@@ -25,18 +25,10 @@ All documentation, instructions, and previews are [here](https://nooo37.github.i
 - Widgets
     - Tag Preview
 
-## TODO
-- [ ] Add a built-in option to animate scratchpads with [awestore](https://github.com/K4rakara/awestore)
-- [ ] Add external sources management for the wallpaper module (URLs, RSS feeds, NASA picture of the day, ...)
-- [x] Scratchpad module
-- [x] Some more documentation on the tabbed module
-- [x] Add a cool alternative tabbar style  
-- [x] Add another cool tabbar style (we need more styles)
-- [x] Make the mstab layout compatible with vertical tabbars (left and right)
-- [x] Add option to mstab layout to not shrink windows down when they are in the tabbed pane and unfocused (for example for people using transparent terminals)
-- [x] Keyboard based option to add windows to a tabbing object
+All naming credit goes to [JavaCafe01](https://github.com/JavaCafe01).
 
-All naming credit goes to javacafe.
+### Dependencies
+in order to use `mstab` layout and `tabbed` module install `xwininfo` package.
 
 ## Contributing
 

@@ -22,10 +22,10 @@
     (insert-image (create-image selected-img)))
 	(insert-char ?\n 3)
 
-  (let* ((splash-text (propertize (format "Started in %s with %d garbage collections." (emacs-init-time) gcs-done) 'face 'italic)))
-    (insert (propertize " " 'display
-            `(space :align-to (+ center (-0.5 . ,(length splash-text))))))
-  (insert splash-text))
+	(let* ((splash-text (init-time)))
+	  (insert (propertize " " 'display
+    		  `(space :align-to (+ center (-0.5 . ,(length splash-text))))))
+	(insert splash-text))
 	(insert "\n\n")
 
 	(dolist (line (split-string (shell-command-to-string "fortune -sa") "\n"))

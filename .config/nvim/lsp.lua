@@ -10,6 +10,9 @@ l.cssls.setup {
   capabilities = capabilities
 }
 
+-- Zig Language Server
+l.zls.setup{}
+
 -- JS / TS Language Server
 l.tsserver.setup{}
 

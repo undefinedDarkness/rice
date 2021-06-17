@@ -28,6 +28,11 @@ inputbar, element {
   padding: 12px;
 }
 
+listview {
+    border: 0 1px 1px 1px;
+    border-color: #32302f;
+}
+
 entry {
   font: "Victor Mono Italic 12";
 }

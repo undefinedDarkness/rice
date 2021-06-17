@@ -1,15 +1,30 @@
 return function(s)
-    return awful.widget.tasklist {
+      return awful.widget.tasklist {
         screen = s,
         filter = awful.widget.tasklist.filter.currenttags,
         layout = {
-            layout = wibox.layout.fixed.vertical,
-            spacing = dpi(12)
+           layout = wibox.layout.fixed.vertical,
         },
         widget_template = {
-            widget = awful.widget.clienticon,
-            id = "client_icon",
-            create_callback = function(self, c, _, _)
+        {
+           {
+                nil,
+                {
+                    widget = awful.widget.clienticon,
+                    id = "client_icon"
+                },
+                nil,
+                expand = 'none',
+                layout = wibox.layout.align.horizontal
+           },
+           widget = wibox.container.margin,
+           forced_width = dpi(24),
+           forced_height = dpi(24)
+        },
+        widget = wibox.container.margin,
+        top = dpi(8),
+        bottom = dpi(8),
+        create_callback = function(self, c, _, _)
                 --self:get_children_by_id('client_icon')[1].client = c
                 self.client = c
 
@@ -58,5 +73,5 @@ return function(s)
                 end
             )
         }
-    }
+      }
 end

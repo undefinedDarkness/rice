@@ -14,7 +14,7 @@ beautiful = require("beautiful")
 
 -- 🎨 Load Theme
 beautiful.init("~/.config/awesome/theme/theme.lua")
-
+       
 -- Bling Library
 bling = require("bling")
 
@@ -46,7 +46,7 @@ user_home = os.getenv("HOME")
 local get_icon = require("menubar.utils").lookup_icon
 
 -- For Convienience
-workspaces = {"", "", "", "", "V"}
+workspaces = {"", "", ""}
 
 mouse = {
     LEFT = 1,
@@ -81,6 +81,7 @@ require("components.bar")
 -- require("components.hello_user")
 -- require("components.sidebar")
 require("components.notifications")
+require("components.clock")
 
 -- Load Global Keybindings
 require("misc.keybindings.global")

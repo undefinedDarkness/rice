@@ -26,13 +26,6 @@
 (set-fringe-mode 0); Give some breathing room
 (menu-bar-mode -1)  ; Disable the menu bar
 
-;; Settings
-(setq-default inhibit-startup-screen nil ; Disable default startup screen
-              make-backup-files nil ; No Backup File
-              truncate-lines t ; Dont Wrap Lines
-              frame-title-format '("Editing: %f") ; Window Title
-              mode-line-format'("") ; Nothing to see here
-              indent-tabs-mode nil) ; Tabs are evil
 
 ;; Use Package.el
 (require 'package)
