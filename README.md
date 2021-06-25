@@ -8,7 +8,7 @@ I have tried to make it as simple as possible, the following snippet should work
 ```sh
 git clone https://github.com/undefinedDarkness/rice.git
 cd rice
-make push
+./make.sh push
 ```
 This will install fonts and symlink (with `cp -r -s`) the configurations to their rightful locations
 It will also check for required software
