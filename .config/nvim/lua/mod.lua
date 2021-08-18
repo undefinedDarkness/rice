@@ -1,11 +1,12 @@
-local packer = require("packer")
+vim.cmd [[packadd packer.nvim]]
 
+local packer = require("packer")
 return packer.startup(function()
 	use("wbthomason/packer.nvim")
 
 	-- Colorscheme
 	use({
-		"sainnhe/gruvbox-material",
+		"chriskempson/base16-vim",
 		config = function()
 			require("platform").setup_colorscheme()
 		end,
@@ -67,11 +68,11 @@ return packer.startup(function()
 				enabled = true,
 				autocomplete = true,
 				source = {
-					path = true,
-					nvim_lsp = true,
+					path = { kind = "" },
+					nvim_lsp = { kind = "" },
 					ultisnips = false,
 					luasnip = false,
-					nvim_lua = true,
+					nvim_lua = { kind = "" },
 				},
 			})
 		end,
@@ -79,13 +80,11 @@ return packer.startup(function()
 
 	-- Code Editiing
 	use({
-		"tpope/vim-commentary",
+		"terrortylor/nvim-comment",
 		keys = "gc",
-	})
-
-	use({
-		"editorconfig/editorconfig-vim",
-		on = "VimEnter",
+		config = function()
+			require('nvim_comment').setup()
+		end
 	})
 
 	use({
@@ -102,10 +101,10 @@ return packer.startup(function()
 
 	-- Syntax Highlighting
 	use({
-		"norcalli/nvim-colorizer.lua",
-		on = "BufReadPost",
+		"ap/vim-css-color",
+		ft = { "yaml", "css", "html", "text", "lua", "cpp" },
 		config = function()
-			require("colorizer").setup()
-		end,
+			vim.cmd [[ au FileType lua call css_color#init('hex', 'none', 'luaString,luaComment,luaString2') ]]
+		end
 	})
 end)

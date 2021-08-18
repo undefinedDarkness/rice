@@ -46,14 +46,14 @@ function M.setup_colorscheme()
 	vim.opt.background = "dark"
 	vim.opt.termguicolors = true
 
-	vim.g.gruvbox_material_background = "hard"
-	vim.g.gruvbox_material_enable_italic = true
-	vim.g.gruvbox_material_show_eob = false
-	vim.g.gruvbox_material_better_performance = true
-
-	vim.cmd([[ colorscheme gruvbox-material ]])
-	vim.cmd([[ highlight StatusLine guifg=#3e3b38 guibg=#1d2021 gui=underline ]])
-	vim.cmd([[ highlight StatusLineNC guifg=#32302f guibg=#1d2021 gui=underline  ]])
+	vim.cmd [[ 
+		colorscheme base16-tomorrow-night 
+		hi VertSplit guibg=none 
+		hi EndOfBuffer guifg=bg 
+		hi Comment gui=italic 
+		hi StatusLine guibg=bg guifg=#373b41 gui=underline 
+		hi StatusLineNC guibg=bg guifg=#373b41 gui=underline  
+	]]
 end
 
 -- Disable Default Vim Plugins

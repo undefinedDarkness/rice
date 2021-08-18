@@ -13,23 +13,21 @@ local theme = {}
 
 theme.font = "Sarasa UI HC 10"
 
-theme.bg_normal = "#1d2021"
+theme.bg_normal = "#1d1f21"
 -- theme.bg_focus = "#535d6c"
 theme.bg_lighter = "#32302f"
-theme.bg_normal2 = "#282828"
+theme.bg_normal2 = "#282a2e"
 theme.bg_highlight = "#3c3836"
 theme.bg_lightest = "#45403d"
 
-theme.bg_urgent = "#ea6962"
+theme.bg_urgent = "#cc6666"
 theme.bg_minimize = "#444444"
-theme.bg_warning = "#d8a657"
-theme.bg_good = "#a9b665"
+theme.bg_warning = "#f0c674"
+theme.bg_good = "#b5bd68"
 
 theme.transparent = "#00000000"
 
-theme.city = "Panjim" -- Only used for weather
-
-theme.fg_normal = "#d4be98"
+theme.fg_normal = "#e0e0e0"
 theme.fg_focus = "#fafafa"
 theme.fg_urgent = "#fafafa"
 theme.fg_minimize = "#fafafa"
@@ -41,44 +39,22 @@ theme.bg_systray = theme.bg_normal2
 
 theme.playerctl_backend = "playerctl_lib"
 
--- BORDER CONFIG {{{
-
-theme.border_width = dpi(1)
-theme.border_normal = "#3c3836"
-theme.border_focus = "#32302f"
-theme.border_marked = "#91231c"
-
--- }}}
-
 theme.tasklist_plain_task_name = true
-
--- CUSTOM {{{
 
 theme.clock_format = "%a %d/%m - %I:%M%p"
 
--- }}}
+-- BLING TAG PREVIEW 
+theme.tag_preview_widget_border_width = 0
+theme.tag_preview_widget_border_width = 0
+theme.tag_preview_client_border_width = 0
+theme.tag_preview_client_bg = "#282a2e"
+theme.tag_preview_widget_bg = '#fafafaaa'
+theme.tag_preview_client_border_radius = 8 
 
--- BLING TAG PREVIEW {{{
-
-theme.tag_preview_widget_bg = "#282828"
-theme.tag_preview_widget_border_radius = dpi(3)
-theme.tag_preview_widget_border_color = "#45403d"
-theme.tag_preview_widget_margin = dpi(8)
-theme.tag_preview_client_border_width = dpi(3)
-theme.tag_preview_client_border_color = "#45403d"
-theme.tag_preview_client_bg = "#1d2021"
-theme.tag_preview_client_border_radius = dpi(3)
-
--- }}}
-
--- NOTIFICATIONS {{{
-
+-- NOTIFICATIONS 
 theme.notification_spacing = dpi(16)
 
--- }}}
-
--- BLING TABS {{{
-
+-- BLING TABS 
 theme.tabbar_font = "Sarasa UI HC 11"
 theme.tabbar_position = "left"
 theme.tabbar_style = "boxes"
@@ -87,24 +63,16 @@ theme.tabbar_bg_normal = "#282828"
 theme.tabbar_bg_focus = "#3c3836"
 theme.tabbar_disable = true
 
--- }}}
-
--- Bling Task Preview {{{
-
+-- Bling Task Preview 
 theme.task_preview_widget_margin = dpi(0)
 theme.task_preview_widget_border_width = dpi(0)
 theme.task_preview_widget_bg = "#282828"
 theme.task_preview_widget_border_radius = 8
 
--- }}}
-
--- SNAP SETTINGS {{{
-
+-- SNAP SETTINGS 
 theme.snap_bg = "#ea6962"
 theme.snap_border_width = dpi(10)
 theme.snap_shape = gears.shape.rectangle
-
--- }}}
 
 theme.menu_submenu_icon = themes_path .. "theme/submenu.png"
 theme.menu_height = dpi(15)
@@ -114,21 +82,17 @@ theme.titlebar_fg_normal = theme.fg_normal
 theme.titlebar_fg_focus = theme.fg_normal
 theme.titlebar_fg = theme.fg_normal
 
--- Assets {{{
-theme.wallpaper = themes_path .. "theme/wallpaper.png"
+-- Assets
+theme.wallpaper = themes_path .. "theme/assets/wallpaper.png"
 
-theme.lockscreen_wallpaper = themes_path .. "theme/camera.jpg"
-theme.pfp = themes_path .. "theme/pfp.png"
+theme.titlebar_close_button_normal = themes_path .. "theme/assets/close-normal.svg"
+theme.titlebar_close_button_focus = themes_path .. "theme/assets/close-focus.svg"
 
-theme.layout_floating = themes_path .. "theme/layouts/floatingw.png"
-theme.layout_tile = themes_path .. "theme/layouts/tilew.png"
-theme.layout_dwindle = themes_path .. "theme/layouts/dwindlew.png"
+theme.layout_floating = themes_path .. "theme/assets/layouts/floating.png"
+theme.layout_tile = themes_path .. "theme/assets/layouts/tile.png"
+theme.layout_dwindle = themes_path .. "theme/assets/layouts/dwindle.png"
 
-theme.playerctl_default = themes_path .. "theme/record.jpg"
-
-theme.awesome_icon = theme_assets.awesome_icon(theme.menu_height, theme.bg_focus, theme.fg_focus)
 theme.icon_theme = "Papirus-Dark"
--- }}}
 
 return theme
 

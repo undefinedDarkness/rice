@@ -1,50 +1,49 @@
 pcall(require, "luarocks.loader")
 
--- Awesome WM Configuration --
-
--- Load Modules {{{
+--[[
+ _______                                            
+|   _   |.--.--.--.-----.-----.-----.--------.-----.
+|       ||  |  |  |  -__|__ --|  _  |        |  -__|
+|___|___||________|_____|_____|_____|__|__|__|_____|
+]]
 
 -- 📚 Awesome Standard Library
 gears = require("gears")
 awful = require("awful")
+
 -- Widget and layout library
 wibox = require("wibox")
+
 -- Theme handling library
 beautiful = require("beautiful")
 
--- 🎨 Load Theme
-beautiful.init(os.getenv("XDG_CONFIG_HOME").."/awesome/theme/theme.lua")
+-- Config Directory
+_config_dir = gears.filesystem.get_dir("config")
 
--- Bling Library
+-- 🎨 Load Theme
+beautiful.init(_config_dir .. "/theme/theme.lua")
+
+-- Bling Widget Library
 bling = require("bling")
 
 -- DPI Function
 dpi = require("beautiful.xresources").apply_dpi
 
+-- Misc
 require("awful.hotkeys_popup.keys")
 require("awful.autofocus")
 
--- }}}
+-- User Configuration
 
--- User Configuration {{{
-
-user_home = os.getenv("HOME")
-
--- 🚀 Load Launch Script
-awful.spawn.with_shell(--[["/home/david/Documents/Scripts/launch.sh"]]"/home/david/rice/misc/scripts/launch.sh")
+-- 🚀 Launch Script
+awful.spawn.with_shell([[ $HOME/rice/misc/scripts/master.sh launch ]])
 
 -- 🔨 Variable definitions
 
-terminal = "wezterm"
-editor = os.getenv("EDITOR") or "editor"
-editor_cmd = terminal .. " -e " .. editor
+terminal = "st"
 
-if terminal == "wezterm" then
-	editor_cmd = "wezterm start " .. editor
-end
-
+-- Mod1 = Alt, Mod4 = Windows Key, See: `xmodmap`
 modkey = "Mod1"
-local get_icon = require("menubar.utils").lookup_icon
 
 -- For Convienience
 workspaces = { "", "", "" }
@@ -53,21 +52,16 @@ mouse.LEFT = 1
 mouse.MIDDLE = 2
 mouse.RIGHT = 3
 mouse.SCROLL_UP = 4
-mouse.SCROLL_DOWN = 52
+mouse.SCROLL_DOWN = 5
 
 _nerd_font = "Arimo Nerd Font 12"
 
 -- Window Layouts
 awful.layout.layouts = {
-	awful.layout.suit.tile,
 	awful.layout.suit.floating,
+	awful.layout.suit.tile,
 	awful.layout.suit.spiral.dwindle,
 }
-
--- Load User Modules {{{
-
--- Load Misc
-require("misc.errors")
 
 -- Load Components
 require("components.titlebar")
@@ -77,154 +71,5 @@ require("components.bar")
 -- Load Global Keybindings
 require("misc.keybindings.global")
 
--- }}}
--- }}}
-
--- Mouse Bindings {{{
-root.buttons(gears.table.join(
-	awful.button({}, mouse.RIGHT, function()
-		local clients = awful.screen.focused().selected_tag:clients()
-		for _, v in ipairs(clients) do
-			v.minimized = true
-		end
-		--mymainmenu:toggle()
-	end),
-	awful.button({}, mouse.SCROLL_UP, awful.tag.viewnext),
-	awful.button({}, mouse.SCROLL_DOWN, awful.tag.viewprev)
-))
--- }}}
-
--- Window Buttons {{{
-clientbuttons = gears.table.join(
-	awful.button({}, mouse.LEFT, function(c)
-		c:emit_signal("request::activate", "mouse_click", { raise = true })
-	end),
-	awful.button({ modkey }, mouse.LEFT, function(c)
-		c:emit_signal("request::activate", "mouse_click", { raise = true })
-		awful.mouse.client.move(c)
-	end),
-	awful.button({ modkey }, mouse.RIGHT, function(c)
-		c:emit_signal("request::activate", "mouse_click", { raise = true })
-		awful.mouse.client.resize(c)
-	end)
-)
--- }}}
-
--- Rules {{{
--- Rules to apply to new clients (through the "manage" signal).
-awful.rules.rules = {
-	-- All clients will match this rule.
-	{
-		rule = {},
-		properties = {
-			border_width = beautiful.border_width,
-			border_color = beautiful.border_normal,
-			focus = awful.client.focus.filter,
-			raise = true,
-			keys = require("misc.keybindings.client"),
-			buttons = clientbuttons,
-			screen = awful.screen.preferred,
-			placement = awful.placement.no_overlap + awful.placement.no_offscreen,
-		},
-	},
-	-- Floating clients.
-	{
-		rule_any = {
-			instance = {
-				"DTA", -- Firefox addon DownThemAll.
-				"copyq", -- Includes session name in class.
-				"pinentry",
-			},
-			class = {
-				"Arandr",
-				"Blueman-manager",
-				"Gpick",
-				"Kruler",
-				"MessageWin", -- kalarm.
-				"Sxiv",
-				"Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
-				"Wpa_gui",
-				"veromix",
-				"xtightvncviewer",
-			},
-			-- Note that the name property shown in xprop might be set slightly after creation of the client
-			-- and the name shown there might not match defined rules here.
-			name = {
-				"Event Tester", -- xev.
-			},
-			role = {
-				"AlarmWindow", -- Thunderbird's calendar.
-				"ConfigManager", -- Thunderbird's about:config.
-				"pop-up", -- e.g. Google Chrome's (detached) Developer Tools.
-			},
-		},
-		properties = { floating = true },
-	},
-	-- Add titlebars to normal clients and dialogs
-	{
-		rule_any = {
-			type = { "normal", "dialog" },
-		},
-		properties = { titlebars_enabled = true },
-	},
-	-- Disable Titlebars For CSD Apps
-	{
-		rule_any = {
-			class = {
-				"Mixer",
-				"Gnome-font-viewer",
-				"File-roller",
-				"Nautilus",
-				"Myxer",
-				"Eog",
-				"Evince",
-				"Gedit",
-				"Gnome-calculator",
-			},
-		},
-		properties = { titlebars_enabled = false },
-	},
-}
--- }}}
-
--- {{{ Signals
--- Signal function to execute when a new client appears.
-client.connect_signal("manage", function(c)
-	-- Set the windows at the slave,
-	-- i.e. put it at the end of others instead of setting it master.
-	-- if not awesome.startup then awful.client.setslave(c) end
-
-	if awesome.startup and not c.size_hints.user_position and not c.size_hints.program_position then
-		-- Prevent clients from being unreachable after screen count changes.
-		awful.placement.no_offscreen(c)
-	end
-
-	-- Custom Window Icons {{{
-	if c.class == "St" or c.class == "st-256color" then
-		local new_icon = gears.surface(get_icon("gnome-terminal"))
-		c.icon = new_icon._native
-	elseif c.class == "Discord" then
-		local new_icon = gears.surface(get_icon("discord"))
-		c.icon = new_icon._native
-	elseif c.class == "Spotify" then
-		local new_icon = gears.surface(get_icon("spotify"))
-		c.icon = new_icon._native
-	elseif c.class == "Matrix" then
-		local new_icon = gears.surface(user_home .. "/.config/awesome/theme/element.png")
-		c.icon = new_icon._native
-	end
-	-- }}}
-end)
-
--- Client Mouse Bindings {{{
-client.connect_signal("mouse::enter", function(c)
-	c:emit_signal("request::activate", "mouse_enter", { raise = false })
-end)
-
-client.connect_signal("focus", function(c)
-	c.border_color = beautiful.border_focus
-end)
-client.connect_signal("unfocus", function(c)
-	c.border_color = beautiful.border_normal
-end)
--- }}}
+-- Load Misc
+require("misc.platform")

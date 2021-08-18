@@ -1,7 +1,5 @@
 function set_wallpaper(s, wallpaper)
-	-- Wallpaper
 	if wallpaper then
-		-- If wallpaper is a function, call it with the screen
 		if type(wallpaper) == "function" then
 			wallpaper = wallpaper(s)
 		end
@@ -45,8 +43,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
 	tray:set_base_size(28)
 
 	local layout_box = awful.widget.layoutbox.new(s)
-	layout_box.forced_width = dpi(16)
-	layout_box.forced_height = dpi(16)
+	layout_box.forced_width = dpi(20)
+	layout_box.forced_height = dpi(20)
 	layout_box.align = "center"
 	layout_box.valign = "center"
 
@@ -63,77 +61,57 @@ screen.connect_signal("request::desktop_decoration", function(s)
 			local t = os.date("*t")
 			clock.markup = "<b>"
 				.. (t.hour < 10 and "0" .. t.hour or t.hour)
-				.. "</b>\n"
+				.. "</b>:"
 				.. (t.min < 10 and "0" .. t.min or t.min)
 		end,
 	})
 
 	-- Create the wibox
-	s.mywibar = awful.wibar({
-		position = "left",
-		screen = s,
-		width = dpi(40),
+	s.mywibar = awful.popup({
+		placement = function(c)
+			(awful.placement.bottom + awful.placement.maximize_horizontally)(
+				c,
+				{ margins = { bottom = 20, left = 20, right = 20 } }
+			)
+		end,
+		visible = true,
 		ontop = true,
-		bg = beautiful.bg_normal2,
-	})
-
-	-- Wibar Layout {{{
-	s.mywibar.widget = {
-		{
-			{
-				{
-					widget = wibox.container.background,
-					bg = beautiful.bg_normal,
-				},
-				require("subcomponents.taglist")(s),
-				require("subcomponents.tasklist")(s),
-				s.mypromptbox,
-				layout = wibox.layout.fixed.vertical,
-			},
-			bg = beautiful.bg_highlight,
-			widget = wibox.container.background,
-			shape = function(cr, w, h)
-				gears.shape.partially_rounded_rect(cr, w, h, false, false, true, true, 100)
-			end,
-		},
-		nil,
-		{
-			{
-				{
-					--require("subcomponents.bar").playerctl,
-					shape = function(cr, w, h)
-						gears.shape.rounded_rect(cr, w, h, 100)
-					end,
-					widget = wibox.container.background,
-					bg = beautiful.bg_normal2,
-				},
-				widget = wibox.container.margin,
-				margins = dpi(5),
-			},
-			{
+		type = "dock",
+		bg = beautiful.transparent,
+		widget = {
+			require("subcomponents.tasklist")(s),
+			require("subcomponents.taglist")(s),
+			{{
 				{
 					{
+						layout_box,
 						{
-							clock,
+							wibox.widget.separator({
+								orientation = "vertical",
+								forced_width = 1,
+								forced_height = 20,
+							}),
 							widget = wibox.container.margin,
-							top = 3,
-							bottom = 3,
+							left = 5,
+							right = 5,
 						},
-						widget = wibox.container.background,
-						shape = function(cr, w, h)
-							gears.shape.rounded_rect(cr, w, h, 5)
-						end,
-						bg = "#3c3836",
+						clock,
+						layout = wibox.layout.fixed.horizontal,
 					},
-					tray,
-					layout = wibox.layout.fixed.vertical,
+					widget = wibox.container.margin,
+					margins = dpi(8),
 				},
-				widget = wibox.container.margin,
-				margins = dpi(6),
+				widget = wibox.container.background,
+				bg = "#282a2e",
+				shape = function(cr, w, h)
+					gears.shape.rounded_rect(cr, w, h, 5)
+				end,
 			},
-			layout = wibox.layout.fixed.vertical,
+			widget = wibox.container.place,
+			halign = 'bottom'
 		},
-		layout = wibox.layout.align.vertical,
-		expand = "none",
-	}
+			expand = "none",
+			layout = wibox.layout.align.horizontal,
+		},
+	})
 end)

@@ -23,44 +23,7 @@ client.connect_signal("request::titlebars", function(c)
 			awful.mouse.client.resize(c)
 		end)
 	)
---[[
-	local tabbed_icons = wibox.widget({
-		layout = wibox.layout.fixed.horizontal,
-		spacing = dpi(4),
-	})
 
-	awesome.connect_signal("bling::tabbed::update", function(group)
-		local focused = group.clients[group.focused_idx]
-		if require("misc.libs.stdlib").contains(group.clients, c) then
-			tabbed_icons:reset()
-			for idx, _c in ipairs(group.clients) do
-				tabbed_icons:add(wibox.widget({
-					{
-						{
-							{
-								client = _c,
-								widget = awful.widget.clienticon,
-								forced_width = 20,
-								forced_height = 20,
-							},
-							widget = wibox.container.margin,
-							margins = dpi(4),
-						},
-						widget = wibox.container.background,
-						bg = _c == focused and "#32302f" or "#00000000",
-						shape = require("misc.libs.stdlib").rounded(5),
-						buttons = awful.button({}, mouse.LEFT, function()
-							bling.module.tabbed.switch_to(group, idx)
-						end),
-					},
-					widget = wibox.container.place,
-					halign = "center",
-					valign = "center",
-				}))
-			end
-		end
-	end)
-]]--
 	local main = wibox.widget({
 		{
 			-- Title
@@ -74,24 +37,32 @@ client.connect_signal("request::titlebars", function(c)
 		titlewidget.visible = false
 	end)
 
+	local close_button = awful.titlebar.widget.closebutton(c)
+	close_button.forced_height = dpi(24)
+	close_button.forced_width = dpi(24)
+
 	awful.titlebar(c, {
-		size = 44,
-		bg_normal = beautiful.bg_normal,
-		bg_focus = beautiful.bg_normal,
+		size = 38,
+		bg_normal = "#e0e0e0",
+		bg_focus = "#373b41",--"#e0e0e0",
+		position = "top",
 	}):setup({
 		{
-			require('bling.widget.tabbed_misc').titlebar_indicator(c),--tabbed_icons,
-			widget = wibox.container.margin,
-			left = dpi(12),
+			nil,
+			nil,
+			{
+				{
+					close_button,
+					widget = wibox.container.place,
+					halign = "center",
+					valign = "center",
+				},
+				layout = wibox.layout.fixed.horizontal,
+			},
+			layout = wibox.layout.align.horizontal,
+			buttons = buttons,
 		},
-		main,
-		{
-			-- Right
-			B.custom_minimized_button(c),
-			B.custom_maximized_button(c),
-			B.custom_close_button(c),
-			layout = wibox.layout.fixed.horizontal,
-		},
-		layout = wibox.layout.align.horizontal,
+		widget = wibox.container.margin,
+		right = dpi(8),
 	})
 end)
