@@ -1,0 +1,47 @@
+call plug#begin('~/.vim/plugged')
+
+Plug 'joshdick/onedark.vim'
+
+call plug#end()
+
+" Enable
+set mouse=a
+set ttymouse=sgr
+set number
+set splitbelow
+set laststatus=0
+set incsearch
+set noswapfile
+set nowrap
+
+" Syntax HL
+let g:onedark_hide_endofbuffer = 1
+set termguicolors
+syntax on
+let g:onedark_terminal_italics = 1
+colorscheme onedark
+
+" Indentation
+set tabstop=4
+set shiftwidth=4
+set list lcs=tab:\│\ 
+set autoindent
+set smartindent
+set fillchars+=vert:\┃
+set statusline=\ 
+
+" NetRW / Filetree
+let g:netrw_banner = 0
+let g:netrw_browse_split = 3
+let g:netrw_winsize = 20
+let g:netrw_liststyle = 3
+nnoremap <C-f> :Lexplore<CR>
+
+" WSL Clipboard
+let s:clip = '/mnt/c/Windows/System32/clip.exe' 
+if executable(s:clip)
+    augroup WSLYank
+        autocmd!
+        autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
+    augroup END
+endif

@@ -1,0 +1,328 @@
+/*-- Discord CSS 
+  I am using discord through the web app + the stylus extension
+--*/
+/* Theme Variables */
+.theme-dark {
+
+    /*-- Main Background Colors --*/
+    --background-primary: #1d2021;
+    --background-secondary: #282828;
+    --background-secondary-alt: #32302f;
+    --background-tertiary: #282828;
+
+    --scrollbar-auto-track: transparent;
+    --scrollbar-auto-scrollbar-color-track: transparent;
+    --scrollbar-auto-scrollbar-color-thumb: #32302f;
+
+    --channeltextarea-background: #282828;
+
+    --brand-experiment: #7daea3 !important;
+
+    /*-- Main Foreground Colors --*/
+    --text-normal: #d4be98;
+    --interactive-active: #d4be98;
+    --header-primary: #fafafa;
+
+    --background-mentioned: rgba(216, 166, 87, 0.1);
+
+    --code-font: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+    --italic-font: "Victor Mono";
+    --chat-area-offset: 4px;
+}
+
+/* Hide some useless stuff */
+div[aria-label="Inbox"],
+div[aria-label="Help"],
+button[aria-label="Send a gift"],
+div[class^="flowerStarContainer"],
+div[data-list-item-id$="app-download-button"],
+div[class^="guildSeparator"],
+button[aria-label="Open sticker picker"],
+img[class^="replyAvatar"],
+div[class^="unread"],
+[data-list-id="expression-suggestions-stickers"],
+.container-JHR0NT {
+    display: none;
+}
+
+/* Friends Container */
+div[class^="peopleList"] {
+    background: var(--background-primary)
+}
+
+div[aria-label="Add Friend"],
+div[class^="circleIconButton"][class*="selected"] {
+    background-color: #a8b665 !important
+}
+
+/* Change colors for that red line */
+#---new-messages-bar {
+    border-color: #ea6962;
+}
+#---new-messages-bar span:last-child,
+span[class^="iconBadge"],
+div[style="background-color: rgb(240, 71, 71); width: 16px; padding-right: 1px;"] {
+    background-color: #ea6962 !important;
+}
+#---new-messages-bar span:last-child svg path,
+path[class^="strikethrough"]/* Microphone */
+{
+    color: #ea6962;
+    fill: #ea6962;
+}
+
+/* -- Sidebar -- */
+div[class^="expandedFolderIconWrapper"] svg {
+    color: #7daea3 !important
+}
+
+div[class^="newMessagesBar"],
+div[aria-label="Home"][class*="selected"] div {
+    background-color: #7daea3 !important
+}
+
+span[class^="expandedFolderBackground"] {
+    background-color: #3c3836
+}
+
+div[class^="folder"] {
+    background-color: transparent
+}
+
+div[class^="folderIconWrapper"] {
+    background-color: #3c383680 !important
+}
+
+/* -- Upload Button Popup -- */
+#channel-attach-upload-file {
+    background-color: transparent !important;
+}
+
+/* Sidebar button colors */
+div[class^="circleIconButton"] {
+    color: #a9b665;
+}
+
+/* -- Status Indicators -- */
+rect[fill="#43b581"] {
+    fill: #a9b665
+}
+
+rect[fill="#faa61a"] {
+    fill: #d8a657
+}
+
+rect[fill="#f04747"] {
+    fill: #ea6962;
+}
+
+svg[class^="premiumIcon"] {
+    color: #d3869b
+}
+
+/*  -- Mentions -- */
+div[class*="mentioned"]::before {
+    background-color: #d8a657
+}
+
+/*-- Chatbox Modifications -- TAKEN FROM https://github.com/DapperCore/NordCord/blob/main/index.css --*/
+/* Make chatbox a rectangle */
+form {
+    padding: 0 !important;
+}
+
+div[class^="channelTextArea"] {
+    margin-bottom: 0;
+}
+
+div[class^="channelTextArea"] > div[class^="inner"] {
+    padding-top: 4px;
+}
+
+div[class^="channelTextArea"] > div[class^="scrollableContainer"] {
+    border-radius: 0px;
+    min-height: 53px;
+}
+
+[class^="typing"] {
+    top: -24px;
+    background-color: var(--background-primary);
+}
+
+/* Move some buttons & text down to compensate */
+button[aria-label="Upload a file or send invites"] {
+    margin-top: var(--chat-area-offset);
+}
+
+[class^="textArea"] {
+    margin-top: var(--chat-area-offset);
+}
+
+button[aria-label="Open GIF picker"] {
+    margin-top: calc(2.5 * var(--chat-area-offset));
+}
+button[aria-label="Select emoji"] {
+    margin-top: calc(2 * var(--chat-area-offset));
+}
+
+/* Avatar Roundness */
+img[class^="avatar"] {
+    border-radius: 8px;
+}
+
+.pointerEvents-2zdfdO {
+    display: none;
+}
+
+img[width="48"][height="48"] {
+    border-radius: 8px;
+}
+
+div[aria-label="Members"] foreignObject {
+    mask: none !important;
+    border-radius: 8px;
+}
+
+/* --Blocked Messages -- TAKEN FROM GK
+   To unb lock go to activity > blocked 
+   --
+/*
+[class="groupStart-23k01U"] > div,
+[class="groupStart-23k01U"] {
+    margin: 0 !important;
+    margin-left: -5.5rem !important;
+    max-height: 0 !important;
+    top: -9px;
+    opacity: 0;
+    z-index: 0 !important;
+}
+*/
+/* Fonts */
+* {
+    font-family: "PT Sans", "Noto Color Emoji", sans-serif, system-ui
+}
+
+/* Personal Role Color Fixes */
+span[style="color: rgb(52, 152, 219);"] {
+    color: #7daea3 !important
+}
+span[style="color: rgb(46, 204, 113);"] {
+    color: #a9b665 !important
+}
+span[style="color: rgb(0, 253, 218);"] {
+    color: #89b482 !important
+}
+
+/*-- Show language for code block -- TAKEN FROM GK --*/
+code.hljs:not(.inline)::before {
+    content: attr(class) !important;
+    float: right;
+    display: block;
+    width: auto;
+    max-width: 5.3rem !important;
+    min-width: auto;
+    margin-top: -8.6rem !important;
+    line-height: 1.6rem !important;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    text-align: right;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    font-family: var(--code-font);
+    font-weight: bold;
+}
+
+pre,
+code {
+    font-family: var(--code-font);
+}
+
+[data-list-id="people"] {
+    margin-top: 0px;
+}
+
+a[aria-label^="unread"] {
+    font-weight: bold;
+}
+
+h3,
+h1,
+h2 > div,
+div[class^="repliedTextPreview"] {
+    font-family: var(--italic-font) !important;
+    font-style: italic;
+}
+
+/* Autohide People & Channel List -- FROM \xynstr */
+@media screen and (max-width: 1100px) {
+
+    /* Minify Search Bar */
+    .search-2oPWTC:not(.open-6_Y_aH) .searchBar-3dMhjb {
+        width: 27px;
+        transition: 0.25s;
+        background-color: transparent;
+    }
+    .search-2oPWTC:not(.open-6_Y_aH):hover .searchBar-3dMhjb {
+        width: 240px;
+        transition: 0.25s;
+        background-color: var(--background-tertiary);
+    }
+    .search-2oPWTC:not(.open-6_Y_aH) .iconContainer-O4O2CN {
+        transform: scale(1.2);
+        transition: 0.25s;
+    }
+    .search-2oPWTC:not(.open-6_Y_aH):hover .iconContainer-O4O2CN {
+        transform: scale(1);
+        transition: 0.25s;
+    }
+
+    /* Hide Server List */
+    .sidebar-2K8pFh {
+        width: 0px;
+        transition: all 500ms;
+        position: fixed;
+        height: calc(100% - 47.988px);
+        z-index: 1;
+        bottom: 0px;
+    }
+    .wrapper-3NnKdC:hover + .base-3dtUhz > .content-98HsJk > .sidebar-2K8pFh {
+        width: 240px;
+    }
+    .sidebar-2K8pFh:hover {
+        width: 240px;
+    }
+
+    .membersWrap-2h-GB4 {
+        position: absolute;
+        right: 0;
+        top: 0;
+        min-width: unset;
+        max-height: 100%;
+        z-index: 100;
+    }
+    .content-yTz4x3 {
+        overflow: visible;
+    }
+
+    /* Hide Member List */
+    .membersWrap-2h-GB4:hover .members-1998pB {
+        width: 240px;
+        transform: none;
+        opacity: 1;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+    .members-1998pB {
+        width: 0;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 500ms;
+    }
+    .iconWrapper-2OrFZ1[aria-label="Member List" i] {
+        order: 1;
+        pointer-events: none;
+    }
+    .iconWrapper-2OrFZ1[aria-label="Member List" i] .icon-22AiRD path {
+        display: none;
+    }
+
+}

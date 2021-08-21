@@ -1,0 +1,39 @@
+95,97c95,96
+< # Add an "alert" alias for long running commands.  Use like so:
+< #   sleep 10; alert
+< alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+---
+> # Enable auto change directory
+> shopt -s autocd
+99,102c98,109
+< # Alias definitions.
+< # You may want to put all your additions into a separate file like
+< # ~/.bash_aliases, instead of adding them here directly.
+< # See /usr/share/doc/bash-doc/examples in the bash-doc package.
+---
+> # Alias
+> alias vim=nvim
+> alias e=nvim
+> 
+> 
+> # Screeshot (+delay)
+> screenshot () {
+> 	slop=$(slop -f "%g") || exit 1
+>     read -r G < <(echo $slop)
+> 	sleep ${1:-0}
+>     import -window root -crop $G $HOME/Pictures/Screenshots/$(date +%s).png
+> }
+103a111,119
+> # X11 Key Names
+> key_names () {
+> 	xev | awk -F'[ )]+' '/^KeyPress/ { a[NR+2] } NR in a { printf "%-3s %s\n", $5, $8 }'
+> }
+> 
+> # Prompt
+> export PS1="\[\e[36m\]\w\[\e[m\] \[\e[32m\]➜\[\e[m\]  "
+> 
+> # Alias definitions.
+108,110d123
+< # enable programmable completion features (you don't need to enable
+< # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+< # sources /etc/bash.bashrc).
