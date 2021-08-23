@@ -42,19 +42,12 @@ M.linters = {
 }
 
 -- Colorscheme
-function M.setup_colorscheme()
-	vim.opt.background = "dark"
-	vim.opt.termguicolors = true
+vim.opt.background = "dark"
+vim.opt.termguicolors = true
 
-	vim.cmd [[ 
-		colorscheme base16-tomorrow-night 
-		hi VertSplit guibg=none 
-		hi EndOfBuffer guifg=bg 
-		hi Comment gui=italic 
-		hi StatusLine guibg=bg guifg=#373b41 gui=underline 
-		hi StatusLineNC guibg=bg guifg=#373b41 gui=underline  
-	]]
-end
+vim.cmd [[ 
+	colorscheme base16-tomorrow-night
+]]
 
 -- Disable Default Vim Plugins
 vim.g.loaded_gzip = 0
@@ -66,15 +59,5 @@ vim.g.loaded_netrw = 0
 vim.g.loaded_netrwPlugin = 0
 vim.g.loaded_spec = 0
 vim.g.loaded_syncolor = 0
-
--- Print Highlight Group Under Cursor
-vim.cmd([[ 
-function! SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
-]])
 
 return M

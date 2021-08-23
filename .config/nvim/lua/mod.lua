@@ -2,19 +2,15 @@ vim.cmd [[packadd packer.nvim]]
 
 local packer = require("packer")
 return packer.startup(function()
-	use("wbthomason/packer.nvim")
-
-	-- Colorscheme
 	use({
-		"chriskempson/base16-vim",
-		config = function()
-			require("platform").setup_colorscheme()
-		end,
+		"wbthomason/packer.nvim",
+		cmd = { "PackerSync", "PackerCompile" }
 	})
 
 	-- Icons
 	use({
 		"kyazdani42/nvim-web-devicons",
+		opt = true,
 		config = function()
 			require("nvim-web-devicons").setup()
 		end,
@@ -31,6 +27,7 @@ return packer.startup(function()
 	-- Tree / Project Drawer
 	use({
 		"kyazdani42/nvim-tree.lua",
+		after = "nvim-web-devicons",
 		cmd = "NvimTreeToggle",
 		setup = function()
 			vim.g.nvim_tree_show_icons = {

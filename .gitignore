@@ -1,2 +1,3 @@
 backup.tar.gz
 Scripts/bin
+.config/nvim/plugin/packer_compiled.lua
