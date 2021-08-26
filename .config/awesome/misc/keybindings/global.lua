@@ -43,7 +43,7 @@ globalkeys = gears.table.join(
 	awful.key(
 		{ modkey },
 		"Print",
-		require("misc.screenshot").selection,
+		require("misc.libs.screenshot").selection,
 		{ description = "Take Screenshot (selection)", group = "User" }
 	),
 	awful.key({ modkey, "Shift" }, "Print", function()
@@ -65,7 +65,7 @@ globalkeys = gears.table.join(
 		description = "Emoji Picker",
 	}),
 	awful.key({ modkey }, "d", function()
-		require("menubar").show()
+		require("subcomponents.menu").launcher:toggle()
 	end, {
 		description = "Launch Dmenu (Run)",
 		group = "User",

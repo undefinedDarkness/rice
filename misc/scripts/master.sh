@@ -3,7 +3,7 @@
 # Setup Colemak
 case $1 in
 	launch)
-		#setxkbmap us
+		killall picom
 		xmodmap $( dirname $0 )/xmodmap.colemak && xset r 66
 		picom -c -C --blur-method kernel --blur-background
 		exit
@@ -18,6 +18,7 @@ alias wget="wget --hsts-file /dev/null"
 alias gitFixup="git commit --fixup=HEAD"
 alias fileSize="du -sh "
 alias screenshot='import -window $(xwininfo | grep -Eom1 "0x[0-9]+") -frame -border ~/screenshot.png'
+alias vimDiff="nvim -d"
 
 # Enable Auto Directory Change
 case $SHELL in
@@ -26,7 +27,7 @@ case $SHELL in
 esac
 
 export LESSHISTFILE=- # Disable Less History
-export PATH="$PATH:$HOME/.local/bin" # Path
+export PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin" # Path
 export PS1="\[\e[36m\]\w\[\e[m\] \[\e[32m\]->\[\e[m\] " # Prompt
 
 case "$(uname -r)" in
@@ -36,6 +37,7 @@ case "$(uname -r)" in
 		export DISPLAY="$(grep nameserver /etc/resolv.conf | sed 's/nameserver //'):0"
 		export DISPLAY="$(sed -n 's/nameserver //p' /etc/resolv.conf):0"
 		export DISPLAY=$(ip route|awk '/^default/{print $3}'):0.0
+		export LIBGL_ALWAYS_INDIRECT=1
 
 		# Set Config Directory To Dotfiles
 		export XDG_CONFIG_HOME=$HOME/rice/.config
@@ -96,5 +98,9 @@ compress () {
 		tar_f=$1
 	fi
 	zstd -22 --ultra -T0 -z "$tar_f" -o "$(basename "$1").tar.zst"
+	rm $tar_f
 }
 
+key_names () {
+	xev | awk -F'[ )]+' '/^KeyPress/ { a[NR+2] } NR in a { printf "%-3s %s\n", $5, $8 }'
+}

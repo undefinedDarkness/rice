@@ -4,16 +4,7 @@ local packer = require("packer")
 return packer.startup(function()
 	use({
 		"wbthomason/packer.nvim",
-		cmd = { "PackerSync", "PackerCompile" }
-	})
-
-	-- Icons
-	use({
-		"kyazdani42/nvim-web-devicons",
-		opt = true,
-		config = function()
-			require("nvim-web-devicons").setup()
-		end,
+		on = 'VimEnter'
 	})
 
 	use({
@@ -27,19 +18,8 @@ return packer.startup(function()
 	-- Tree / Project Drawer
 	use({
 		"kyazdani42/nvim-tree.lua",
-		after = "nvim-web-devicons",
 		cmd = "NvimTreeToggle",
-		setup = function()
-			vim.g.nvim_tree_show_icons = {
-				git = 0,
-				folders = 1,
-				files = 1,
-				folder_arrows = 0,
-			}
-			vim.g.nvim_tree_auto_close = 1
-			vim.g.nvim_tree_width = 25
-			vim.g.nvim_tree_icon_padding = "  "
-		end,
+		requires = 'kyazdani42/nvim-web-devicons'
 	})
 
 	-- Language Server Configurations
@@ -87,7 +67,12 @@ return packer.startup(function()
 	use({
 		"dense-analysis/ale",
 		on = "BufReadPost",
-		ft = { "sh" },
+		ft = { "sh", "lua", "clojure" },
+	})
+
+	use({
+		'bhurlow/vim-parinfer',
+		ft = { 'lisp', 'clojure' }
 	})
 
 	-- Terminal
@@ -101,7 +86,12 @@ return packer.startup(function()
 		"ap/vim-css-color",
 		ft = { "yaml", "css", "html", "text", "lua", "cpp" },
 		config = function()
-			vim.cmd [[ au FileType lua call css_color#init('hex', 'none', 'luaString,luaComment,luaString2') ]]
+		vim.cmd [[ au FileType lua call css_color#init('hex', 'none', 'luaString,luaComment,luaString2') ]]
 		end
+	})
+
+	use({
+		"elkowar/yuck.vim",
+		ft = "yuck"
 	})
 end)

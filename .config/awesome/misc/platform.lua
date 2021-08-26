@@ -35,7 +35,7 @@ root.buttons(gears.table.join(
 		for _, v in ipairs(clients) do
 			v.minimized = true
 		end
-		require("subcomponents.menu"):toggle()
+		require("subcomponents.menu").qmenu:toggle()
 	end),
 	awful.button({}, mouse.SCROLL_UP, awful.tag.viewnext),
 	awful.button({}, mouse.SCROLL_DOWN, awful.tag.viewprev)
@@ -133,13 +133,14 @@ awful.rules.rules = {
 }
 
 -- Signals
+local lookup_icon = require("menubar.utils").lookup_icon
 client.connect_signal("manage", function(c)
 	if awesome.startup and not c.size_hints.user_position and not c.size_hints.program_position then
 		awful.placement.no_offscreen(c)
 	end
 
 	if c.class == "St" or c.class == "st-256color" then
-		local new_icon = gears.surface(_config_dir .. "/theme/assets/terminal.svg")
+		local new_icon = gears.surface(lookup_icon("terminal"))
 		c.icon = new_icon._native
 	end
 end)

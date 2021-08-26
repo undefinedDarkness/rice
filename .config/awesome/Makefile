@@ -5,7 +5,8 @@ watch:
 format:
 	find . -name "*.lua" -not -path "./bling/*" -not -path "./archive/*" -exec stylua {} \;
 
+# Shouldnt be needed now!
 bling-update:
 	rm -rf bling
-	git clone git@github.com:undefinedDarkness/bling.git # git@github.com:BlingCorp/bling.git
+	git clone git@github.com:undefinedDarkness/bling.git misc/libs/bling # git@github.com:BlingCorp/bling.git
 	# rm -rf ./bling/.git

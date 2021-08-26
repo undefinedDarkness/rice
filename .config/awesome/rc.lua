@@ -24,7 +24,7 @@ _config_dir = gears.filesystem.get_dir("config")
 beautiful.init(_config_dir .. "/theme/theme.lua")
 
 -- Bling Widget Library
-bling = require("bling")
+bling = require("misc.libs.bling")
 
 -- DPI Function
 dpi = require("beautiful.xresources").apply_dpi
@@ -57,11 +57,13 @@ mouse.SCROLL_DOWN = 5
 _nerd_font = "Arimo Nerd Font 12"
 
 -- Window Layouts
-awful.layout.layouts = {
-	awful.layout.suit.floating,
-	awful.layout.suit.tile,
-	awful.layout.suit.spiral.dwindle,
-}
+tag.connect_signal("request::default_layouts", function()
+	awful.layout.append_default_layouts({
+		awful.layout.suit.floating,
+		awful.layout.suit.tile,
+		awful.layout.suit.spiral.dwindle,
+	})
+end)
 
 -- Load Components
 require("components.titlebar")

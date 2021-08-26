@@ -46,8 +46,18 @@ vim.opt.background = "dark"
 vim.opt.termguicolors = true
 
 vim.cmd [[ 
-	colorscheme base16-tomorrow-night
+colorscheme base16-tomorrow-night
 ]]
+
+vim.g.nvim_tree_show_icons = {
+	git = 0,
+	folders = 1,
+	files = 1,
+	folder_arrows = 0,
+}
+vim.g.nvim_tree_auto_close = 1
+vim.g.nvim_tree_width = 25
+vim.g.nvim_tree_icon_padding = "  "
 
 -- Disable Default Vim Plugins
 vim.g.loaded_gzip = 0

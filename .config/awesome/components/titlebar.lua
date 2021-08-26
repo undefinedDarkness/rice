@@ -1,4 +1,3 @@
-local B = require("subcomponents.titlebar")
 local trim_long_name = require("misc.libs.stdlib").trim_long
 
 client.connect_signal("request::titlebars", function(c)
@@ -40,27 +39,29 @@ client.connect_signal("request::titlebars", function(c)
 	local close_button = awful.titlebar.widget.closebutton(c)
 	close_button.forced_height = dpi(24)
 	close_button.forced_width = dpi(24)
+	close_button.halign = "right"
+	close_button.valign = "center"
 
 	awful.titlebar(c, {
-		size = 38,
-		bg_normal = "#e0e0e0",
-		bg_focus = "#373b41",--"#e0e0e0",
+		size = dpi(44),
+		bg_focus = "#e0e0e0",
+		bg_normal = "#373b41",
 		position = "top",
 	}):setup({
 		{
 			nil,
-			nil,
 			{
 				{
-					close_button,
-					widget = wibox.container.place,
-					halign = "center",
-					valign = "center",
+					widget = wibox.widget.textbox,
 				},
+				layout = wibox.layout.flex.horizontal,
+				buttons = buttons,
+			},
+			{
+				close_button,
 				layout = wibox.layout.fixed.horizontal,
 			},
 			layout = wibox.layout.align.horizontal,
-			buttons = buttons,
 		},
 		widget = wibox.container.margin,
 		right = dpi(8),

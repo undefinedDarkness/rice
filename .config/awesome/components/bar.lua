@@ -32,11 +32,15 @@ screen.connect_signal("request::desktop_decoration", function(s)
 		},
 	})
 
-	s.mypromptbox = awful.widget.prompt({
-		prompt = "🚀: ",
-		fg = beautiful.fg_normal,
-		font = beautiful.font,
+	s.activetext = wibox.widget({
+		widget = wibox.widget.textbox,
+		font = "JetBrains Mono 11"
 	})
+	s.activetext:connect_signal("property::text", function()
+		if string.len(s.activetext.text) > 0 then
+			s.activetext.markup = " " .. s.activetext.text -- This is such a big brain solution!
+		end
+	end)
 
 	local tray = wibox.widget.systray()
 	tray:set_horizontal(false)
@@ -51,7 +55,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
 	local clock = {
 		widget = wibox.widget.textbox,
 		align = "center",
-		font = "JetBrains Mono 11",
+		font = "JetBrains Mono 12",
 	}
 	gears.timer({
 		autostart = true,
@@ -79,37 +83,58 @@ screen.connect_signal("request::desktop_decoration", function(s)
 		type = "dock",
 		bg = beautiful.transparent,
 		widget = {
-			require("subcomponents.tasklist")(s),
-			require("subcomponents.taglist")(s),
-			{{
+			{
 				{
 					{
-						layout_box,
 						{
-							wibox.widget.separator({
-								orientation = "vertical",
-								forced_width = 1,
-								forced_height = 20,
-							}),
-							widget = wibox.container.margin,
-							left = 5,
-							right = 5,
+							require("subcomponents.tasklist")(s),
+							s.activetext, 
+							layout = wibox.layout.fixed.horizontal,
 						},
-						clock,
-						layout = wibox.layout.fixed.horizontal,
+						widget = wibox.container.margin,
+						margins = dpi(8),
+						draw_empty = false
 					},
-					widget = wibox.container.margin,
-					margins = dpi(8),
+					widget = wibox.container.background,
+					bg = "#1d1f21",
+					shape = function(cr, w, h)
+						gears.shape.rounded_rect(cr, w, h, 5)
+					end,
 				},
-				widget = wibox.container.background,
-				bg = "#282a2e",
-				shape = function(cr, w, h)
-					gears.shape.rounded_rect(cr, w, h, 5)
-				end,
+				widget = wibox.container.place,
+				halign = "bottom",
 			},
-			widget = wibox.container.place,
-			halign = 'bottom'
-		},
+			require("subcomponents.taglist")(s),
+			{
+				{
+					{
+						{
+							layout_box,
+							{
+								wibox.widget.separator({
+									orientation = "vertical",
+									forced_width = 1,
+									forced_height = 20,
+								}),
+								widget = wibox.container.margin,
+								left = 5,
+								right = 5,
+							},
+							clock,
+							layout = wibox.layout.fixed.horizontal,
+						},
+						widget = wibox.container.margin,
+						margins = dpi(8),
+					},
+					widget = wibox.container.background,
+					bg = "#1d1f21",
+					shape = function(cr, w, h)
+						gears.shape.rounded_rect(cr, w, h, 5)
+					end,
+				},
+				widget = wibox.container.place,
+				halign = "bottom",
+			},
 			expand = "none",
 			layout = wibox.layout.align.horizontal,
 		},

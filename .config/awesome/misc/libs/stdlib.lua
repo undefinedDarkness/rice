@@ -60,6 +60,18 @@ function M.force_right(x)
 	})
 end
 
+function M.contain_image(i, s)
+	return wibox.widget({
+		{
+			widget = wibox.widget.imagebox,
+			image = i,
+		},
+		widget = wibox.container.constraint,
+		width = s,
+		height = s,
+	})
+end
+
 -- }}}
 -- Misc {{{
 
