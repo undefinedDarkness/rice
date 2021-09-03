@@ -19,14 +19,17 @@ local launcher = awful.popup({
 	},
 })
 
-local selected_idx = 1
+local selected_idx
 function update_selected(new_idx)
+	-- If is > then wrap around to start
 	if new_idx > #list.children then
 		new_idx = 1
-	elseif new_idx < #list.children then
-		new_inx = #list.children
+	-- Wrap the other way around
+	elseif new_idx < 1 then
+		new_idx = #list.children
 	end
-	-- reset every bg
+	
+	-- Reset every background
 	for _, elem in ipairs(list.children) do
 		elem.bg = "#00000000"
 	end
@@ -91,7 +94,7 @@ function launcher.toggle(l)
 				{},
 				"Return",
 				function()
-					awful.spawn(list.children[selected_idx].cmd)
+					awful.spawn.easy_async_with_shell(list.children[selected_idx].cmd)
 					grabber:stop()
 				end,
 			},

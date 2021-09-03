@@ -1,77 +1,24 @@
 local hotkeys_popup = require("awful.hotkeys_popup")
 
-local is_using_semimak = false
 local tabbed = bling.module.tabbed
 
 globalkeys = gears.table.join(
-	-- Personal Section {{{
 
-	awful.key({ modkey, "Shift" }, "KP_Add", function()
-		require("components.sliders").volume()
-	end),
-
-	awful.key({ modkey }, "KP_Add", function()
-		require("components.sliders").brightness()
-	end),
-
-	awful.key({ modkey, "Shift" }, "w", function()
-		local x = ""
-		if is_using_semimak then
-			x = "Colemak"
-			awful.spawn("setxkbmap us -variant colemak")
-		else
-			x = "Semimak"
-			awful.spawn("setxkbmap semimak -variant angle")
-		end
-		require("naughty").notify({
-			title = "Keyboard",
-			text = "Changed layout to " .. x,
-			-- TODO: Get a better icon
-			icon = "/usr/share/icons/Papirus-Dark/16x16/devices/keyboard.svg",
-		})
-		is_using_semimak = not is_using_semimak
-	end, {
-		group = "User",
-		description = "Switch between keyboard layouts",
-	}),
-	awful.key({ modkey, "Shift" }, "p", function()
-		require("subcomponents.quick_menu").power()
-	end, {
-		group = "User",
-		description = "Toggle powermenu",
-	}),
 	awful.key(
 		{ modkey },
 		"Print",
-		require("misc.libs.screenshot").selection,
+		function()
+			awful.spawn.with_shell([[ scrot -s -b ~/screenshot.png ]])
+		end,
 		{ description = "Take Screenshot (selection)", group = "User" }
 	),
-	awful.key({ modkey, "Shift" }, "Print", function()
-		require("subcomponents.quick_menu").screenshot()
-	end, {
-		description = "Take Screenshot (menu)",
-		group = "User",
-	}),
-	awful.key({ modkey }, "w", function()
-		awful.spawn.with_shell("firefox -P default-release")
-	end, {
-		description = "Open Web Browser",
-		group = "User",
-	}),
-	awful.key({ modkey, "Shift" }, "e", function()
-		awful.spawn("bash " .. user_home .. "/Documents/Scripts/emoji")
-	end, {
-		group = "User",
-		description = "Emoji Picker",
-	}),
 	awful.key({ modkey }, "d", function()
-		require("subcomponents.menu").launcher:toggle()
+		require("components.menu").launcher:toggle()
 	end, {
 		description = "Launch Dmenu (Run)",
 		group = "User",
 	}),
 
-	-- BLING TABS {{{
 	awful.key({ modkey, "Shift" }, "t", function()
 		bling.module.tabbed.pick()
 	end, {
@@ -84,9 +31,7 @@ globalkeys = gears.table.join(
 		description = "Remove tab from tabbing group",
 		group = "User",
 	}),
-	-- }}}
 
-	-- }}}
 	awful.key({ modkey }, "s", hotkeys_popup.show_help, {
 		description = "show help",
 		group = "awesome",

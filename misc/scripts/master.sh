@@ -1,34 +1,46 @@
 #!/usr/bin/env sh
 
-# Setup Colemak
+# Setup Colemak & Picom
 case $1 in
 	launch)
-		killall picom
+		printf "
+\e[1mLAUNCH TASK:\e[0m
+- Killing Picom\n"
+		pkill -e picom
+		printf "\n- Setting Colemak Keyboard Layout\n"
 		xmodmap $( dirname $0 )/xmodmap.colemak && xset r 66
-		picom -c -C --blur-method kernel --blur-background
+		printf "\n- Launching Picom\n\n"
+		(setsid picom -c -C 2> /dev/null &) # Fork so the shell can die.
 		exit
 		;;
 esac
 
 # -- ALIASES & SETUP -- 
 
-alias vim=nvim
-alias clojure="XDG_CONFIG_HOME=\$HOME/.config clojure"
-alias wget="wget --hsts-file /dev/null"
-alias gitFixup="git commit --fixup=HEAD"
-alias fileSize="du -sh "
-alias screenshot='import -window $(xwininfo | grep -Eom1 "0x[0-9]+") -frame -border ~/screenshot.png'
-alias vimDiff="nvim -d"
+alias vim='nvim'
+alias rm='rm -v'
+alias cp='cp -v'
+alias wget='wget --hsts-file /dev/null' # Disable Wget History
+alias gitFixup='git commit --fixup=HEAD'
+alias fileSize='du -sh'
+alias screenshot='scrot -s -b ~/screenshot.png'
+alias mupdf='mupdf -C f0f0f0' # Background Tint
+alias killall='pkill'
+alias winHome='cd "/mnt/c/Users/David Noronha"'
 
 # Enable Auto Directory Change
 case $SHELL in
 	*bash) 
-		shopt -s autocd
+		shopt -s autocd # Allow Changing Directory Without Explicit cd
+		shopt -s globstar # Make ** actually work.
 esac
 
 export LESSHISTFILE=- # Disable Less History
+export HISTFILE= # Disable History File
 export PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin" # Path
 export PS1="\[\e[36m\]\w\[\e[m\] \[\e[32m\]->\[\e[m\] " # Prompt
+export EDITOR="nvim" # Set Editor
+bind 'set enable-bracketed-paste on' # Enable Bracket Paste Mode
 
 case "$(uname -r)" in
 	*microsoft-standard-WSL2)
@@ -47,60 +59,41 @@ esac
 
 # -- FUNCTIONS --
 
-github_ssh_setup () {
-	printf "Email: "
-	read -r email
-	
-	echo "Generate SSH Key..."
-	ssh-keygen -t ed25519 -C "$email"
-
-	echo "Starting ssh-agent & adding key"
-	eval "$(ssh-agent -s)"
-	ssh-add ~/.ssh/id_ed25519
-
-	echo "Copy paste the following to github:"
-	cat ~/.ssh/id_ed25519.pub
+# Memory Usage
+memoryUsage () {
+	ps_mem -p "$(pgrep "$1")"
 }
-
-git_squash_from () {
-    COMMIT_TO_SQUASH=$1
-    SQUASH_MESSAGE=$2
-
-    STARTING_BRANCH=$(git rev-parse --abbrev-ref HEAD) # This will be overwritten
-    CURRENT_HEAD=$(git rev-parse HEAD)
-
-    echo From $CURRENT_HEAD to the successor of  $COMMIT_TO_SQUASH will retain, from $COMMIT_TO_SQUASH to beginging will be squashed
-
-    git checkout $COMMIT_TO_SQUASH
-    git reset $(git commit-tree HEAD^{tree} -m "$SQUASH_MESSAGE")
-    git cherry-pick $CURRENT_HEAD...$COMMIT_TO_SQUASH
-    git branch -D $STARTING_BRANCH
-    git checkout -b $STARTING_BRANCH    
-}
-
 
 # Symlink Files
 symlink () {
-	ln -s "$(realpath $1)" "$(realpath $2)"
+	ln -s "$(realpath "$1")" "$(realpath "$2")"
 }
 
 # Search In Files
 ack () {
-	grep -rs --color=always "$1" "${2:-.}"
+	grep -rs --color=always "$2"-- "$1"
+}
+
+# Use Nvim's Manpager as its simply better than less
+man () {
+	nvim +"Man $*" +"only"
 }
 
 # Compress File / Folder
 compress () {
 	tar_f=$(mktemp)
+	# Tar if is directory
 	if [ -d "$1" ]; then
 		tar -cf "$tar_f" "$1"
 	else
 		tar_f=$1
 	fi
+	# Maximum compression
 	zstd -22 --ultra -T0 -z "$tar_f" -o "$(basename "$1").tar.zst"
 	rm $tar_f
 }
 
-key_names () {
+# Get X11 Keynames & Numbers (From Arch Wiki)
+keyNames () {
 	xev | awk -F'[ )]+' '/^KeyPress/ { a[NR+2] } NR in a { printf "%-3s %s\n", $5, $8 }'
 }

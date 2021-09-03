@@ -9,7 +9,11 @@ vim.opt.wrap = false
 -- Line Number & Sign Column
 vim.opt.number = true
 vim.opt.signcolumn = "number"
+
+-- Colorscheme
 vim.opt.termguicolors = true
+vim.cmd [[ syntax on ]]
+vim.g.colors_name = "base16-tomorrow-night"
 
 -- Completion
 vim.o.completeopt = "menuone,noselect"
@@ -22,8 +26,8 @@ vim.opt.shiftwidth = 4
 vim.opt.laststatus = 0
 
 -- Indent Line
-vim.opt.list = true
-vim.opt.listchars = { tab = "│ " }
+--vim.opt.list = true
+--vim.opt.listchars = { tab = "│ " }
 
 -- Split below
 vim.opt.splitbelow = true
@@ -35,20 +39,10 @@ vim.opt.foldmethod = "marker"
 vim.opt.rulerformat = "%l,%c %{&filetype}"
 vim.opt.statusline = "⠀"
 
--- ALE Linters
-M.linters = {
-	typescript = { "tsserver" },
-	c = { "clangd" },
-}
-
 -- Colorscheme
 vim.opt.background = "dark"
-vim.opt.termguicolors = true
 
-vim.cmd [[ 
-colorscheme base16-tomorrow-night
-]]
-
+-- Nvim Tree
 vim.g.nvim_tree_show_icons = {
 	git = 0,
 	folders = 1,
@@ -59,15 +53,48 @@ vim.g.nvim_tree_auto_close = 1
 vim.g.nvim_tree_width = 25
 vim.g.nvim_tree_icon_padding = "  "
 
--- Disable Default Vim Plugins
-vim.g.loaded_gzip = 0
-vim.g.loaded_tar = 0
-vim.g.loaded_tarPlugin = 0
-vim.g.loaded_zipPlugin = 0
-vim.g.loaded_2html_plugin = 0
-vim.g.loaded_netrw = 0
-vim.g.loaded_netrwPlugin = 0
-vim.g.loaded_spec = 0
-vim.g.loaded_syncolor = 0
+-- Disable Default Nvim Plugins
+vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_gzip = 1
+vim.g.loaded_zip = 1
+vim.g.loaded_zipPlugin = 1
+vim.g.loaded_tarPlugin = 1
+vim.g.loaded_tar = 1
+vim.g.loaded_tutor_mode_plugin = 1
+vim.g.loaded_2html_plugin = 1
+
+-- LSP Setup
+function M.setup_lsp()
+	local lua_lsp_location = "/home/david/builds/lua-language-server" 
+	local lua_lsp_runtime_path = vim.split(package.path, ";")
+	lua_lsp_runtime_path[#lua_lsp_runtime_path+1] = "lua/?.lua"
+	lua_lsp_runtime_path[#lua_lsp_runtime_path+1] = "lua/?/init.lua"
+
+	local lsp = require("lspconfig")
+	lsp.tsserver.setup({})
+	lsp.rust_analyzer.setup({})
+	lsp.sumneko_lua.setup {
+		cmd = { lua_lsp_location.."/bin/Linux/lua-language-server", "-E", lua_lsp_location .. "/main.lua" },
+		settings = {
+			Lua = {
+				runtime = {
+					version = 'Lua 5.3',
+					path = lua_lsp_runtime_path
+				},
+				diagnostics = {
+					enable = false
+				},
+				workspace = {
+					library = {
+						[vim.fn.expand "$VIMRUNTIME/lua"] = true,
+						[vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+						["/home/david/builds/awesome/lib"] = true -- Add awesomewm sources.
+					}
+				}
+			}
+		},
+		root_dir = require('lspconfig.util').root_pattern('.git', 'rc.lua')
+	}
+end
 
 return M

@@ -1,8 +1,3 @@
----------------------------
--- Default awesome theme --
----------------------------
-
-local theme_assets = require("beautiful.theme_assets")
 local rgba = require("misc.libs.stdlib").rgba
 local dpi = require("beautiful.xresources").apply_dpi
 --local user_home = os.getenv("HOME")
@@ -85,8 +80,8 @@ theme.titlebar_fg = theme.fg_normal
 -- Assets
 theme.wallpaper = themes_path .. "theme/assets/wallpaper.png"
 
-theme.titlebar_close_button_normal = themes_path .. "theme/assets/close-focus.svg"
-theme.titlebar_close_button_focus = themes_path .. "theme/assets/close-normal.svg"
+theme.titlebar_close_button_normal = themes_path .. "theme/assets/close-normal.svg"
+theme.titlebar_close_button_focus = themes_path .. "theme/assets/close-focus.svg"
 
 theme.layout_floating = themes_path .. "theme/assets/layouts/floating.png"
 theme.layout_tile = themes_path .. "theme/assets/layouts/tile.png"

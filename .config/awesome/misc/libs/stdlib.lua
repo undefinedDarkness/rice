@@ -12,7 +12,6 @@ function M.contains(_table, _c)
 end
 
 -- }}}
-
 -- Text & Color {{{
 
 function M.colorify(color, txt)

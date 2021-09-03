@@ -1,5 +1,18 @@
 local naughty = require("naughty")
 
+function set_wallpaper(s, wallpaper)
+	if wallpaper then
+		if type(wallpaper) == "function" then
+			wallpaper = wallpaper(s)
+		end
+		gears.wallpaper.maximized(wallpaper, s, true)
+	end
+end
+
+screen.connect_signal("request::wallpaper", function(s)
+	set_wallpaper(s, beautiful.wallpaper)
+end)
+
 -- Errors
 if awesome.startup_errors then
 	naughty.notify({
@@ -35,7 +48,7 @@ root.buttons(gears.table.join(
 		for _, v in ipairs(clients) do
 			v.minimized = true
 		end
-		require("subcomponents.menu").qmenu:toggle()
+		require("components.menu").qmenu:toggle()
 	end),
 	awful.button({}, mouse.SCROLL_UP, awful.tag.viewnext),
 	awful.button({}, mouse.SCROLL_DOWN, awful.tag.viewprev)
@@ -72,39 +85,7 @@ awful.rules.rules = {
 			placement = awful.placement.no_overlap + awful.placement.no_offscreen,
 		},
 	},
-	-- Floating clients.
-	{
-		rule_any = {
-			instance = {
-				"DTA", -- Firefox addon DownThemAll.
-				"copyq", -- Includes session name in class.
-				"pinentry",
-			},
-			class = {
-				"Arandr",
-				"Blueman-manager",
-				"Gpick",
-				"Kruler",
-				"MessageWin", -- kalarm.
-				"Sxiv",
-				"Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
-				"Wpa_gui",
-				"veromix",
-				"xtightvncviewer",
-			},
-			-- Note that the name property shown in xprop might be set slightly after creation of the client
-			-- and the name shown there might not match defined rules here.
-			name = {
-				"Event Tester", -- xev.
-			},
-			role = {
-				"AlarmWindow", -- Thunderbird's calendar.
-				"ConfigManager", -- Thunderbird's about:config.
-				"pop-up", -- e.g. Google Chrome's (detached) Developer Tools.
-			},
-		},
-		properties = { floating = true },
-	},
+
 	-- Add titlebars to normal clients and dialogs
 	{
 		rule_any = {

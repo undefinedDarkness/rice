@@ -11,7 +11,9 @@ return packer.startup(function()
 		"onsails/lspkind-nvim",
 		after = "nvim-lspconfig",
 		config = function()
-			require("lspkind").init({})
+			require("lspkind").init({
+				with_text = false
+			})
 		end,
 	})
 
@@ -19,20 +21,15 @@ return packer.startup(function()
 	use({
 		"kyazdani42/nvim-tree.lua",
 		cmd = "NvimTreeToggle",
-		requires = 'kyazdani42/nvim-web-devicons'
+		requires = { { 'kyazdani42/nvim-web-devicons', opt = true } }
 	})
 
 	-- Language Server Configurations
 	use({
 		"neovim/nvim-lspconfig",
-		ft = { "css", "typescript", "rust", "c", "go" },
+		ft = { "typescript", "rust", "lua" },
 		config = function()
-			local lsp = require("lspconfig")
-			lsp.cssls.setup({})
-			lsp.tsserver.setup({})
-			lsp.gopls.setup({})
-			lsp.rust_analyzer.setup({})
-			lsp.clangd.setup({})
+			require("platform").setup_lsp()
 		end,
 	})
 
@@ -42,15 +39,14 @@ return packer.startup(function()
 		after = "nvim-lspconfig",
 		config = function()
 			require("compe").setup({
-				enabled = true,
-				autocomplete = true,
 				source = {
-					path = { kind = "" },
-					nvim_lsp = { kind = "" },
+					path = true,
+					nvim_lsp = true,
 					ultisnips = false,
 					luasnip = false,
-					nvim_lua = { kind = "" },
+					spell = true
 				},
+				max_menu_width = 0
 			})
 		end,
 	})
@@ -67,12 +63,12 @@ return packer.startup(function()
 	use({
 		"dense-analysis/ale",
 		on = "BufReadPost",
-		ft = { "sh", "lua", "clojure" },
+		ft = { "sh", "lua" },
 	})
 
 	use({
 		'bhurlow/vim-parinfer',
-		ft = { 'lisp', 'clojure' }
+		ft = { 'lisp', 'clojure', 'yuck' }
 	})
 
 	-- Terminal
@@ -86,7 +82,7 @@ return packer.startup(function()
 		"ap/vim-css-color",
 		ft = { "yaml", "css", "html", "text", "lua", "cpp" },
 		config = function()
-		vim.cmd [[ au FileType lua call css_color#init('hex', 'none', 'luaString,luaComment,luaString2') ]]
+			vim.cmd [[ au FileType lua call css_color#init('hex', 'none', 'luaString,luaComment,luaString2') ]]
 		end
 	})
 

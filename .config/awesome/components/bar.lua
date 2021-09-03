@@ -1,15 +1,4 @@
-function set_wallpaper(s, wallpaper)
-	if wallpaper then
-		if type(wallpaper) == "function" then
-			wallpaper = wallpaper(s)
-		end
-		gears.wallpaper.maximized(wallpaper, s, true)
-	end
-end
 
-screen.connect_signal("request::wallpaper", function(s)
-	set_wallpaper(s, beautiful.wallpaper)
-end)
 
 screen.connect_signal("request::desktop_decoration", function(s)
 	awful.tag(workspaces, s, awful.layout.layouts[1])
@@ -93,7 +82,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
 						},
 						widget = wibox.container.margin,
 						margins = dpi(8),
-						draw_empty = false
+						--draw_empty = false
 					},
 					widget = wibox.container.background,
 					bg = "#1d1f21",
@@ -117,8 +106,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
 									forced_height = 20,
 								}),
 								widget = wibox.container.margin,
-								left = 5,
-								right = 5,
+								left = 8,
+								right = 8,
 							},
 							clock,
 							layout = wibox.layout.fixed.horizontal,
