@@ -59,16 +59,15 @@ return packer.startup(function()
 			require('nvim_comment').setup()
 		end
 	})
-
-	use({
-		"dense-analysis/ale",
-		on = "BufReadPost",
-		ft = { "sh", "lua" },
-	})
-
+	
 	use({
 		'bhurlow/vim-parinfer',
 		ft = { 'lisp', 'clojure', 'yuck' }
+	})
+
+	use({
+		'mh21/errormarker.vim',
+		ft = { 'sh' }
 	})
 
 	-- Terminal

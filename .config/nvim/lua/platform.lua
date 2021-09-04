@@ -63,6 +63,10 @@ vim.g.loaded_tar = 1
 vim.g.loaded_tutor_mode_plugin = 1
 vim.g.loaded_2html_plugin = 1
 
+-- Set error format symbols
+vim.g.errormarker_errortext = "W"
+vim.g.errormarker_warningtext = "W"
+
 -- LSP Setup
 function M.setup_lsp()
 	local lua_lsp_location = "/home/david/builds/lua-language-server" 

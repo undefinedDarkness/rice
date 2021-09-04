@@ -1,1 +1,9 @@
 tldr
+nvim
+lua
+autocommand
+figlet
+netrw
+endfunction
+augroup
+autocmd

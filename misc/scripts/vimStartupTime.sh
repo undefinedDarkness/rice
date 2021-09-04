@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
-# shellcheck disable=2059
 basename() {
 	if [ -z "${NO_TRIM_PATHS:-}" ]; then
 		dir=${1%${1##*[!/]}}
@@ -18,14 +17,7 @@ Raw output file: \033[3m$f\033[0m
 
 "
 
-case $1 in
-	"--no-exit")
-		nvim --startuptime "$f" 
-		;;
-	*)
-		nvim --startuptime "$f" +q
-		;;
-esac
+nvim --startuptime "$f" "$@"
 
 final_t=$(tail -n1 "$f")
 final_t=${final_t%% *}
@@ -65,7 +57,7 @@ while read -r line; do
 	ll=$line
 done < "$f"
 
-# rm "$f"
+[ -z "${NO_CLEAN:-}" ] && rm "$f"
 }
 li=0
 cols=$(stty size)

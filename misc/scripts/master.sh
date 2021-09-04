@@ -17,9 +17,10 @@ esac
 
 # -- ALIASES & SETUP -- 
 
-alias vim='nvim'
 alias rm='rm -v'
 alias cp='cp -v'
+alias grep='grep --color=always'
+alias vim='nvim'
 alias wget='wget --hsts-file /dev/null' # Disable Wget History
 alias gitFixup='git commit --fixup=HEAD'
 alias fileSize='du -sh'
