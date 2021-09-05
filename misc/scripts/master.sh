@@ -23,11 +23,9 @@ alias grep='grep --color=always'
 alias vim='nvim'
 alias wget='wget --hsts-file /dev/null' # Disable Wget History
 alias gitFixup='git commit --fixup=HEAD'
-alias fileSize='du -sh'
 alias screenshot='scrot -s -b ~/screenshot.png'
 alias mupdf='mupdf -C f0f0f0' # Background Tint
 alias killall='pkill'
-alias winHome='cd "/mnt/c/Users/David Noronha"'
 
 # Enable Auto Directory Change
 case $SHELL in
@@ -97,4 +95,13 @@ compress () {
 # Get X11 Keynames & Numbers (From Arch Wiki)
 keyNames () {
 	xev | awk -F'[ )]+' '/^KeyPress/ { a[NR+2] } NR in a { printf "%-3s %s\n", $5, $8 }'
+}
+
+# Git Commit
+gitCommit () {
+	o=""
+	for i in $@; do
+		o="$o -m $i"
+	done
+	git commit $o
 }

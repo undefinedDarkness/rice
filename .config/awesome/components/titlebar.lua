@@ -58,7 +58,7 @@ client.connect_signal("request::titlebars", function(c)
 						widget = wibox.container.constraint,
 						width = 20,
 						height = 20,
-						id = "click_role",
+						id = "bg_role",
 						update_callback = function(widget, client, group)
 							local im = widget.children[1]
 							if client == group.clients[group.focused_idx] then

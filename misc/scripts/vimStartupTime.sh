@@ -23,6 +23,8 @@ final_t=$(tail -n1 "$f")
 final_t=${final_t%% *}
 printf "\033[1mTotal Time\033[0m: ${final_t}ms\n"
 
+[ -n "${NO_LONG:-}" ] && exit
+
 main () {
 li=0
 ll=

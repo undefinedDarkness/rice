@@ -51,7 +51,7 @@ vim.g.nvim_tree_show_icons = {
 }
 vim.g.nvim_tree_auto_close = 1
 vim.g.nvim_tree_width = 25
-vim.g.nvim_tree_icon_padding = "  "
+vim.g.nvim_tree_icon_padding = " "
 
 -- Disable Default Nvim Plugins
 vim.g.loaded_netrwPlugin = 1
@@ -63,9 +63,14 @@ vim.g.loaded_tar = 1
 vim.g.loaded_tutor_mode_plugin = 1
 vim.g.loaded_2html_plugin = 1
 
--- Set error format symbols
-vim.g.errormarker_errortext = "W"
-vim.g.errormarker_warningtext = "W"
+-- Set GCC Warning / Error Format
+vim.opt.errorformat = "%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," .. vim.api.nvim_get_option("errorformat")
+
+-- Modify Some Highlight Groups
+vim.cmd [[
+	hi ErrorMsg guibg=#282a2e guifg=#cc6666
+	hi WarningMsg guibg=#282a2e guifg=#f0c674
+]]
 
 -- LSP Setup
 function M.setup_lsp()

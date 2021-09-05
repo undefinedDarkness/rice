@@ -4,7 +4,7 @@ local packer = require("packer")
 return packer.startup(function()
 	use({
 		"wbthomason/packer.nvim",
-		on = 'VimEnter'
+		cmd = { "PackerSync", "PackerCompile" }
 	})
 
 	use({
@@ -66,7 +66,10 @@ return packer.startup(function()
 	})
 
 	use({
-		'mh21/errormarker.vim',
+		'$XDG_CONFIG_HOME/nvim/error_marker',
+		config = function()
+			require('error_marker')()
+		end,
 		ft = { 'sh' }
 	})
 
