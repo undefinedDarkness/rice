@@ -17,7 +17,7 @@ local options = {
 function _G.errorMarkerUpdate()
 	-- Remove old signs
 	for _, v in ipairs(pos) do
-		sign.unplace(v)	
+		sign.unplace('', { id = v })	
 	end
 	pos = {}
 
@@ -40,12 +40,11 @@ end
 function _G.errorMarkerShowMessage()
 	local bufnr = vim.fn.bufnr("%")
 	local lnum = vim.fn.line(".")
+	--print(" ")
 	for _, v in ipairs(vim.fn.getqflist()) do
 		if bufnr == v.bufnr and v.lnum == lnum then
 			print(v.text)
 			return
-		else
-			print(" ")
 		end
 	end
 end

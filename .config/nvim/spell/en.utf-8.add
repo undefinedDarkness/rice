@@ -7,3 +7,7 @@ netrw
 endfunction
 augroup
 autocmd
+js
+colorscheme
+firefox
+debian

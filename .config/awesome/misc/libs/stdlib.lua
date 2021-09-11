@@ -1,4 +1,11 @@
+local Gtk = require("lgi").Gtk
+local Gio = require("lgi").Gio
 local M = {}
+
+function M.gtk_lookup_icon(icon_name, size)
+	local theme = Gtk.IconTheme.get_default()
+	return theme:lookup_icon(icon_name, size or 24, {})
+end
 
 -- Table Manipulation {{{
 
@@ -20,15 +27,6 @@ end
 
 function M.rgba(r, g, b, a)
 	return string.format("#%02x%02x%02x%x", r, g, b, math.ceil(a * 255))
-end
-
-function M.trim_long(x, max_len)
-	max_len = max_len or 25
-	if string.len(x) > max_len then
-		return string.sub(x, 0, max_len)
-	else
-		return x
-	end
 end
 
 -- }}}
@@ -59,15 +57,15 @@ function M.force_right(x)
 	})
 end
 
-function M.contain_image(i, s)
+function M.contain_image(i, w, h)
 	return wibox.widget({
 		{
 			widget = wibox.widget.imagebox,
 			image = i,
 		},
 		widget = wibox.container.constraint,
-		width = s,
-		height = s,
+		width = w or 200,
+		height = h or w or 200,
 	})
 end
 
@@ -114,4 +112,5 @@ function M.rounded(r)
 end
 
 -- }}}
+
 return M

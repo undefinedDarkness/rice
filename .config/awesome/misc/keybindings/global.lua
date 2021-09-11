@@ -4,14 +4,12 @@ local tabbed = bling.module.tabbed
 
 globalkeys = gears.table.join(
 
-	awful.key(
-		{ modkey },
-		"Print",
-		function()
-			awful.spawn.with_shell([[ scrot -s -b ~/screenshot.png ]])
-		end,
-		{ description = "Take Screenshot (selection)", group = "User" }
-	),
+	awful.key({ modkey }, "Print", function()
+		awful.spawn.with_shell([[ scrot -s -b ~/screenshot.png ]])
+	end, {
+		description = "Take Screenshot (selection)",
+		group = "User",
+	}),
 	awful.key({ modkey }, "d", function()
 		require("components.menu").launcher:toggle()
 	end, {

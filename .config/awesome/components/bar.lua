@@ -1,5 +1,3 @@
-
-
 screen.connect_signal("request::desktop_decoration", function(s)
 	awful.tag(workspaces, s, awful.layout.layouts[1])
 
@@ -23,11 +21,15 @@ screen.connect_signal("request::desktop_decoration", function(s)
 
 	s.activetext = wibox.widget({
 		widget = wibox.widget.textbox,
-		font = "JetBrains Mono 11"
+		font = "JetBrains Mono 11",
 	})
 	s.activetext:connect_signal("property::text", function()
-		if string.len(s.activetext.text) > 0 then
-			s.activetext.markup = " " .. s.activetext.text -- This is such a big brain solution!
+		local x = s.activetext.text
+		if #x > 0 then
+			if #x > 25 then
+				x = string.sub(x, 0, 25)
+			end
+			s.activetext.markup = " " .. x .. " " -- This is such a big brain solution!
 		end
 	end)
 
@@ -59,6 +61,23 @@ screen.connect_signal("request::desktop_decoration", function(s)
 		end,
 	})
 
+	s.left_mod = wibox.widget({
+		{
+			{
+				{
+					s.activetext,
+					require("subcomponents.tasklist")(s),
+					layout = wibox.layout.fixed.horizontal,
+				},
+				widget = wibox.container.margin,
+				margins = dpi(5),
+			},
+			widget = wibox.container.background,
+			bg = "#1d1f21",
+		},
+		layout = wibox.layout.fixed.horizontal,
+	})
+
 	-- Create the wibox
 	s.mywibar = awful.popup({
 		placement = function(c)
@@ -74,18 +93,11 @@ screen.connect_signal("request::desktop_decoration", function(s)
 		widget = {
 			{
 				{
-					{
-						{
-							require("subcomponents.tasklist")(s),
-							s.activetext, 
-							layout = wibox.layout.fixed.horizontal,
-						},
-						widget = wibox.container.margin,
-						margins = dpi(8),
-						--draw_empty = false
-					},
+					s.left_mod,
 					widget = wibox.container.background,
-					bg = "#1d1f21",
+					border_width = 1,
+                    bg = beautiful.transparent,
+					border_color = "#373b41",
 					shape = function(cr, w, h)
 						gears.shape.rounded_rect(cr, w, h, 5)
 					end,
@@ -120,6 +132,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
 					shape = function(cr, w, h)
 						gears.shape.rounded_rect(cr, w, h, 5)
 					end,
+					border_width = 1,
+					border_color = "#373b41",
 				},
 				widget = wibox.container.place,
 				halign = "bottom",

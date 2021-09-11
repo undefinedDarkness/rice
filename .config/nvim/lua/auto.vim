@@ -3,7 +3,7 @@ au TermOpen * setlocal nonumber
 
 augroup on_read
 	" File type Support
-	au BufRead,BufNewFile *.fmt.txt set filetype=html
+	au BufRead,BufNewFile *.fmt.txt set filetype=markdown
 	au BufRead,BufNewFile *.svelte set filetype=html
 augroup END
 

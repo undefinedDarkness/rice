@@ -3,14 +3,13 @@ local naughty = require("naughty")
 local C = require("misc.libs.stdlib")
 
 naughty.connect_signal("request::display", function(n)
-	require("awful").screen.focused().activetext.markup = '<b>' .. (n.title or n.app_name) .. '</b>: ' .. n.message
+	require("awful").screen.focused().activetext.markup = "<b>" .. (n.title or n.app_name) .. "</b>: " .. n.message
 
-	gears.timer {
+	gears.timer({
 		timeout = 30,
-		autostart= true,
+		autostart = true,
 		callback = function()
-			require("awful").screen.focused().activetext.markup = ''	
-		end
-	}
-
+			require("awful").screen.focused().activetext.markup = ""
+		end,
+	})
 end)

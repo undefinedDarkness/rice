@@ -12,6 +12,7 @@ local launcher = awful.popup({
 	placement = awful.placement.left + awful.placement.maximize_vertically,
 	type = "dock",
 	bg = "#282a2e",
+	--ontop = true,
 	widget = {
 		{ list, widget = wibox.container.margin, margins = 8 },
 		widget = wibox.container.constraint,
@@ -24,11 +25,11 @@ function update_selected(new_idx)
 	-- If is > then wrap around to start
 	if new_idx > #list.children then
 		new_idx = 1
-	-- Wrap the other way around
+		-- Wrap the other way around
 	elseif new_idx < 1 then
 		new_idx = #list.children
 	end
-	
+
 	-- Reset every background
 	for _, elem in ipairs(list.children) do
 		elem.bg = "#00000000"
@@ -94,7 +95,7 @@ function launcher.toggle(l)
 				{},
 				"Return",
 				function()
-					awful.spawn.easy_async_with_shell(list.children[selected_idx].cmd)
+					awful.spawn.with_shell(list.children[selected_idx].cmd)
 					grabber:stop()
 				end,
 			},

@@ -16,6 +16,7 @@ return function(s)
 				layout = wibox.layout.fixed.horizontal,
 				spacing = 8,
 			},
+			-- TODO: Center client!
 			widget_template = {
 				{
 					{
@@ -28,11 +29,11 @@ return function(s)
 						height = 20,
 					},
 					widget = wibox.container.margin,
-					margins = 3,
+					margins = 5,
 				},
 				widget = wibox.container.background,
 				id = "background_role",
-				update_callback = require("misc.libs.bling.widget.tabbed_misc").custom_tasklist 
+				update_callback = require("misc.libs.bling.widget.tabbed_misc").custom_tasklist,
 			},
 			buttons = {
 				awful.button({}, 1, function(c)

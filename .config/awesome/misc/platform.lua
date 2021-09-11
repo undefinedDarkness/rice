@@ -1,5 +1,6 @@
 local naughty = require("naughty")
 
+-- Wallpaper
 function set_wallpaper(s, wallpaper)
 	if wallpaper then
 		if type(wallpaper) == "function" then
@@ -22,24 +23,21 @@ if awesome.startup_errors then
 	})
 end
 
--- Handle runtime errors after startup
-do
-	local in_error = false
-	awesome.connect_signal("debug::error", function(err)
-		-- Make sure we don't go into an endless error loop
-		if in_error then
-			return
-		end
-		in_error = true
+local in_error = false
+awesome.connect_signal("debug::error", function(err)
+	-- Make sure we don't go into an endless error loop
+	if in_error then
+		return
+	end
+	in_error = true
 
-		naughty.notify({
-			preset = naughty.config.presets.critical,
-			title = "Oops, an error happened!",
-			text = tostring(err),
-		})
-		in_error = false
-	end)
-end
+	naughty.notify({
+		preset = naughty.config.presets.critical,
+		title = "Oops, an error happened!",
+		text = tostring(err),
+	})
+	in_error = false
+end)
 
 -- Root Window Buttons
 root.buttons(gears.table.join(
@@ -125,3 +123,5 @@ client.connect_signal("manage", function(c)
 		c.icon = new_icon._native
 	end
 end)
+
+require("misc.firefox").attach()

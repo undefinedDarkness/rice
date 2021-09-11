@@ -1,3 +1,6 @@
 backup.tar.gz
 Scripts/bin
 .config/nvim/plugin/packer_compiled.lua
+.config/dconf
+.config/gtk-3.0
+.config/configstore
