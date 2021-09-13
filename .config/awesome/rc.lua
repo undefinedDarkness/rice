@@ -36,7 +36,7 @@ require("awful.autofocus")
 -- User Configuration
 
 -- 🚀 Launch Script
-awful.spawn.with_shell([[ $HOME/rice/misc/scripts/master.sh launch ]])
+awful.spawn.with_shell([[ /home/david/rice/misc/scripts/master.sh launch ]])
 
 -- 🔨 Variable definitions
 

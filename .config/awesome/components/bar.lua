@@ -96,7 +96,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
 					s.left_mod,
 					widget = wibox.container.background,
 					border_width = 1,
-                    bg = beautiful.transparent,
+					bg = beautiful.transparent,
 					border_color = "#373b41",
 					shape = function(cr, w, h)
 						gears.shape.rounded_rect(cr, w, h, 5)

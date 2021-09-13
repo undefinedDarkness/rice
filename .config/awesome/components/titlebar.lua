@@ -51,6 +51,7 @@ client.connect_signal("request::titlebars", function(c)
 			-- Titlebar Indicator
 			{
 				{
+					require("misc.firefox").x(c),
 					require("misc.libs.bling.widget.tabbed_misc").titlebar_indicator(c, {
 						widget_template = {
 							{

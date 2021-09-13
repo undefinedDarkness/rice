@@ -124,4 +124,4 @@ client.connect_signal("manage", function(c)
 	end
 end)
 
-require("misc.firefox").attach()
+-- require("misc.firefox").attach()

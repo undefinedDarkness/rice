@@ -7,16 +7,6 @@ return packer.startup(function()
 		cmd = { "PackerSync", "PackerCompile" }
 	})
 
-	use({
-		"onsails/lspkind-nvim",
-		after = "nvim-lspconfig",
-		config = function()
-			require("lspkind").init({
-				with_text = false
-			})
-		end,
-	})
-
 	-- Tree / Project Drawer
 	use({
 		"kyazdani42/nvim-tree.lua",
@@ -24,34 +14,12 @@ return packer.startup(function()
 		requires = { { 'kyazdani42/nvim-web-devicons', opt = true } }
 	})
 
-	-- Language Server Configurations
-	use({
-		"neovim/nvim-lspconfig",
-		ft = { "typescript", "rust", "lua" },
-		config = function()
-			require("platform").setup_lsp()
-		end,
-	})
+	-- Code Editing
 
-	-- Auto Completion
-	use({
-		"hrsh7th/nvim-compe",
-		after = "nvim-lspconfig",
-		config = function()
-			require("compe").setup({
-				source = {
-					path = true,
-					nvim_lsp = true,
-					ultisnips = false,
-					luasnip = false,
-					spell = true
-				},
-				max_menu_width = 0
-			})
-		end,
-	})
+	-- Error Checking
+	use "gpanders/editorconfig.nvim"
 
-	-- Code Editiing
+	-- Comment
 	use({
 		"terrortylor/nvim-comment",
 		keys = "gc",
@@ -60,17 +28,19 @@ return packer.startup(function()
 		end
 	})
 	
+	-- Lisp
 	use({
 		'bhurlow/vim-parinfer',
 		ft = { 'lisp', 'clojure', 'yuck' }
 	})
 
+	-- Error Marker For :make
 	use({
 		'$XDG_CONFIG_HOME/nvim/error_marker',
 		config = function()
 			require('error_marker')()
 		end,
-		ft = { 'sh' }
+		ft = { 'sh', 'lua' }
 	})
 
 	-- Terminal
@@ -80,6 +50,8 @@ return packer.startup(function()
 	})
 
 	-- Syntax Highlighting
+	
+	-- Highlight Hex Colors
 	use({
 		"ap/vim-css-color",
 		ft = { "yaml", "css", "html", "text", "lua", "cpp" },
@@ -88,8 +60,14 @@ return packer.startup(function()
 		end
 	})
 
+	-- Eww's Configuration Language
 	use({
 		"elkowar/yuck.vim",
 		ft = "yuck"
+	})
+
+	use({
+		"tbastos/vim-lua",
+		ft = "lua"
 	})
 end)

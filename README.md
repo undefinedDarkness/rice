@@ -13,14 +13,16 @@ Using the following software:
 <p>
 
 ```sh
-git clone https://github.com/undefinedDarkness/rice.git # Clone The Repository
-cp -r ./.config/* $XDG_CONFIG_HOME/ # Copy configurations (Please backup existing)
+git clone --depth 1 https://github.com/undefinedDarkness/rice.git # Clone The Repository
+cd rice
+make pre-install
 ```
 
 ### Firefox Tabs
 1. Toggle [Firefox Extension Verification](https://stackoverflow.com/questions/31952727/how-can-i-disable-signature-checking-for-firefox-add-on)
-2. Run `make install` in ./misc/extension
-3. Install extension from ./misc/extension/ext.zip (Install from file)
+2. Flip `svg.context-properties.content.enabled` to true (Important for Firefox CSS)
+3. Run `make install` in ./misc/extension
+4. Install extension from ./misc/extension/ext.zip (Install from file)
 
 </p>
 </details>

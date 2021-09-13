@@ -1,0 +1,90 @@
+.PHONY: clean backup pre-install install fake-install fetch
+
+# Clean up .config
+clean:
+	find .config \
+		-maxdepth 1\
+		-type d\
+		-not -name ".config" -type d\
+		-not -name "awesome" -type d\
+		-not -name "nvim" -type d\
+		-not -name "procps" -type d\
+		-exec rm -rv {} \;
+
+define fetchMessage
+
+          |\      _,,,---,,_
+    ZZZzz /,`.-'`'    -.  ;-;;,_
+         |,4-  ) )-,_. ,\ (  `'-'
+        '---''(_/--'  `-'\_)  
+
+    \e[1mos\e[0m - %s
+    \e[1msz\e[0m - %s
+    \e[1mkr\e[0m - %s
+
+
+endef
+export fetchMessage
+.ONESHELL:
+fetch:
+	@. /etc/os-release
+	@printf "$$fetchMessage"\
+        "$$NAME $$VERSION_ID"\
+        "$$(apt list --installed 2> /dev/null | wc -l)"\
+        "$$(uname -r | grep -Po '\d+.\d+.\d+')"
+
+# Create backup
+backup: clean ../backup.tar.zst
+	tar -cf --exclude-vcs --exclude-vcs-ignores ../backup.tar .
+	zstd -22 --ultra -T0 -z ../backup.tar
+	rm ../backup.tar
+
+# Change XDG variables to try it out
+define fakeInstallMessage
+Run `export XDG_CONFIG_HOME=$(realpath ./.config)`
+Now any applications in the current session will use the configurations from here.
+Use `neovim` to test it out.
+
+endef
+export fakeInstallMessage
+fake-install:
+	@tabs 4
+	@printf "$$fakeInstallMessage"
+
+# Installation
+install:
+	@printf "\nBasic Installation\n"
+	@echo "------------------------"
+	cd .config/awesome;\
+		$(MAKE) -s set-master-location LOCATION=$(realpath ../../misc/scripts/master.sh)
+	git submodule update --init --recursive
+	cp -r .config/* $$XDG_CONFIG_HOME/
+	@printf "\nBuilding Extension\n"
+	@echo "------------------------"
+	cd misc/extension;\
+		$(MAKE) -s install
+	@printf "\nPost Installation\n"
+	@echo "------------------------"
+	git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+		~/.local/share/nvim/site/pack/packer/start/packer.nvim
+	@printf "\n✨ Installation Complete\n"
+
+define preInstallMessage
+ _________________
+|# :           : #|		\e[1m🍜 Installation\e[0m
+|  :           :  |		-----------------
+|  :           :  |		- Please make sure you have backed up any existing configurations!
+|  :           :  |		- You will need the following programs installed:
+|  :___________:  |			firefox(esr), awesome(master), st, python3, make, neovim(0.5+), bash, dbus, git, zip 
+|     _________   |		\e[1m*\e[0m dbus is requried for awesome-client to function (firefox integration)
+|    | __      |  |		\e[1m*\e[0m python3 is requried for the native host to function (firefox integration)
+|    ||  |     |  |		\e[1m*\e[0m st can be swapped with `make set-terminal TERMINAL=...` in ./.config/awesome
+\____||__|_____|__|		- Run `make install` once prepared or `make fake-install` to try it out first
+
+
+endef
+export preInstallMessage
+.DEFAULT_GOAL := pre-install
+pre-install:
+	@tabs 4
+	@printf "$$preInstallMessage"
