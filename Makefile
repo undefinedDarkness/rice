@@ -1,4 +1,4 @@
-.PHONY: clean backup pre-install install fake-install fetch
+.PHONY: clean backup pre-install install session-install fetch
 
 # Clean up .config
 clean:
@@ -47,7 +47,7 @@ Use `neovim` to test it out.
 
 endef
 export fakeInstallMessage
-fake-install:
+session-install:
 	@tabs 4
 	@printf "$$fakeInstallMessage"
 
@@ -61,7 +61,7 @@ install:
 	cp -r .config/* $$XDG_CONFIG_HOME/
 	@printf "\nBuilding Extension\n"
 	@echo "------------------------"
-	cd misc/extension;\
+	cd misc/firefox/extension;\
 		$(MAKE) -s install
 	@printf "\nPost Installation\n"
 	@echo "------------------------"
@@ -75,11 +75,11 @@ define preInstallMessage
 |  :           :  |		-----------------
 |  :           :  |		- Please make sure you have backed up any existing configurations!
 |  :           :  |		- You will need the following programs installed:
-|  :___________:  |			firefox(esr), awesome(master), st, python3, make, neovim(0.5+), bash, dbus, git, zip 
+|  :___________:  |			firefox(esr), awesome(master), st, python3, make, neovim(0.5+), bash, dbus, git, zip, picom
 |     _________   |		\e[1m*\e[0m dbus is requried for awesome-client to function (firefox integration)
 |    | __      |  |		\e[1m*\e[0m python3 is requried for the native host to function (firefox integration)
 |    ||  |     |  |		\e[1m*\e[0m st can be swapped with `make set-terminal TERMINAL=...` in ./.config/awesome
-\____||__|_____|__|		- Run `make install` once prepared or `make fake-install` to try it out first
+\____||__|_____|__|		- Run `make install` once prepared or `make session-install` to try it out first
 
 
 endef

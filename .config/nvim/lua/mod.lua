@@ -8,10 +8,14 @@ return packer.startup(function()
 	})
 
 	-- Tree / Project Drawer
+	use ({
+		'kyazdani42/nvim-web-devicons',
+		opt = true
+	})
 	use({
 		"kyazdani42/nvim-tree.lua",
 		cmd = "NvimTreeToggle",
-		requires = { { 'kyazdani42/nvim-web-devicons', opt = true } }
+		requires = "kyazdani42/nvim-web-devicons"
 	})
 
 	-- Code Editing
@@ -41,6 +45,12 @@ return packer.startup(function()
 			require('error_marker')()
 		end,
 		ft = { 'sh', 'lua' }
+	})
+
+	-- Easy Editing for HTML
+	use({
+		'mattn/emmet-vim',
+		ft = { 'html' }
 	})
 
 	-- Terminal

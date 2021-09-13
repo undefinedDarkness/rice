@@ -51,7 +51,9 @@ vim.g.nvim_tree_show_icons = {
 }
 vim.g.nvim_tree_auto_close = 1
 vim.g.nvim_tree_width = 25
-vim.g.nvim_tree_icon_padding = " "
+vim.g.nvim_tree_icon_padding = "  "
+
+vim.g.user_emmet_leader_key = '<leader>i'
 
 -- Disable Default Nvim Plugins
 vim.g.loaded_netrwPlugin = 1

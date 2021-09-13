@@ -1,3 +1,4 @@
+![rice](https://i.ibb.co/bPyHyT2/s2.png)
 ---
 
 Hello 👋, This is the repository for my debian configuration files,
@@ -21,8 +22,9 @@ make pre-install
 ### Firefox Tabs
 1. Toggle [Firefox Extension Verification](https://stackoverflow.com/questions/31952727/how-can-i-disable-signature-checking-for-firefox-add-on)
 2. Flip `svg.context-properties.content.enabled` to true (Important for Firefox CSS)
-3. Run `make install` in ./misc/extension
-4. Install extension from ./misc/extension/ext.zip (Install from file)
+3. Flip `toolkit.legacyUserProfileCustomizations.stylesheets` to true (Important for Firefox CSS)
+4. Run `make install` in ./misc/extension
+5. Install extension from ./misc/extension/ext.zip (Install from file)
 
 </p>
 </details>
