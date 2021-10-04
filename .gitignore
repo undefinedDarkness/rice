@@ -2,6 +2,8 @@ backup.tar.gz
 Scripts/bin
 colors.txt
 .config/nvim/plugin/packer_compiled.lua
+.config/Thunar
+.config/xfce4
 .config/dconf
 .config/gtk-3.0
 .config/configstore

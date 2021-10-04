@@ -7,7 +7,7 @@ function M.gtk_lookup_icon(icon_name, size)
 	return theme:lookup_icon(icon_name, size or 24, {})
 end
 
--- Table Manipulation {{{
+-- Table Manipulation
 
 function M.contains(_table, _c)
 	for _, c in ipairs(_table) do
@@ -18,8 +18,7 @@ function M.contains(_table, _c)
 	return false
 end
 
--- }}}
--- Text & Color {{{
+-- Text & Color
 
 function M.colorify(color, txt)
 	return '<span color="' .. color .. '">' .. txt .. "</span>"
@@ -29,8 +28,14 @@ function M.rgba(r, g, b, a)
 	return string.format("#%02x%02x%02x%x", r, g, b, math.ceil(a * 255))
 end
 
--- }}}
--- Layout {{{
+function M.title_case(phrase)
+	local result = string.gsub(phrase, "(%a)([%w_']*)", function(first, rest)
+		return first:upper() .. rest:lower()
+	end)
+	return result
+end
+
+-- Layout
 
 function M.force_left(x)
 	return wibox.widget({
@@ -57,20 +62,20 @@ function M.force_right(x)
 	})
 end
 
-function M.contain_image(i, w, h)
+function M.contain_image(i, w, h, opt)
 	return wibox.widget({
-		{
+		gears.table.crush({
+			resize = true,
 			widget = wibox.widget.imagebox,
 			image = i,
-		},
+		}, opt or {}),
 		widget = wibox.container.constraint,
 		width = w or 200,
 		height = h or w or 200,
 	})
 end
 
--- }}}
--- Misc {{{
+-- Misc
 
 -- Courtesy of no37
 function M.hexagon_shape(cr, width, height)
@@ -110,7 +115,5 @@ function M.rounded(r)
 		gears.shape.rounded_rect(cr, w, h, r)
 	end
 end
-
--- }}}
 
 return M

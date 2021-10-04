@@ -15,4 +15,4 @@ require("mod")
 require("bindings")
 
 -- 🛺 Autocommands for convienience
-vim.cmd("source $XDG_CONFIG_HOME/nvim/lua/auto.vim")
+require("auto")

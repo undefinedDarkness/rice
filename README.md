@@ -29,61 +29,6 @@ make pre-install
 </p>
 </details>
 
-<details>
-<summary>File Tree</summary>
-
-```sh
-📂  rice/
-   📂  misc/
-      ├ discord.css # Discord theme
-      └ phocus-gtk-mod.diff # GTK theme modifications
-      📂  extension/ # firefox tabs extension
-      📂  scripts/ # personal scripts
-         ├ master.sh # scripts to be sourced
-         ├ vimStartupTime.sh # vim profiling script
-         └ xmodmap.colemak
-      📂  wallpapers/ # wallpaper collection
-   📂  .config/
-      📂  awesome/ # AwesomeWM configuration
-         └ rc.lua # init
-         📂  components/ # major components
-            ├ bar.lua # wibar
-            ├ menu.lua # right-click menu
-            ├ notifications.lua # notifications
-            └ titlebar.lua # titlebar
-         📂  misc/ # misc parts 
-            ├ firefox.lua # firefox interface
-            └ platform.lua # general awesome setup
-            📂  keybindings/ # keybindings
-               ├ client.lua # for windows
-               └ global.lua # global
-            📂  libs/ # external libraries
-               ├ inspect.lua # lua debugging library
-               ├ json.lua # json parsing library
-               └ stdlib.lua # personal helpers
-               📂  bling/ # bling library
-         📂  subcomponents/ # sub-components to be imported by components
-            ├ taglist.lua # workspace list
-            └ tasklist.lua # app list
-         📂  theme/ # awesomewm theme
-            └ theme.lua # data file
-            📂  assets/ # theme assets
-      📂  nvim/ # NeoVim Config
-         └ init.lua # init 
-         📂  colors/
-            └ base16-tomorrow-night.vim # colorscheme
-         📂  error_marker/ # custom plugin
-         📂  lua/
-            ├ auto.vim # auto commands
-            ├ bindings.lua # key bindings
-            ├ mod.lua # external modules
-            └ platform.lua # general vim settings
-      📂  procps/
-         └ toprc # `top` configuration file
-```
-
-</details>
-
 ## Colors
 This is using the [base16 tomorrow night](http://gg.gg/vyf7h) colorscheme, Its basic colors are:
 <table>

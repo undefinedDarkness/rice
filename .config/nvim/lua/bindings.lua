@@ -15,6 +15,9 @@ bind("", "<F3>", ":update<CR>", true)
 -- File Tree
 bind("n", "<C-f>", ":NvimTreeToggle<CR>", true)
 
+-- Terminal
+bind("n", "<C-t>", ":Term<CR>", true)
+
 -- Indentation
 bind("n", "<leader>t", ":%retab!<CR>gg=G") -- Spaces -> Tabs
-bind("n", "<leader>T", ":set expandtab | :retab<CR>gg=G") -- Tabs -> Spaces
+bind("n", "<leader>T", ":setl expandtab | :retab<CR>gg=G") -- Tabs -> Spaces

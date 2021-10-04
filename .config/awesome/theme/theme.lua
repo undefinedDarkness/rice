@@ -65,7 +65,7 @@ theme.task_preview_widget_bg = "#282828"
 theme.task_preview_widget_border_radius = 8
 
 -- SNAP SETTINGS
-theme.snap_bg = "#ea6962"
+theme.snap_bg = "#f2e9de"
 theme.snap_border_width = dpi(10)
 theme.snap_shape = gears.shape.rectangle
 

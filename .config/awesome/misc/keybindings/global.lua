@@ -11,9 +11,17 @@ globalkeys = gears.table.join(
 		group = "User",
 	}),
 	awful.key({ modkey }, "d", function()
-		require("components.menu").launcher:toggle()
+		local menubar = require("menubar").get(awful.screen.focused())
+		menubar.visible = true
 	end, {
 		description = "Launch Dmenu (Run)",
+		group = "User",
+	}),
+
+	awful.key({ modkey }, "o", function()
+		require("components.overview")(true)
+	end, {
+		description = "Launch tag overview",
 		group = "User",
 	}),
 
@@ -30,9 +38,11 @@ globalkeys = gears.table.join(
 		group = "User",
 	}),
 
-	awful.key({ modkey }, "s", hotkeys_popup.show_help, {
+	awful.key({ modkey }, "s", function()
+		require("subcomponents.keys")()
+	end, {
 		description = "show help",
-		group = "awesome",
+		group = "User",
 	}),
 	awful.key({ modkey }, "Left", awful.tag.viewprev, { description = "view previous", group = "tag" }),
 	awful.key({ modkey }, "Right", awful.tag.viewnext, {
@@ -63,13 +73,13 @@ globalkeys = gears.table.join(
 		awful.screen.focus_relative(1)
 	end, {
 		description = "focus the next screen",
-		group = "screen",
+		group = "awesome",
 	}),
 	awful.key({ modkey, "Control" }, "k", function()
 		awful.screen.focus_relative(-1)
 	end, {
 		description = "focus the previous screen",
-		group = "screen",
+		group = "awesome",
 	}),
 	awful.key({ modkey }, "u", awful.client.urgent.jumpto, {
 		description = "jump to urgent client",
@@ -88,7 +98,7 @@ globalkeys = gears.table.join(
 		awful.spawn(terminal)
 	end, {
 		description = "open a terminal",
-		group = "launcher",
+		group = "User",
 	}),
 	awful.key({ modkey, "Control" }, "r", awesome.restart, {
 		description = "reload awesome",
@@ -157,7 +167,7 @@ globalkeys = gears.table.join(
 		awful.screen.focused().mypromptbox:run()
 	end, {
 		description = "run prompt",
-		group = "launcher",
+		group = "User",
 	}),
 	awful.key({ modkey }, "x", function()
 		awful.prompt.run({

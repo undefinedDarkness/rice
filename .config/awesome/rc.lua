@@ -36,7 +36,7 @@ require("awful.autofocus")
 -- User Configuration
 
 -- 🚀 Launch Script
-awful.spawn.with_shell([[ /home/david/rice/misc/scripts/master.sh launch ]])
+awful.spawn.with_shell([[ $HOME/etc/rice/misc/scripts/master.sh launch ]])
 
 -- 🔨 Variable definitions
 
@@ -46,7 +46,7 @@ terminal = "st"
 modkey = "Mod1"
 
 -- For Convienience
-workspaces = { "", "", "" }
+workspaces = { "Hephaestus", "Apollo", "Hermes" }
 
 mouse.LEFT = 1
 mouse.MIDDLE = 2
@@ -57,6 +57,7 @@ mouse.SCROLL_DOWN = 5
 _nerd_font = "Arimo Nerd Font 12"
 
 -- Window Layouts
+-- TODO: Add some bling layouts, will need icons for those
 tag.connect_signal("request::default_layouts", function()
 	awful.layout.append_default_layouts({
 		awful.layout.suit.floating,
@@ -68,7 +69,7 @@ end)
 -- Load Components
 require("components.titlebar")
 require("components.notifications")
-require("components.bar")
+-- require("components.bar")
 
 -- Load Global Keybindings
 require("misc.keybindings.global")

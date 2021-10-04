@@ -10,11 +10,26 @@ function set_wallpaper(s, wallpaper)
 	end
 end
 
+-- Set Wallpaper
 screen.connect_signal("request::wallpaper", function(s)
-	set_wallpaper(s, beautiful.wallpaper)
+	bling.module.tiled_wallpaper("♜", s, {
+		fg = "#ea9d34",
+		bg = "#faf4ed",
+		offset_y = 25,
+		offset_x = 15,
+		font = "UnifontMedium Nerd Font",
+		font_size = 23,
+		padding = 100,
+		zickzack = true,
+	})
 end)
 
--- Errors
+-- Setup Tags
+screen.connect_signal("request::desktop_decoration", function(s)
+	awful.tag(workspaces, s, awful.layout.layouts[1])
+end)
+
+-- Errors {{{
 if awesome.startup_errors then
 	naughty.notify({
 		preset = naughty.config.presets.critical,
@@ -39,20 +54,18 @@ awesome.connect_signal("debug::error", function(err)
 	in_error = false
 end)
 
--- Root Window Buttons
+-- }}}
+-- Root Window Buttons {{{
 root.buttons(gears.table.join(
 	awful.button({}, mouse.RIGHT, function()
-		local clients = awful.screen.focused().selected_tag:clients()
-		for _, v in ipairs(clients) do
-			v.minimized = true
-		end
-		require("components.menu").qmenu:toggle()
+		require("subcomponents.menu")()
 	end),
 	awful.button({}, mouse.SCROLL_UP, awful.tag.viewnext),
 	awful.button({}, mouse.SCROLL_DOWN, awful.tag.viewprev)
 ))
 
--- Client Buttons
+-- }}}
+-- Client Buttons {{{
 clientbuttons = gears.table.join(
 	awful.button({}, mouse.LEFT, function(c)
 		c:emit_signal("request::activate", "mouse_click", { raise = true })
@@ -66,8 +79,8 @@ clientbuttons = gears.table.join(
 		awful.mouse.client.resize(c)
 	end)
 )
-
--- Rules
+-- }}}
+-- Rules {{{
 awful.rules.rules = {
 	-- All clients will match this rule.
 	{
@@ -111,17 +124,19 @@ awful.rules.rules = {
 	},
 }
 
--- Signals
+-- }}}
+-- Signals {{{
 local lookup_icon = require("menubar.utils").lookup_icon
 client.connect_signal("manage", function(c)
 	if awesome.startup and not c.size_hints.user_position and not c.size_hints.program_position then
-		awful.placement.no_offscreen(c)
+		awful.placement.no_overlap(c)--offscreen(c)
 	end
 
-	if c.class == "St" or c.class == "st-256color" then
+	--[[ if c.class == "St" or c.class == "st-256color" then
 		local new_icon = gears.surface(lookup_icon("terminal"))
 		c.icon = new_icon._native
-	end
+	end ]]
 end)
 
+-- }}}
 -- require("misc.firefox").attach()

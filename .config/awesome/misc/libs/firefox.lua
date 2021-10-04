@@ -23,9 +23,11 @@ local function trimLong(t, m)
 end
 
 local function fullClean(list)
-	for _, tab in ipairs(list.children) do 
-			local x = tab:get_children_by_id("background_")[1].iconPath
-			if x then awful.spawn("rm "..x) end
+	for _, tab in ipairs(list.children) do
+		local x = tab:get_children_by_id("background_")[1].iconPath
+		if x then
+			awful.spawn("rm " .. x)
+		end
 	end
 end
 
@@ -89,10 +91,10 @@ local function getIcon(tab)
 					layout = wibox.layout.fixed.horizontal,
 				},
 				widget = wibox.container.margin,
-				top= dpi(5),
-				left=dpi(8),
-				right=dpi(8),
-				bottom = dpi(5)
+				top = dpi(5),
+				left = dpi(8),
+				right = dpi(8),
+				bottom = dpi(5),
 			},
 			widget = wibox.container.background,
 			bg = tab.active and focusBG or "#00000000",
@@ -127,20 +129,18 @@ function export.x(c)
 	if c.class ~= "Firefox-esr" then
 		return nil
 	end
-	
+
 	if client.focus ~= c then
 		print("Client isnt focused!")
 		focusBG = "#282a2e"
 		focusFG = "#e0e0e0"
 	end
-	
+
 	-- Container
 	local list = wibox.widget({
 		layout = wibox.layout.fixed.horizontal,
 		spacing = dpi(5),
 	})
-
-	
 
 	-- Setup Connections
 	awesome.connect_signal("custom::update_ff_focused", function(id)
@@ -170,15 +170,13 @@ function export.x(c)
 		end,
 	})
 
-
-
 	-- Full Update
 	awesome.connect_signal("custom::update_ff_tabs", function(out)
 		local firefoxTabs = json.decode(out)
-		
+
 		-- Might not be needed, since this is usually run at the start and the list is empty
 		fullClean(list)
-		
+
 		list:reset()
 		for _, tab in ipairs(firefoxTabs) do
 			list:add(getIcon(tab))
@@ -197,12 +195,12 @@ function export.x(c)
 			if x.tabId == id then
 				if x.iconPath then
 					awful.spawn("rm " .. x.iconPath)
-				end 
+				end
 				list:remove(idx)
 			end
 		end
 	end)
-	
+
 	-- New Tab
 	awesome.connect_signal("custom::add_ff_tab", function(payload)
 		local tab = json.decode(payload)
@@ -221,9 +219,8 @@ function export.x(c)
 
 		for idx, child in ipairs(list.children) do
 			local x = child:get_children_by_id("background_")[1]
-			-- Check if tab id matches 
+			-- Check if tab id matches
 			if x.tabId == tab.id then
-				
 				-- and then check if icon has been changed, if not ignore!
 				if iconId and x.iconId ~= iconId then
 					if x.iconPath then
@@ -231,8 +228,8 @@ function export.x(c)
 					end
 					list:set(idx, getIcon(tab))
 				end
-			
-			-- if tab is focused, everything else reverts!
+
+				-- if tab is focused, everything else reverts!
 			elseif tab.active then
 				x.bg = unFocusBG
 			end
@@ -249,7 +246,7 @@ function export.x(c)
 			bottom = dpi(5),
 		},
 		widget = wibox.container.background,
-		bg = "#00000000"
+		bg = "#00000000",
 	})
 	c:connect_signal("unfocus", function()
 		focusBG = "#282a2e"
