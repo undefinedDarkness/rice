@@ -1,3 +1,5 @@
+local M = {}
+
 local function au(x)
 	vim.cmd("augroup " .. x.group)
 	for _, au in ipairs(x) do
@@ -18,24 +20,28 @@ au({
 	{ "QuickFixCmdPost", "[^l]*", "cwindow" },
 })
 
--- File Type Support
+-- On File Open / Read
 au({
 	group = "on_read",
 	{ "BufRead,BufNewFile", "*.fmt.txt", "set filetype=markdown" },
 	{ "BufRead,BufNewFile", "*.svelte", "set filetype=html" },
 })
 
+-- File Type Support
 au({
 	group = "on_filetype",
 	{ "FileType", "markdown,html", "setl spell" },
 	{ "FileType", "sh", "setl makeprg=shellcheck\\ -f\\ gcc | compiler shellcheck" },
 	{ "FileType", "lua", "setl makeprg=lua\\ -p\\ % | setl errorformat=luac:\\ %f:%l:\\ %m" },
 	{ "FileType", "c", "setl makeprg=gcc\\ -Wall\\ -Wextra\\ -g | compiler gcc" },
-	{ "FileType", "help,man", "nnoremap <buffer> <CR> <C-]>" },
+	{ "FileType", "help,man", "nnoremap <buffer> <CR> <C-]>" }
 })
 
+-- On File Write
 au({
 	group = "on_write",
 	{ "BufWritePost", "mod.lua", "source <afile> | PackerCompile" },
 	{ "BufWritePost", "*.sh,*.lua,*.c", "silent make! <afile> | silent redraw" },
 })
+
+return M

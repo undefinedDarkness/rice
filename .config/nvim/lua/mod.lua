@@ -8,17 +8,22 @@ return packer.startup(function()
 		cmd = { "PackerSync", "PackerCompile" },
 	})
 
+	-- Colorscheme
 	use({
 		"rose-pine/neovim",
 		as = "rose-pine",
 		config = function()
 			vim.g.rose_pine_variant = vim.env.TERM == "st-256color" and "dawn" or "base"
 			vim.g.rose_pine_disable_italics = (vim.env.TERM == "st-256color")
-			vim.cmd([[ colorscheme rose-pine ]])
-			vim.cmd([[ hi EndOfBuffer guifg=bg guibg=bg ]])
+			vim.cmd([[
+			colorscheme rose-pine
+			hi EndOfBuffer guifg=bg guibg=bg
+			hi! link BufferOffset Normal
+			]])
 		end,
 	})
 
+	-- Nerd Font Icons
 	use({
 		"kyazdani42/nvim-web-devicons",
 		after = "rose-pine",
@@ -27,15 +32,23 @@ return packer.startup(function()
 	-- Tree / Project Drawer
 	use({
 		"kyazdani42/nvim-tree.lua",
-		cmd = "NvimTreeToggle",
+		cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeClose" },
 		requires = "kyazdani42/nvim-web-devicons",
 		config = function()
-			require("nvim-tree").setup({ auto_close = true })
+			require("nvim-tree").setup({ 
+				auto_close = true,
+				hijack_netrw = true,
+				update_cwd = true,
+				view = {
+					width = 20,
+					side = 'left'
+				}
+			})
 		end,
 	})
 
-	-- Code Editing
-	use("gpanders/editorconfig.nvim")
+	-- Editor Config Support
+	use({ "gpanders/editorconfig.nvim", disable = true })
 
 	-- Comment
 	use({
@@ -46,13 +59,13 @@ return packer.startup(function()
 		end,
 	})
 
-	-- Lisp
+	-- Lisp Editing
 	use({
 		"bhurlow/vim-parinfer",
-		ft = { "lisp", "clojure", "yuck" },
+		ft = { "lisp", "clojure", "yuck", "fennel" },
 	})
 
-	-- Easy Editing for HTML
+	-- HTML Editing
 	use({
 		"mattn/emmet-vim",
 		ft = { "html" },
@@ -64,7 +77,17 @@ return packer.startup(function()
 		cmd = "Term",
 	})
 
-	-- Syntax Highlighting
+	-- Tab Line
+	use({
+		"romgrk/barbar.nvim",
+		requires = "kyazdani42/nvim-web-devicons",
+		config = function()
+			vim.g.bufferline = {
+				animation = false,
+				auto_hide = true
+			}
+		end
+	})
 
 	-- Highlight Hex Colors
 	use({
@@ -75,13 +98,26 @@ return packer.startup(function()
 		end,
 	})
 
+	-- Eww Configuration Language
 	use({
 		"elkowar/yuck.vim",
 		ft = "yuck",
+		disable = true
 	})
 
+	-- Better highlighting for Lua
 	use({
 		"tbastos/vim-lua",
 		ft = "lua",
+	})
+
+	use({
+		"mnacamura/vim-fennel-syntax",
+		ft = 'fennel'
+	})
+
+	use({
+		'ollykel/v-vim',
+		disable = true
 	})
 end)

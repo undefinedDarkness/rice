@@ -50,7 +50,6 @@ vim.g.nvim_tree_show_icons = {
 	files = 1,
 	folder_arrows = 0,
 }
-vim.g.nvim_tree_width = 20
 vim.g.nvim_tree_icon_padding = "  "
 
 vim.g.user_emmet_leader_key = "<leader>i"
@@ -81,6 +80,7 @@ function M.SynStack()
 	print(vim.inspect(o))
 end
 
+-- More usable :grep command
 vim.cmd([[
 function! Grep(...)
 	return system(join([&grepprg] + [expandcmd(join(a:000, ' '))], ' '))
