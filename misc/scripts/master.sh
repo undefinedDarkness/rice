@@ -21,16 +21,17 @@ esac
 
 # -- ALIASES & SETUP -- 
 
-alias rm='rm -v' # verbose
-alias cp='cp -v' # verbose
+alias rm='rm -v' 
+alias cp='cp -v'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias vim='nvim'
-alias curl='curl -L'
 alias wget='wget --hsts-file /dev/null' # Disable Wget History
+alias killall='pkill'
+
 alias gitFixup='git commit --fixup=HEAD' # Make a new fixup ~HEAD commit
 alias gitShallowClone='git clone --depth 1' # Clone only last commit
-alias killall='pkill' # killall Doesn't exist sometimes
+alias gitS='git status --short'
 
 shopt -s autocd # Allow Changing Directory Without Explicit cd
 shopt -s globstar # Make ** actually work.
@@ -91,20 +92,6 @@ packageSize() {
 		dpkg --list |grep "^rc" | cut -d " " -f 3 | xargs sudo dpkg --purge 2> /dev/null
 		dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n
 	fi
-}
-
-# Compress File / Folder
-compress () {
-	tar_f=$(mktemp)
-	# Tar if is directory
-	if [ -d "$1" ]; then
-		tar -cf "$tar_f" "$1"
-	else
-		tar_f=$1
-	fi
-	# Maximum compression
-	zstd -22 --ultra -T0 -z "$tar_f" 
-	rm "$tar_f"
 }
 
 # Get X11 Keynames & Numbers (From Arch Wiki)

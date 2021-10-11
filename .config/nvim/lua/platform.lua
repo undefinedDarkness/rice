@@ -24,10 +24,6 @@ vim.opt.shiftwidth = 4
 -- Statusline
 vim.opt.laststatus = 0
 
--- Indent Line
-vim.opt.list = true
-vim.opt.listchars = { tab = "│ " }
-
 -- Split below
 vim.opt.splitbelow = true
 

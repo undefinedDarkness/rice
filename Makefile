@@ -52,17 +52,19 @@ session-install:
 	@printf "$$fakeInstallMessage"
 
 # Installation
+.ONESHELL:
 install:
 	@printf "\nBasic Installation\n"
 	@echo "------------------------"
-	cd .config/awesome;\
-		$(MAKE) -s set-master-location LOCATION=$(realpath ../../misc/scripts/master.sh)
+	
+	# Build from fennel
+	cd .config/awesome
+	$(MAKE)
+	# Install submodules
+	cd $$XDG_CONFIG_HOME/awesome
 	git submodule update --init --recursive
 	cp -r .config/* $$XDG_CONFIG_HOME/
-	@printf "\nBuilding Extension\n"
-	@echo "------------------------"
-	cd misc/firefox/extension;\
-		$(MAKE) -s install
+	
 	@printf "\nPost Installation\n"
 	@echo "------------------------"
 	git clone --depth 1 https://github.com/wbthomason/packer.nvim\

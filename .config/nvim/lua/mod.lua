@@ -1,5 +1,6 @@
 vim.cmd([[packadd packer.nvim]])
 
+local lisps = {'yuck', 'fennel', 'clojure', 'scheme', 'lisp'}
 local packer = require("packer")
 return packer.startup(function()
 	-- Plugin Manager
@@ -18,7 +19,6 @@ return packer.startup(function()
 			vim.cmd([[
 			colorscheme rose-pine
 			hi EndOfBuffer guifg=bg guibg=bg
-			hi! link BufferOffset Normal
 			]])
 		end,
 	})
@@ -47,9 +47,6 @@ return packer.startup(function()
 		end,
 	})
 
-	-- Editor Config Support
-	use({ "gpanders/editorconfig.nvim", disable = true })
-
 	-- Comment
 	use({
 		"terrortylor/nvim-comment",
@@ -57,12 +54,6 @@ return packer.startup(function()
 		config = function()
 			require("nvim_comment").setup()
 		end,
-	})
-
-	-- Lisp Editing
-	use({
-		"bhurlow/vim-parinfer",
-		ft = { "lisp", "clojure", "yuck", "fennel" },
 	})
 
 	-- HTML Editing
@@ -77,32 +68,36 @@ return packer.startup(function()
 		cmd = "Term",
 	})
 
-	-- Tab Line
-	use({
-		"romgrk/barbar.nvim",
-		requires = "kyazdani42/nvim-web-devicons",
-		config = function()
-			vim.g.bufferline = {
-				animation = false,
-				auto_hide = true
-			}
-		end
-	})
-
 	-- Highlight Hex Colors
 	use({
 		"ap/vim-css-color",
-		ft = { "yaml", "css", "html", "text", "lua", "cpp" },
+		ft = { "yaml", "css", "html", "text", "lua", "cpp", "fennel" },
 		config = function()
-			vim.cmd([[ au FileType lua call css_color#init('hex', 'none', 'luaString,luaComment,luaString2') ]])
+			vim.cmd([[ 
+			au FileType lua    call css_color#init('hex', 'none', 'luaString,luaComment,luaString2')
+			au FileType fennel call css_color#init('hex', 'none', 'fennelString')
+			]])
 		end,
+	})
+
+	-- Lisp Editing
+	use({
+		'eraserhd/parinfer-rust',
+		ft = lisps 
+	})
+
+	use({
+		'junegunn/rainbow_parentheses.vim',
+		ft = lisps,
+		config = function()
+			vim.fn['rainbow_parentheses#toggle']()
+		end
 	})
 
 	-- Eww Configuration Language
 	use({
 		"elkowar/yuck.vim",
 		ft = "yuck",
-		disable = true
 	})
 
 	-- Better highlighting for Lua
@@ -116,8 +111,23 @@ return packer.startup(function()
 		ft = 'fennel'
 	})
 
-	use({
-		'ollykel/v-vim',
-		disable = true
-	})
+	use {
+		'nvim-telescope/telescope.nvim',
+		requires = { {'nvim-lua/plenary.nvim'} },
+		cmd = {'Telescope'},
+		config = function()
+			local actions = require("telescope.actions")
+
+			require("telescope").setup({
+				defaults = {
+					mappings = {
+						i = {
+							["<esc>"] = actions.close,
+							['qq']    = actions.close
+						},
+					},
+				},
+			})
+		end
+	}
 end)

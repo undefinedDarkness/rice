@@ -1,7 +1,6 @@
 backup.tar.gz
 Scripts/bin
 colors.txt
-.config/awesome
 .config/nvim/plugin/packer_compiled.lua
 .config/Thunar
 .config/xfce4
