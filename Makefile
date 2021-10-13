@@ -1,7 +1,9 @@
 .PHONY: clean backup pre-install install session-install fetch
 
+
 # Clean up .config
 clean:
+	echo "#fafafa"
 	find .config \
 		-maxdepth 1\
 		-type d\

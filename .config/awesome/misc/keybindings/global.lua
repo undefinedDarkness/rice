@@ -49,7 +49,7 @@ globalkeys = gears.table.join(
 		group = "tag",
 	}),
 	awful.key({ modkey }, "Escape", awful.tag.history.restore, { description = "go back", group = "tag" }),
-	
+
 	awful.key({ modkey }, "j", function()
 		awful.client.focus.byidx(1)
 	end, {
@@ -95,7 +95,7 @@ globalkeys = gears.table.join(
 		group = "client",
 	}), -- Standard program
 	awful.key({ modkey }, "t", function()
-		awful.spawn(terminal)
+		awful.spawn(beautiful.terminal)
 	end, {
 		description = "open a terminal",
 		group = "User",
@@ -120,8 +120,7 @@ globalkeys = gears.table.join(
 	end, {
 		description = "restore minimized",
 		group = "client",
-	}), -- Prompt
-
+	}) -- Prompt
 )
 
 -- Bind all key numbers to tags.
@@ -140,7 +139,7 @@ for i = 1, 9 do
 			description = "view tag #" .. i,
 			group = "tag",
 		}),
-	
+
 		-- Move client to tag.
 		awful.key({ modkey, "Shift" }, "#" .. i + 9, function()
 			if client.focus then
@@ -152,8 +151,8 @@ for i = 1, 9 do
 		end, {
 			description = "move focused client to tag #" .. i,
 			group = "tag",
-		}),
-		)
+		})
+	)
 end
 
 root.keys(globalkeys)

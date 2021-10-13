@@ -19,11 +19,6 @@ screen.connect_signal("request::wallpaper", function(s)
 	})
 end)
 
--- Setup Tags
-screen.connect_signal("request::desktop_decoration", function(s)
-	awful.tag(beautiful.workspaces, s, awful.layout.layouts[1])
-end)
-
 -- Setup Window Layouts
 tag.connect_signal("request::default_layouts", function()
 	awful.layout.append_default_layouts({
@@ -31,6 +26,11 @@ tag.connect_signal("request::default_layouts", function()
 		awful.layout.suit.tile,
 		awful.layout.suit.spiral.dwindle,
 	})
+end)
+
+-- Setup Tags
+screen.connect_signal("request::desktop_decoration", function(s)
+	awful.tag(beautiful.workspaces, s, awful.layout.layouts[1])
 end)
 
 -- Errors {{{

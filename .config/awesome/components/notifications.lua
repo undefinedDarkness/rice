@@ -17,8 +17,8 @@ naughty.connect_signal("request::icon", function(n, context, hints)
 	end
 
 	local path = require("menubar.utils").lookup_icon(hints.app_icon)
-					or require("menubar.utils").lookup_icon(hints.app_icon:lower())
-					or C.gtk_lookup_icon(hints.app_icon:lower(), 48)
+		or require("menubar.utils").lookup_icon(hints.app_icon:lower())
+		or C.gtk_lookup_icon(hints.app_icon:lower(), 48)
 
 	if path then
 		n.icon = path

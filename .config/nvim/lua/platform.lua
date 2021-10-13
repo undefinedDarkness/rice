@@ -76,14 +76,11 @@ function M.SynStack()
 	print(vim.inspect(o))
 end
 
--- More usable :grep command
-vim.cmd([[
-function! Grep(...)
-	return system(join([&grepprg] + [expandcmd(join(a:000, ' '))], ' '))
-endfunction
-
-command! -nargs=+ -complete=file_in_path -bar Grep  cgetexpr Grep(<f-args>)
-cnoreabbrev <expr> grep  (getcmdtype() ==# ':' && getcmdline() ==# 'grep')  ? 'Grep'  : 'grep'
-]])
-
+function _G.FoldText()
+	local x = vim.fn.getline(vim.v.foldstart)
+	local s, e = x:find(' .* {{{')
+	return vim.v.folddashes:gsub('-', ';') .. ' ' .. x:sub(s+1, e-3)
+end
+vim.opt.foldtext = 'v:lua.FoldText()'
+vim.opt.fillchars = { fold = ' ' }
 return M

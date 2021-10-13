@@ -23,6 +23,44 @@ return packer.startup(function()
 		end,
 	})
 
+	-- For WRITING-MODE
+	use({
+		'folke/zen-mode.nvim',
+		cmd = 'ZenMode',
+		config = function()
+			require("zen-mode").setup {
+				window = {
+					backdrop = 1,
+					options = {
+						number = false
+					}
+				},
+				plugins = {
+					options = {
+						enabled = true,
+						ruler = false
+					}
+				},
+				on_open = function()
+					vim.opt.background = 'light'
+					vim.cmd [[
+						colorscheme plain
+						hi Normal guibg=#f4f4f4
+					]]
+					vim.fn.system("/home/david/etc/rice/misc/scripts/windowsTerminal.sh on")
+				end,
+				on_close = function()
+					vim.opt.background = 'dark'
+					vim.cmd [[colorscheme rose-pine]]
+					vim.fn.system("/home/david/etc/rice/misc/scripts/windowsTerminal.sh off") -- CHANGE
+				end
+			}	
+		end,
+		requires = { 
+			{'andreypopp/vim-colors-plain', cmd = 'ZenMode'}
+		}
+	})
+
 	-- Nerd Font Icons
 	use({
 		"kyazdani42/nvim-web-devicons",
@@ -63,6 +101,7 @@ return packer.startup(function()
 	})
 
 	-- Terminal
+	-- TODO: Integrate with config
 	use({
 		"vimlab/split-term.vim",
 		cmd = "Term",
@@ -113,7 +152,7 @@ return packer.startup(function()
 
 	use {
 		'nvim-telescope/telescope.nvim',
-		requires = { {'nvim-lua/plenary.nvim'} },
+		requires = { {'nvim-lua/plenary.nvim', cmd = 'Telescope'} },
 		cmd = {'Telescope'},
 		config = function()
 			local actions = require("telescope.actions")

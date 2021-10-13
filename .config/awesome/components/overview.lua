@@ -13,26 +13,26 @@ local function tag_preview(tag)
 	local height = scale * geo.height + margin * 2
 
 	return {
-			require("misc.libs.bling.widget.tag_preview").draw_widget(tag, {
-				scale = scale,
-				widget_border_radius = 3,
-				client_border_radius = 3,
-				client_opacity = 0.8,
-				client_bg = "#fffaf3",
-				client_border_color = "#f2e9de",
-				client_border_width = 2,
-				widget_bg = "#faf4ed",
-				widget_border_color = "#ffffff",
-				widget_border_width = 0,
-				margin = margin,
-			}, geo),
-			widget = wibox.container.constraint,
-			forced_width = width,
-			forced_height = height,
-			buttons = awful.button({}, mouse.LEFT, function()
-				tag:view_only()
-			end),
-		}
+		require("misc.libs.bling.widget.tag_preview").draw_widget(tag, {
+			scale = scale,
+			widget_border_radius = 3,
+			client_border_radius = 3,
+			client_opacity = 0.8,
+			client_bg = "#fffaf3",
+			client_border_color = "#f2e9de",
+			client_border_width = 2,
+			widget_bg = "#faf4ed",
+			widget_border_color = "#ffffff",
+			widget_border_width = 0,
+			margin = margin,
+		}, geo),
+		widget = wibox.container.constraint,
+		forced_width = width,
+		forced_height = height,
+		buttons = awful.button({}, mouse.LEFT, function()
+			tag:view_only()
+		end),
+	}
 end
 
 local function tag_label(tag)
@@ -48,10 +48,10 @@ local function tag_label(tag)
 	end
 	tag:connect_signal("property::selected", update)
 	update()
+	return widget
 end
 
 local function tag_widget(tag)
-
 	local widget = wibox.widget({
 		tag_preview(tag),
 		tag_label(tag),
@@ -74,8 +74,8 @@ local layout_v = wibox.widget({
 -- Initiate
 for _, tag in ipairs(awful.screen.focused().tags) do
 	local item_idx = #layout_v.children + 1
-	
-	local old = draw(tag)
+
+	local old = tag_widget(tag)
 	local update = function()
 		local new = tag_widget(tag)
 		layout_v:replace_widget(old, new)
@@ -86,7 +86,7 @@ for _, tag in ipairs(awful.screen.focused().tags) do
 	local attach_to_client = function(client)
 		local update_client = function()
 			if tbl_contains(client:tags(), tag) then
-				upadate()
+				update()
 			end
 		end
 		-- On moving
@@ -102,11 +102,11 @@ for _, tag in ipairs(awful.screen.focused().tags) do
 		attach_to_client(c)
 		update()
 	end)
-	tag:connect_signal("untagged", upd)
+	tag:connect_signal("untagged", update)
 
 	-- Attach to existing clients
 	for _, client in ipairs(tag:clients()) do
-		attach_client(client)
+		attach_to_client(client)
 	end
 end
 

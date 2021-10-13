@@ -46,17 +46,17 @@ local function setup_section_header(section, layout)
 	}
 end
 
-local function section_item(section, item)
+local function setup_section_item(section, item)
 	return {
 		{
 			widget = wibox.widget.textbox,
 			align = "left", -- "center",
-			markup = '<span foreground="' .. beautiful.inactive ..'">' .. item.name .. "</span>",
+			markup = item.name,
 			font = "UnifontMedium Nerd Font 14",
 			buttons = awful.button({}, mouse.LEFT, function()
-				if type(item.exe) == 'string' then
+				if type(item.exe) == "string" then
 					awful.spawn.with_shell(item.exe)
-				elseif type(item.exe) == 'function' then
+				elseif type(item.exe) == "function" then
 					item.exe()
 				end
 				window.visible = false
@@ -69,26 +69,26 @@ local function section_item(section, item)
 	}
 end
 
-local function setup_section(sec)
-	local section = wibox.widget({
+local function setup_section(section)
+	local layout = wibox.widget({
 		layout = wibox.layout.fixed.vertical,
-		visible = not sec.submenu,
+		visible = not section.submenu,
 	})
-	section:add(setup_section_header(sec, section))
 	for idx, item in ipairs(section) do
 		layout:add(setup_section_item(section, item))
 	end
-
+	return layout
 end
 
 local function setup_root_layout()
-
 	local layout = wibox.widget({
 		layout = wibox.layout.fixed.vertical,
 	})
 
 	for _, section in ipairs(sections) do
-		layout:add(setup_section(section))
+		local l = setup_section(section)
+		layout:add(setup_section_header(section, l))
+		layout:add(l)
 	end
 
 	return layout
@@ -97,15 +97,16 @@ end
 -- Setup window
 window = awful.popup({
 	visible = false,
-	widget = { setup_root_layout(),
-	widget = wibox.container.background,
-	fg = beautiful.fg_inactive}, 
+	widget = {
+		setup_root_layout(),
+		widget = wibox.container.background,
+		fg = beautiful.fg_subtle,
+	},
 	minimum_width = 150,
 	ontop = true,
 	border_width = 0,
-	bg = beautiful.bg_base
+	bg = beautiful.bg_overlay,
 })
-
 
 return function()
 	local x = not window.visible

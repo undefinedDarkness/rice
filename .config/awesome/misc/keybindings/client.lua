@@ -40,7 +40,6 @@ clientkeys = gears.table.join(
 		c:kill()
 	end, { description = "close", group = "client" }),
 
-
 	awful.key({ modkey }, "n", function(c)
 		-- The client currently has the input focus, so it cannot be
 		-- minimized, since minimized clients can't have the focus.
@@ -57,7 +56,6 @@ clientkeys = gears.table.join(
 		description = "(un)maximize",
 		group = "client",
 	}),
-
 
 	-- Toggle titlebar
 	awful.key({ modkey }, "k", function(c)

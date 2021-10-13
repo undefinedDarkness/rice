@@ -1,7 +1,0 @@
-{
-    "name": "dbus_tabs",
-    "description": "Host for native messaging",
-    "path": "/home/david/builds/tabs-interface/server.py",
-    "type": "stdio",
-    "allowed_extensions": ["dbus_tabs@cubimon.org"]
-}
