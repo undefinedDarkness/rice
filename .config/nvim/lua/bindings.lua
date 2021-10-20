@@ -18,7 +18,7 @@ bind("", "<C-a>", 'ggVG')
 bind("", "<F3>", ":update<CR>", { silent = true })
 
 -- File Tree & File Finder
-bind("n", "ff", ":Telescope find_files theme=ivy<CR>", {silent=true})
+bind("n", "ff", ":Telescope find_files theme=ivy hidden=true<CR>", {silent=true})
 bind("n", "fi", ":Telescope live_grep theme=ivy<CR>", {silent=true})
 bind("n", "<C-f>", ":NvimTreeToggle<CR>", { silent = true })
 

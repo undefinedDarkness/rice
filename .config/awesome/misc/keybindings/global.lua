@@ -11,7 +11,7 @@ globalkeys = gears.table.join(
 		group = "User",
 	}),
 	awful.key({ modkey }, "d", function()
-		require("subcomponents.menubar").show(awful.screen.focused())
+		require("components.ss")
 	end, {
 		description = "Launch Dmenu (Run)",
 		group = "User",

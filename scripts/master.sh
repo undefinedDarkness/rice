@@ -22,13 +22,14 @@ esac
 # -- ALIASES & SETUP -- 
 
 alias rm='rm -v' 
+alias mv='mv -v'
 alias cp='cp -v'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias vim='nvim'
 alias wget='wget --hsts-file /dev/null' # Disable Wget History
 alias killall='pkill'
-
+alias colemak="xmodmap ~/rice/scripts/xmodmap.colemak && xset r 66"
 alias gitFixup='git commit --fixup=HEAD' # Make a new fixup ~HEAD commit
 alias gitShallowClone='git clone --depth 1' # Clone only last commit
 alias gitS='git status --short'
@@ -56,7 +57,7 @@ case "$(uname -r)" in
 		export LIBGL_ALWAYS_INDIRECT=1
 
 		# Set Config Directory To Dotfiles
-		export XDG_CONFIG_HOME=$HOME/etc/rice/.config
+		export XDG_CONFIG_HOME=$HOME/rice/.config
 		;;
 
 esac

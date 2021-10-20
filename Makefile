@@ -1,4 +1,4 @@
-.PHONY: clean backup pre-install install session-install fetch
+.PHONY: clean backup pre-install install session-install fetch todo
 
 
 # Clean up .config
@@ -34,6 +34,10 @@ fetch:
         "$$NAME $$VERSION_ID"\
         "$$(apt list --installed 2> /dev/null | wc -l)"\
         "$$(uname -r | grep -Po '\d+.\d+.\d+')"
+
+# Find todo's
+todo:
+	grep -rnH --color=auto 'TODO: '
 
 # Create backup
 backup: clean ../backup.tar.zst

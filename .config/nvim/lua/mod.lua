@@ -2,6 +2,7 @@ vim.cmd([[packadd packer.nvim]])
 
 local lisps = {'yuck', 'fennel', 'clojure', 'scheme', 'lisp'}
 local packer = require("packer")
+
 return packer.startup(function()
 	-- Plugin Manager
 	use({
@@ -19,6 +20,7 @@ return packer.startup(function()
 			vim.cmd([[
 			colorscheme rose-pine
 			hi EndOfBuffer guifg=bg guibg=bg
+			hi Todo guibg=#31748f guifg=#e0def4
 			]])
 		end,
 	})
@@ -47,12 +49,12 @@ return packer.startup(function()
 						colorscheme plain
 						hi Normal guibg=#f4f4f4
 					]]
-					vim.fn.system("/home/david/etc/rice/misc/scripts/windowsTerminal.sh on")
+					vim.fn.system("/home/david/rice/scripts/windowsTerminal.sh on")
 				end,
 				on_close = function()
 					vim.opt.background = 'dark'
 					vim.cmd [[colorscheme rose-pine]]
-					vim.fn.system("/home/david/etc/rice/misc/scripts/windowsTerminal.sh off") -- CHANGE
+					vim.fn.system("/home/david/rice/scripts/windowsTerminal.sh off") -- CHANGE
 				end
 			}	
 		end,
@@ -165,6 +167,8 @@ return packer.startup(function()
 							['qq']    = actions.close
 						},
 					},
+					file_ignore_patterns = { "^.git/" },
+					vimgrep_arguments = { "ag", "--vimgrep" }
 				},
 			})
 		end

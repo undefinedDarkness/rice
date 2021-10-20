@@ -28,7 +28,7 @@ theme.titlebar_font = "CozetteVector"
 
 -- Settings
 theme.terminal = "st"
-theme.on_startup = "$HOME/etc/rice/misc/scripts/master.sh launch"
+theme.on_startup = "$HOME/rice/scripts/master.sh launch"
 theme.on_screenshot = "scrot -s -b ~/screenshot.png"
 
 -- Notifications
