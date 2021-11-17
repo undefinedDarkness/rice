@@ -27,6 +27,8 @@ end
 function M.rgba(r, g, b, a)
 	return string.format("#%02x%02x%02x%x", r, g, b, math.ceil(a * 255))
 end
+M.color = require('misc.libs.bling.helpers.color')
+M.color.rgba = M.rgba
 
 function M.title_case(phrase)
 	local result = string.gsub(phrase, "(%a)([%w_']*)", function(first, rest)

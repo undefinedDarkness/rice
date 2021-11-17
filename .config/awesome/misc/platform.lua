@@ -7,9 +7,9 @@
 
 -- Set Wallpaper
 screen.connect_signal("request::wallpaper", function(s)
-	bling.module.tiled_wallpaper("♜", s, {
-		fg = "#ea9d34",
-		bg = "#faf4ed",
+	bling.module.tiled_wallpaper("♟︎", s, {
+		fg = beautiful.wallpaper_fg,
+		bg = beautiful.wallpaper_bg,
 		offset_y = 25,
 		offset_x = 45,
 		font = "UnifontMedium Nerd Font",

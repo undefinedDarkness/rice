@@ -1,33 +1,26 @@
-local rgba = require("misc.libs.stdlib").rgba
+local color = require("misc.libs.stdlib").color
 local dpi = require("beautiful.xresources").apply_dpi
 local themes_path = _config_dir .. "theme/"
 
 local theme = {}
 
 -- Colors
-theme.transparent = "#00000000"
-theme.fg_inactive = "#575279"
-theme.fg_red = "#d7827e"
-theme.fg_dark_red = "#b4637a"
-theme.fg_subtle = "#6e6a86"
-theme.fg_magenta = "#907aa9"
-theme.fg_blue = "#56949f"
-theme.fg_yellow = "#ea9d34"
-theme.fg_inactive = "#9893a5"
-theme.fg_dark_blue = "#286983"
-theme.bg_overlay = "#f2e9de"
-theme.bg_surface = "#fffaf3"
-theme.bg_base = "#faf4ed"
+theme.wallpaper_bg = "#fafafa"
+theme.wallpaper_fg = "#fafafa"
+theme.titlebar_bg_normal = "#dfaf8f"
+theme.titlebar_bg_focus = "#ffd7a7"
+theme.titlebar_fg_normal = color.darken(theme.titlebar_bg_normal, 48)
+theme.titlebar_fg_focus = color.darken(theme.titlebar_bg_focus, 48)
 
 -- Other
 theme.useless_gap = dpi(8)
 theme.systray_icon_spacing = dpi(8)
-theme.font = "UnifontMedium Nerd Font"
+theme.font = "Roboto Medium"
 theme.workspaces = { "Hephaestus", "Apollo", "Hermes" }
-theme.titlebar_font = "CozetteVector"
 
 -- Settings
 theme.terminal = "st"
+theme.tabbar_disable = true
 theme.on_startup = "$HOME/rice/scripts/master.sh launch"
 theme.on_screenshot = "scrot -s -b ~/screenshot.png"
 

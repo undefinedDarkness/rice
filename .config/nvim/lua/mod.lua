@@ -12,61 +12,37 @@ return packer.startup(function()
 
 	-- Colorscheme
 	use({
-		"rose-pine/neovim",
-		as = "rose-pine",
+		"chriskempson/base16-vim",
+		cond = function()
+			return vim.env.TERM ~= "st-256color"
+		end,
 		config = function()
-			vim.g.rose_pine_variant = vim.env.TERM == "st-256color" and "dawn" or "base"
-			vim.g.rose_pine_disable_italics = (vim.env.TERM == "st-256color")
 			vim.cmd([[
-			colorscheme rose-pine
-			hi EndOfBuffer guifg=bg guibg=bg
-			hi Todo guibg=#31748f guifg=#e0def4
+			colorscheme base16-default-dark
+			hi EndOfBuffer guifg=bg
 			]])
 		end,
 	})
 
-	-- For WRITING-MODE
 	use({
-		'folke/zen-mode.nvim',
-		cmd = 'ZenMode',
-		config = function()
-			require("zen-mode").setup {
-				window = {
-					backdrop = 1,
-					options = {
-						number = false
-					}
-				},
-				plugins = {
-					options = {
-						enabled = true,
-						ruler = false
-					}
-				},
-				on_open = function()
-					vim.opt.background = 'light'
-					vim.cmd [[
-						colorscheme plain
-						hi Normal guibg=#f4f4f4
-					]]
-					vim.fn.system("/home/david/rice/scripts/windowsTerminal.sh on")
-				end,
-				on_close = function()
-					vim.opt.background = 'dark'
-					vim.cmd [[colorscheme rose-pine]]
-					vim.fn.system("/home/david/rice/scripts/windowsTerminal.sh off") -- CHANGE
-				end
-			}	
+		"jnurmine/Zenburn",
+		cond = function()
+			return vim.env.TERM == "st-256color"
 		end,
-		requires = { 
-			{'andreypopp/vim-colors-plain', cmd = 'ZenMode'}
-		}
+		config = function()
+			-- vim.g.zenburn_high_Contrast = true
+			vim.g.zenburn_italic_Comment = true
+			vim.cmd([[
+			colorscheme zenburn
+			hi EndOfBuffer guifg=bg
+			]])
+		end,
 	})
 
 	-- Nerd Font Icons
 	use({
 		"kyazdani42/nvim-web-devicons",
-		after = "rose-pine",
+		after = "base16-vim"
 	})
 
 	-- Tree / Project Drawer

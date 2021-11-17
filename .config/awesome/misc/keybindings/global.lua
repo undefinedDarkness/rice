@@ -100,7 +100,10 @@ globalkeys = gears.table.join(
 		description = "open a terminal",
 		group = "User",
 	}),
-	awful.key({ modkey, "Control" }, "r", awesome.restart, {
+	awful.key({ modkey, "Control" }, "r", function()
+		print("Restarting awesome")
+		awesome.restart()
+	end, {
 		description = "reload awesome",
 		group = "awesome",
 	}),

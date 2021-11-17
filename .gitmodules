@@ -1,6 +1,0 @@
-[submodule ".config/awesome/misc/libs/bling"]
-	path = .config/awesome/misc/libs/bling
-	url = git@github.com:BlingCorp/bling.git
-[submodule ".config/awesome/components/ss"]
-	path = .config/awesome/components/ss
-	url = https://github.com/undefinedDarkness/ss.git
