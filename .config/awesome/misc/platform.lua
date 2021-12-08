@@ -115,18 +115,8 @@ awful.rules.rules = {
 
 	-- 🤮 Disable Titlebars For CSD Apps
 	{
-		rule_any = {
-			class = {
-				"Mixer",
-				"Gnome-font-viewer",
-				"File-roller",
-				"Nautilus",
-				"Myxer",
-				"Eog",
-				"Evince",
-				"Gedit",
-				"Gnome-calculator",
-			},
+		rule = {
+			requests_no_titlebar = true
 		},
 		properties = { titlebars_enabled = false },
 	},

@@ -28,7 +28,7 @@ end)
 naughty.connect_signal("request::display", function(n)
 	n.timeout = 8
 
-	local n_color = n.urgency == "critical" and beautiful.fg_red or beautiful.fg_red
+	local n_color = n.urgency == "critical" and beautiful.fg_red or beautiful.fg_normal
 
 	naughty.layout.box({
 		notification = n,

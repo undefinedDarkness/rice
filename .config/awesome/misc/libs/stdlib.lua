@@ -21,7 +21,7 @@ end
 -- Text & Color
 
 function M.colorify(color, txt)
-	return '<span color="' .. color .. '">' .. txt .. "</span>"
+	return '<span color="' .. (color or "#ff0000") .. '">' .. txt .. "</span>"
 end
 
 function M.rgba(r, g, b, a)

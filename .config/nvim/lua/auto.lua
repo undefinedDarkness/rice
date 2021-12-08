@@ -43,10 +43,10 @@ end
 
 au({
 	group = "on_filetype",
-	{ "FileType", "markdown,html", "lua require('auto').setup_spell()" },
+	-- { "FileType", "markdown,html", "lua require('auto').setup_spell()" },
 	{ "FileType", "sh", "setl makeprg=shellcheck\\ -f\\ gcc | compiler shellcheck" },
 	{ "FileType", "lua", "setl makeprg=lua\\ -p\\ % | setl errorformat=luac:\\ %f:%l:\\ %m" },
-	{ "FileType", "c", "setl makeprg=gcc\\ -Wall\\ -Wextra\\ -g | compiler gcc" },
+	-- { "FileType", "c", "setl makeprg=gcc\\ -Wall\\ -Wextra\\ -g | compiler gcc" },
 	{ "FileType", "help,man", "nnoremap <buffer> <CR> <C-]>" }
 })
 

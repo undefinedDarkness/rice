@@ -24,7 +24,11 @@ client.connect_signal("request::titlebars", function(c)
 
 	local title = wibox.widget.textbox(c.name:lower())
 	c:connect_signal("property::name", function()
-		title.text = c.name:lower()
+		if c.class == "Thunar" then
+			title.text = "fm: " .. c.name
+		else
+			title.text = c.name:lower()
+		end
 	end)
 
 	-- Titlebar Setup!

@@ -72,6 +72,23 @@ return packer.startup(function()
 		end,
 	})
 
+	use({'neovim/nvim-lspconfig', config = function()
+		require('lspconfig')["rust_analyzer"].setup {
+			on_attach = function(_, bufnr)
+				vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+				vim.cmd [[
+				function! OpenCompletion()
+    if !pumvisible() && ((v:char >= 'a' && v:char <= 'z') || (v:char >= 'A' && v:char <= 'Z'))
+        call feedkeys("\<C-x>\<C-o>", "n")
+    endif
+endfunction
+
+autocmd InsertCharPre * call OpenCompletion()
+				]]
+			end
+		}
+	end})
+
 	-- HTML Editing
 	use({
 		"mattn/emmet-vim",

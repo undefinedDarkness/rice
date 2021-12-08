@@ -6,11 +6,11 @@ local theme = {}
 
 -- Colors
 theme.wallpaper_bg = "#fafafa"
-theme.wallpaper_fg = "#fafafa"
+theme.wallpaper_fg = "#d0d0d0"
 theme.titlebar_bg_normal = "#dfaf8f"
 theme.titlebar_bg_focus = "#ffd7a7"
-theme.titlebar_fg_normal = color.darken(theme.titlebar_bg_normal, 48)
-theme.titlebar_fg_focus = color.darken(theme.titlebar_bg_focus, 48)
+theme.titlebar_fg_normal = color.darken(theme.titlebar_bg_normal, 70)
+theme.titlebar_fg_focus = color.darken(theme.titlebar_bg_focus, 70)
 
 -- Other
 theme.useless_gap = dpi(8)

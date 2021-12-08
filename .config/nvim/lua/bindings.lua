@@ -26,8 +26,8 @@ bind("n", "<C-f>", ":NvimTreeToggle<CR>", { silent = true })
 bind("n", "<C-t>", ":Term<CR>", { silent = true })
 
 -- Indentation
-bind("n", "<leader>t", "%retab!<CR>gg=G") -- Spaces -> Tabs
-bind("n", "<leader>T", ":setl expandtab | :retab<CR>gg=G") -- Tabs -> Spaces
+-- bind("n", "<leader>t", "%retab!<CR>gg=G") -- Spaces -> Tabs
+-- bind("n", "<leader>T", ":setl expandtab | :retab<CR>gg=G") -- Tabs -> Spaces
 
 -- More sensible bindings for the wildmenu
 bind("c", "<Up>", 'pumvisible() ? "\\<Left>"  : "\\<Up>"', { expr = true })

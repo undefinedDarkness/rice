@@ -155,7 +155,4 @@ local window = awful.popup({
 
 return function()
 	window.visible = not window.visible
-	if not window.visible then
-		collectgarbage("collect")
-	end
 end

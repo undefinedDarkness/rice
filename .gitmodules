@@ -1,0 +1,9 @@
+[submodule ".config/awesome/misc/libs/bling"]
+	path = .config/awesome/misc/libs/bling
+	url = https://github.com/undefinedDarkness/bling.git
+[submodule "apps/ss"]
+	path = apps/ss
+	url = https://github.com/undefinedDarkness/ss.git
+[submodule "apps/apps/colr"]
+	path = apps/apps/colr
+	url = git@github.com:undefinedDarkness/colr.git
