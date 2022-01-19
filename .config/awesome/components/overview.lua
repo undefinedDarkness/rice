@@ -1,5 +1,5 @@
 -- TODO: keygrabber.
-local tbl_contains = require("misc.libs.stdlib").contains
+local tbl_contains = require('misc.libs.stdlib').contains
 
 local function tag_preview(tag)
 	-- TODO: Make these constants?
@@ -13,16 +13,16 @@ local function tag_preview(tag)
 	local height = scale * geo.height + margin * 2
 
 	return {
-		require("misc.libs.bling.widget.tag_preview").draw_widget(tag, {
+		require('misc.libs.bling.widget.tag_preview').draw_widget(tag, {
 			scale = scale,
 			widget_border_radius = 3,
 			client_border_radius = 3,
 			client_opacity = 0.8,
-			client_bg = "#fffaf3",
-			client_border_color = "#f2e9de",
+			client_bg = '#fffaf3',
+			client_border_color = '#f2e9de',
 			client_border_width = 2,
-			widget_bg = "#faf4ed",
-			widget_border_color = "#ffffff",
+			widget_bg = '#faf4ed',
+			widget_border_color = '#ffffff',
 			widget_border_width = 0,
 			margin = margin,
 		}, geo),
@@ -39,14 +39,14 @@ local function tag_label(tag)
 	local widget = wibox.widget.textbox()
 	local update = function()
 		widget.markup = '<span foreground="#575279">'
-			.. (tag.selected == true and "★" or " ")
-			.. " Tag "
+			.. (tag.selected == true and '★' or ' ')
+			.. ' Tag '
 			.. tag.index
-			.. ": "
+			.. ': '
 			.. tag.name
-			.. "</span>"
+			.. '</span>'
 	end
-	tag:connect_signal("property::selected", update)
+	tag:connect_signal('property::selected', update)
 	update()
 	return widget
 end
@@ -90,19 +90,19 @@ for _, tag in ipairs(awful.screen.focused().tags) do
 			end
 		end
 		-- On moving
-		client:connect_signal("property::x", update_client)
-		client:connect_signal("property::y", update_client)
+		client:connect_signal('property::x', update_client)
+		client:connect_signal('property::y', update_client)
 		-- On resize
-		client:connect_signal("property::width", update_client)
-		client:connect_signal("property::height", update_client)
+		client:connect_signal('property::width', update_client)
+		client:connect_signal('property::height', update_client)
 	end
 
 	-- Listen to clients being added or removed from the tag
-	tag:connect_signal("tagged", function(_, c)
+	tag:connect_signal('tagged', function(_, c)
 		attach_to_client(c)
 		update()
 	end)
-	tag:connect_signal("untagged", update)
+	tag:connect_signal('untagged', update)
 
 	-- Attach to existing clients
 	for _, client in ipairs(tag:clients()) do
@@ -126,7 +126,7 @@ local overview = awful.popup({
 		bottom = dpi(20),
 	},
 	-- type = 'dock',
-	bg = "#f2e9de",
+	bg = '#f2e9de',
 	placement = function(c)
 		(awful.placement.left + awful.placement.maximize_vertically)(c, {
 			honor_workarea = true,
@@ -138,7 +138,4 @@ local overview = awful.popup({
 return function(toggle)
 	-- print("Overview!")
 	overview.visible = not overview.visible
-	if not overview.visible then
-		collectgarbage("collect")
-	end
 end

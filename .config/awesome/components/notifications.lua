@@ -1,23 +1,23 @@
-local naughty = require("naughty")
-local C = require("misc.libs.stdlib")
+local naughty = require('naughty')
+local C = require('misc.libs.stdlib')
 
 naughty.config.padding = dpi(8)
 naughty.config.spacing = dpi(16)
 
 naughty.config.defaults.timeout = 8
-naughty.config.defaults.title = "Hello There!"
-naughty.config.defaults.position = "bottom_right"
+naughty.config.defaults.title = 'Hello There!'
+naughty.config.defaults.position = 'bottom_right'
 naughty.config.defaults.icon_size = dpi(48)
 
-naughty.config.icon_formats = { "png", "svg" }
+naughty.config.icon_formats = { 'png', 'svg' }
 
-naughty.connect_signal("request::icon", function(n, context, hints)
-	if context ~= "app_icon" then
+naughty.connect_signal('request::icon', function(n, context, hints)
+	if context ~= 'app_icon' then
 		return
 	end
 
-	local path = require("menubar.utils").lookup_icon(hints.app_icon)
-		or require("menubar.utils").lookup_icon(hints.app_icon:lower())
+	local path = require('menubar.utils').lookup_icon(hints.app_icon)
+		or require('menubar.utils').lookup_icon(hints.app_icon:lower())
 		or C.gtk_lookup_icon(hints.app_icon:lower(), 48)
 
 	if path then
@@ -25,17 +25,17 @@ naughty.connect_signal("request::icon", function(n, context, hints)
 	end
 end)
 
-naughty.connect_signal("request::display", function(n)
+naughty.connect_signal('request::display', function(n)
 	n.timeout = 8
 
-	local n_color = n.urgency == "critical" and beautiful.fg_red or beautiful.fg_normal
+	local n_color = n.urgency == 'critical' and beautiful.fg_red or beautiful.fg_normal
 
 	naughty.layout.box({
 		notification = n,
 		shape = function(cr, w, h)
 			gears.shape.rounded_rect(cr, w, h, 3)
 		end,
-		type = "notification",
+		type = 'notification',
 		-- minimum_width = 500,
 		bg = n_color,
 		border_width = dpi(0),

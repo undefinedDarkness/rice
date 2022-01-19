@@ -31,13 +31,13 @@ vim.opt.splitbelow = true
 vim.opt.foldmethod = "marker"
 
 -- Ruler, Statusline & Title
-vim.opt.rulerformat = "%l,%c %{&filetype}"
 vim.opt.statusline = "::"
 vim.opt.titlestring = "NVIM: %f"
 vim.opt.title = true
 
 -- Colorscheme
 vim.opt.background = "dark"
+vim.cmd [[ colo chocolate ]]
 
 -- Nvim Tree
 vim.g.nvim_tree_show_icons = {
@@ -48,7 +48,8 @@ vim.g.nvim_tree_show_icons = {
 }
 vim.g.nvim_tree_icon_padding = "  "
 
-vim.g.user_emmet_leader_key = "<leader>i"
+vim.g.user_emmet_leader_key = "<Insert>"
+vim.g.vim_markdown_folding_disabled = true
 
 vim.opt.grepprg = "grep -nHbFr"
 vim.opt.grepformat = "%f:%l:%c:%m"
@@ -65,22 +66,18 @@ vim.g.loaded_2html_plugin = 1
 -- }}}
 
 -- Find highlight group
-function M.SynStack()
-	if not vim.fn.exists("*synstack") then
-		return
-	end
-	local o = vim.fn.synstack(vim.fn.line("."), vim.fn.col("."))
-	for k, v in ipairs(o) do
-		o[k] = vim.fn.synIDattr(v, "name")
-	end
-	print(vim.inspect(o))
-end
-
-function _G.FoldText()
+function _G.foldText()
 	local x = vim.fn.getline(vim.v.foldstart)
 	local s, e = x:find(' .* {{{')
 	return vim.v.folddashes:gsub('-', ';') .. ' ' .. x:sub(s+1, e-3)
 end
-vim.opt.foldtext = 'v:lua.FoldText()'
+
+function _G.updateRuler()
+	local ft = vim.bo.filetype
+	vim.opt.rulerformat = "%" .. #ft .. '(%Y%)'
+end
+
+vim.opt.foldtext = 'v:lua.foldText()'
 vim.opt.fillchars = { fold = ' ' }
+
 return M

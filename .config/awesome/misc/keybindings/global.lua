@@ -11,8 +11,7 @@ globalkeys = gears.table.join(
 		group = "User",
 	}),
 	awful.key({ modkey }, "d", function()
-		awful.spawn("lua "..os.getenv("HOME").."/rice/apps/ss/init.lua --no_switcher --style personal.css")
-		-- require("components.ss")
+		awful.spawn.with_shell("cd ~/rice/apps/ss; ./launch.sh")
 	end, {
 		description = "Launch Dmenu (Run)",
 		group = "User",

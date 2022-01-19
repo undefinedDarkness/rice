@@ -43,11 +43,11 @@ local function sidebar_item(name, color)
 			{
 				{
 					widget = wibox.widget.textbox,
-					markup = '<span foreground="#faf4ed">' .. name .. "</span>",
-					font = "UnifontMedium Nerd Font 12",
+					markup = '<span foreground="#faf4ed">' .. name .. '</span>',
+					font = 'UnifontMedium Nerd Font 12',
 				},
 				widget = wibox.container.rotate,
-				direction = "east",
+				direction = 'east',
 			},
 			widget = wibox.container.margin,
 			margins = dpi(8),
@@ -66,9 +66,9 @@ local function key_widget(hotkeys, color)
 		{
 			{
 				widget = wibox.widget.textbox,
-				markup = "<b>" .. table.concat(hotkeys.mod, "</b> + <b>") .. "</b> + " .. table.concat(
+				markup = '<b>' .. table.concat(hotkeys.mod, '</b> + <b>') .. '</b> + ' .. table.concat(
 					tbl_flat(hotkeys.keys),
-					" + "
+					' + '
 				),
 			},
 			widget = wibox.container.margin,
@@ -101,9 +101,9 @@ end
 function update_sidebar(selected)
 	groups_sidebar:reset()
 	for key, group in pairs(groups) do
-		local name = require("misc.libs.stdlib").title_case(key)
+		local name = require('misc.libs.stdlib').title_case(key)
 		if selected == key then
-			name = "<b>" .. name .. "</b>"
+			name = '<b>' .. name .. '</b>'
 		end
 		-- Yeah, I dunno whats going on here with the ternary statement
 		groups_sidebar:add(
@@ -115,10 +115,10 @@ function update(selected)
 	data:reset()
 	for idx, hotkeys in ipairs(groups[selected]) do
 		data:insert_row()
-		if hotkeys.mod[1] == "Mod1" then
-			hotkeys.mod[1] = "Alt"
-		elseif hotkeys.mod[1] == "Mod4" then
-			hotkeys.mod[1] = "Super"
+		if hotkeys.mod[1] == 'Mod1' then
+			hotkeys.mod[1] = 'Alt'
+		elseif hotkeys.mod[1] == 'Mod4' then
+			hotkeys.mod[1] = 'Super'
 		end
 
 		local c = idx ~= #groups[selected] and beautiful.fg_inactive or nil
@@ -128,8 +128,8 @@ function update(selected)
 end
 
 -- Init
-update_sidebar("User")
-update("User")
+update_sidebar('User')
+update('User')
 
 local window = awful.popup({
 	placement = awful.placement.centered,

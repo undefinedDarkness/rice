@@ -6,13 +6,13 @@
 -- Rules
 
 -- Set Wallpaper
-screen.connect_signal("request::wallpaper", function(s)
-	bling.module.tiled_wallpaper("♟︎", s, {
+screen.connect_signal('request::wallpaper', function(s)
+	bling.module.tiled_wallpaper('♟︎', s, {
 		fg = beautiful.wallpaper_fg,
 		bg = beautiful.wallpaper_bg,
 		offset_y = 25,
 		offset_x = 45,
-		font = "UnifontMedium Nerd Font",
+		font = 'UnifontMedium Nerd Font',
 		font_size = 23,
 		padding = 100,
 		zickzack = true,
@@ -20,7 +20,7 @@ screen.connect_signal("request::wallpaper", function(s)
 end)
 
 -- Setup Window Layouts
-tag.connect_signal("request::default_layouts", function()
+tag.connect_signal('request::default_layouts', function()
 	awful.layout.append_default_layouts({
 		awful.layout.suit.floating,
 		awful.layout.suit.tile,
@@ -29,22 +29,22 @@ tag.connect_signal("request::default_layouts", function()
 end)
 
 -- Setup Tags
-screen.connect_signal("request::desktop_decoration", function(s)
+screen.connect_signal('request::desktop_decoration', function(s)
 	awful.tag(beautiful.workspaces, s, awful.layout.layouts[1])
 end)
 
 -- Errors {{{
-local naughty = require("naughty")
+local naughty = require('naughty')
 if awesome.startup_errors then
 	naughty.notify({
 		preset = naughty.config.presets.critical,
-		title = "Oops, there were errors during startup!",
+		title = 'Oops, there were errors during startup!',
 		text = awesome.startup_errors,
 	})
 end
 
 local in_error = false
-awesome.connect_signal("debug::error", function(err)
+awesome.connect_signal('debug::error', function(err)
 	-- Make sure we don't go into an endless error loop
 	if in_error then
 		return
@@ -53,7 +53,7 @@ awesome.connect_signal("debug::error", function(err)
 
 	naughty.notify({
 		preset = naughty.config.presets.critical,
-		title = "Oops, an error happened!",
+		title = 'Oops, an error happened!',
 		text = tostring(err),
 	})
 	in_error = false
@@ -64,7 +64,7 @@ end)
 -- Root Window Buttons {{{
 root.buttons(gears.table.join(
 	awful.button({}, mouse.RIGHT, function()
-		require("subcomponents.menu")()
+		require('subcomponents.menu')()
 	end),
 	awful.button({}, mouse.SCROLL_UP, awful.tag.viewnext),
 	awful.button({}, mouse.SCROLL_DOWN, awful.tag.viewprev)
@@ -75,14 +75,14 @@ root.buttons(gears.table.join(
 -- Client Buttons {{{
 clientbuttons = gears.table.join(
 	awful.button({}, mouse.LEFT, function(c)
-		c:emit_signal("request::activate", "mouse_click", { raise = true })
+		c:emit_signal('request::activate', 'mouse_click', { raise = true })
 	end),
 	awful.button({ modkey }, mouse.LEFT, function(c)
-		c:emit_signal("request::activate", "mouse_click", { raise = true })
+		c:emit_signal('request::activate', 'mouse_click', { raise = true })
 		awful.mouse.client.move(c)
 	end),
 	awful.button({ modkey }, mouse.RIGHT, function(c)
-		c:emit_signal("request::activate", "mouse_click", { raise = true })
+		c:emit_signal('request::activate', 'mouse_click', { raise = true })
 		awful.mouse.client.resize(c)
 	end)
 )
@@ -98,7 +98,7 @@ awful.rules.rules = {
 			border_color = beautiful.border_normal,
 			focus = awful.client.focus.filter,
 			raise = true,
-			keys = require("misc.keybindings.client"),
+			keys = require('misc.keybindings.client'),
 			buttons = clientbuttons,
 			screen = awful.screen.preferred,
 			placement = awful.placement.no_overlap + awful.placement.no_offscreen,
@@ -108,7 +108,7 @@ awful.rules.rules = {
 	-- Add titlebars to normal clients and dialogs
 	{
 		rule_any = {
-			type = { "normal", "dialog" },
+			type = { 'normal', 'dialog' },
 		},
 		properties = { titlebars_enabled = true },
 	},
@@ -116,7 +116,7 @@ awful.rules.rules = {
 	-- 🤮 Disable Titlebars For CSD Apps
 	{
 		rule = {
-			requests_no_titlebar = true
+			requests_no_titlebar = true,
 		},
 		properties = { titlebars_enabled = false },
 	},
@@ -125,8 +125,8 @@ awful.rules.rules = {
 -- }}}
 
 -- Signals {{{
-local lookup_icon = require("menubar.utils").lookup_icon
-client.connect_signal("manage", function(c)
+local lookup_icon = require('menubar.utils').lookup_icon
+client.connect_signal('manage', function(c)
 	if awesome.startup and not c.size_hints.user_position and not c.size_hints.program_position then
 		awful.placement.no_overlap(c) --offscreen(c)
 	end

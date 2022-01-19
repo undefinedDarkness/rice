@@ -1,0 +1,288 @@
+diff --git a/Makefile b/Makefile
+index 377fffc..9153f28 100644
+--- a/Makefile
++++ b/Makefile
+@@ -2,8 +2,11 @@ PREFIX = /usr
+ DESTDIR ?=
+ INSTALL_DIR ?= $(DESTDIR)$(PREFIX)/share/themes/phocus
+ 
+-all:
+-	npm install && npm run build
++build:
++	sass -c scss:. 
++
++watch:
++	sass scss:. -w --no-source-map --color 
+ 
+ install:
+ 	@install -v -d "$(INSTALL_DIR)"
+@@ -13,4 +16,4 @@ install:
+ uninstall:
+ 	@rm -vrf "$(INSTALL_DIR)"
+ 
+-.PHONY: all install uninstall
++.PHONY: watch build install uninstall
+diff --git a/scss/gtk-3.0/_colors.scss b/scss/gtk-3.0/_colors.scss
+index bca0c09..d68afb5 100644
+--- a/scss/gtk-3.0/_colors.scss
++++ b/scss/gtk-3.0/_colors.scss
+@@ -1,24 +1,40 @@
+-$surface-1: hsl(240, 3%, 4%);
+-$surface-2: hsl(240, 3%, 8%);
+-$surface-3: hsl(240, 3%, 12%);
+-$surface-4: hsl(240, 3%, 16%);
+-$surface-5: hsl(240, 3%, 20%);
+-
+-$accent-1: hsl(0,60%,60%);
+-$accent-2: hsl(25,60%,60%);
+-$accent-3: hsl(55,60%,60%);
+-$accent-4: hsl(145,60%,60%);
+-$accent-5: hsl(185,60%,60%);
+-$accent-6: hsl(240,60%,60%);
+-$accent-7: hsl(265,60%,60%);
+-$accent-8: hsl(300,60%,60%);
++$surface-1: #252221;
++$surface-2: #262322;
++$surface-3: #302c2b;
++$surface-4: #3d3837;
++$surface-5: #413c3a;
+ 
++// Red
++$red: #c65f5f;
++
++// Orange
++$orange: #d08b65;
++
++// Yellow
++$yellow: #d9b27c;
++
++// Green
++$green: #859e82;
++
++// Blue / Cyan
++$blue: #728797;
++
++// Magenta
++$accent-6: #998396;
++
++// Another Magenta
++$accent-7: #3d3837;
++$beige: #ab9382; 
++
++// Pink
++$accent-8:  #829e9b;
++
++$secondary-accent: $yellow;
+ $primary-accent: $accent-7;
+-$secondary-accent: $accent-4;
+ 
+-$foreground-color: lighten($surface-5, 45%);
++$foreground-color: #c8bAA4;// lighten($surface-5, 45%);
+ 
+ $highlight: rgba(255,255,255,0.15);
+ 
+ // TODO: is there a better way to do this? this is for example used in gnome-calculator for the result top-border
+-@define-color borders #{"" +$surface-2};
+\ No newline at end of file
++@define-color borders #{"" +$surface-2};
+diff --git a/scss/gtk-3.0/applications/_index.scss b/scss/gtk-3.0/applications/_index.scss
+index 949c4cf..4f3dc9f 100644
+--- a/scss/gtk-3.0/applications/_index.scss
++++ b/scss/gtk-3.0/applications/_index.scss
+@@ -1,3 +1,4 @@
++@use "thunar";
+ @use "chromium";
+ @use "firefox";
+-@use "nautilus";
+\ No newline at end of file
++@use "nautilus";
+diff --git a/scss/gtk-3.0/widgets/_button.scss b/scss/gtk-3.0/widgets/_button.scss
+index 399db4e..72662ad 100644
+--- a/scss/gtk-3.0/widgets/_button.scss
++++ b/scss/gtk-3.0/widgets/_button.scss
+@@ -15,9 +15,9 @@ button {
+   }
+ 
+   &.destructive-action {
+-    background: colors.$accent-1;
+-    color: lighten(colors.$accent-1, 40%);
+-    &:hover:not(:active) { background: darken(colors.$accent-1, 5%); }
++    background: colors.$red;
++    color: lighten(colors.$red, 40%);
++    &:hover:not(:active) { background: darken(colors.$red, 5%); }
+   }
+ 
+   &.circular {
+diff --git a/scss/gtk-3.0/widgets/_headerbar.scss b/scss/gtk-3.0/widgets/_headerbar.scss
+index 1194df6..046d25b 100644
+--- a/scss/gtk-3.0/widgets/_headerbar.scss
++++ b/scss/gtk-3.0/widgets/_headerbar.scss
+@@ -25,9 +25,9 @@ headerbar {
+     }
+ 
+     $titlebutton_to_color: (
+-      minimize: colors.$accent-3,
+-      maximize: colors.$accent-4,
+-      close: colors.$accent-1
++      minimize: colors.$yellow,
++      maximize: colors.$green,
++      close: colors.$red
+     );
+ 
+     @each $type, $color in $titlebutton_to_color {
+diff --git a/scss/gtk-3.0/widgets/_index.scss b/scss/gtk-3.0/widgets/_index.scss
+index fb39368..1af4f62 100644
+--- a/scss/gtk-3.0/widgets/_index.scss
++++ b/scss/gtk-3.0/widgets/_index.scss
+@@ -1,6 +1,10 @@
+ @use "window";
+ @use "headerbar";
+ @use "entry";
++
++// Custom Patches
++@use "fixes";
++
+ @use "button";
+ @use "combobox";
+ @use "placessidebar";
+@@ -32,4 +36,4 @@
+ @use "iconview";
+ @use "spinner";
+ @use "infobar";
+-@use "tooltip";
+\ No newline at end of file
++@use "tooltip";
+diff --git a/scss/gtk-3.0/widgets/_infobar.scss b/scss/gtk-3.0/widgets/_infobar.scss
+index c4da18c..559a781 100644
+--- a/scss/gtk-3.0/widgets/_infobar.scss
++++ b/scss/gtk-3.0/widgets/_infobar.scss
+@@ -4,13 +4,13 @@ infobar {
+   color: rgba(255,255,255,0.8);
+ 
+   &.info {
+-    background: colors.$accent-4;
++    background: colors.$green;
+   }
+   &.warning {
+-    background: colors.$accent-3;
++    background: colors.$yellow;
+   }
+   &.error {
+-    background: colors.$accent-1;
++    background: colors.$red;
+   }
+   &.question {
+     background: colors.$accent-6;
+diff --git a/scss/gtk-3.0/widgets/_progressbar.scss b/scss/gtk-3.0/widgets/_progressbar.scss
+index f8d0dea..dd2b30e 100644
+--- a/scss/gtk-3.0/widgets/_progressbar.scss
++++ b/scss/gtk-3.0/widgets/_progressbar.scss
+@@ -5,7 +5,13 @@ progressbar {
+   trough {
+     background: colors.$highlight;
+     progress {
+-      background: colors.$secondary-accent;
+-    }
++     background: linear-gradient(to right, colors.$yellow, colors.$green);
++	}
+   }
+-}
+\ No newline at end of file
++
++
++
++	  &.vertical progress {
++	  background: linear-gradient(to bottom, colors.$yellow, colors.$green);
++  }
++}
+diff --git a/scss/gtk-3.0/widgets/_rubberband.scss b/scss/gtk-3.0/widgets/_rubberband.scss
+index 28a3709..5bf195a 100644
+--- a/scss/gtk-3.0/widgets/_rubberband.scss
++++ b/scss/gtk-3.0/widgets/_rubberband.scss
+@@ -3,6 +3,6 @@
+ // TODO: use neutral colors for rubberband
+ 
+ rubberband, .rubberband {
+-  background-color: transparentize(colors.$accent-4, 0.9);
+-  border: 1px solid transparentize(colors.$accent-4, 0.4);
++  background-color: transparentize(colors.$green, 0.9);
++  border: 1px solid transparentize(colors.$green, 0.4);
+ }
+\ No newline at end of file
+diff --git a/scss/gtk-3.0/widgets/_scale.scss b/scss/gtk-3.0/widgets/_scale.scss
+index c0a3d0f..f5ce6a4 100644
+--- a/scss/gtk-3.0/widgets/_scale.scss
++++ b/scss/gtk-3.0/widgets/_scale.scss
+@@ -8,17 +8,21 @@ scale {
+     trough {
+       background: colors.$surface-3;
+       slider {
+-        background: lighten(colors.$surface-3, 25%);
++        background: lighten(colors.$foreground-color, 10%);
+         padding: 8px;
+         margin: -5px;
+         border-radius: 100%;
+       }
+       highlight {
+-        background: colors.$primary-accent;
++        background: linear-gradient(to right, colors.$yellow, colors.$green);
+       }
+     }
+   }
+ 
++  &.vertical highlight {
++	  background: linear-gradient(to bottom, colors.$yellow, colors.$green);
++  }
++
+   // TODO: marks can be at the top or bottom, maybe also on the right or left depending on scale.horizontal/vertical
+   marks {
+     mark {
+@@ -32,4 +36,4 @@ scale {
+   }
+ 
+   &:disabled { opacity: 0.3; }
+-}
+\ No newline at end of file
++}
+diff --git a/scss/gtk-3.0/widgets/_switch.scss b/scss/gtk-3.0/widgets/_switch.scss
+index 5cc5bf8..d1bf8d0 100644
+--- a/scss/gtk-3.0/widgets/_switch.scss
++++ b/scss/gtk-3.0/widgets/_switch.scss
+@@ -9,7 +9,7 @@ switch {
+   background-clip: padding-box;
+ 
+   slider {
+-    background: colors.$foreground-color;
++    background: lighten(colors.$foreground-color, 10%);
+     border-radius: 100%;
+     min-width: 5px;
+     min-height: 5px;
+@@ -18,11 +18,11 @@ switch {
+   }
+ 
+   &:checked {
+-    background: transparentize(colors.$primary-accent, 0.7);
++    background: colors.$secondary-accent;
+     background-clip: content-box;
+-    slider {
+-      background: colors.$primary-accent;
+-    }
++    // slider {
++    //   background: lighten(colors.$primary-accent, 45%);
++    // }
+   }
+ 
+   &:disabled { opacity: 0.3; }
+diff --git a/scss/gtk-3.0/widgets/_tabs.scss b/scss/gtk-3.0/widgets/_tabs.scss
+index be81b43..df95ce1 100644
+--- a/scss/gtk-3.0/widgets/_tabs.scss
++++ b/scss/gtk-3.0/widgets/_tabs.scss
+@@ -41,7 +41,7 @@ tabs {
+     transition: border-color 100ms ease-in-out;
+ 
+     header &:checked {
+-      border-color: colors.$primary-accent;
++      border-color: colors.$secondary-accent;
+       color: colors.$foreground-color;
+     }
+ 

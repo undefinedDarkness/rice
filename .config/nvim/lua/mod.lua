@@ -10,41 +10,6 @@ return packer.startup(function()
 		cmd = { "PackerSync", "PackerCompile" },
 	})
 
-	-- Colorscheme
-	use({
-		"chriskempson/base16-vim",
-		cond = function()
-			return vim.env.TERM ~= "st-256color"
-		end,
-		config = function()
-			vim.cmd([[
-			colorscheme base16-default-dark
-			hi EndOfBuffer guifg=bg
-			]])
-		end,
-	})
-
-	use({
-		"jnurmine/Zenburn",
-		cond = function()
-			return vim.env.TERM == "st-256color"
-		end,
-		config = function()
-			-- vim.g.zenburn_high_Contrast = true
-			vim.g.zenburn_italic_Comment = true
-			vim.cmd([[
-			colorscheme zenburn
-			hi EndOfBuffer guifg=bg
-			]])
-		end,
-	})
-
-	-- Nerd Font Icons
-	use({
-		"kyazdani42/nvim-web-devicons",
-		after = "base16-vim"
-	})
-
 	-- Tree / Project Drawer
 	use({
 		"kyazdani42/nvim-tree.lua",
@@ -60,6 +25,14 @@ return packer.startup(function()
 					side = 'left'
 				}
 			})
+			if vim.env.TERM == 'xterm' then
+				vim.g.nvim_tree_show_icons = {
+					git = 0,
+					folders = 0,
+					files = 0,
+					folder_arrows =0
+				}
+			end
 		end,
 	})
 
@@ -72,23 +45,12 @@ return packer.startup(function()
 		end,
 	})
 
-	use({'neovim/nvim-lspconfig', config = function()
-		require('lspconfig')["rust_analyzer"].setup {
-			on_attach = function(_, bufnr)
-				vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-				vim.cmd [[
-				function! OpenCompletion()
-    if !pumvisible() && ((v:char >= 'a' && v:char <= 'z') || (v:char >= 'A' && v:char <= 'Z'))
-        call feedkeys("\<C-x>\<C-o>", "n")
-    endif
-endfunction
-
-autocmd InsertCharPre * call OpenCompletion()
-				]]
-			end
-		}
-	end})
-
+	use({ 
+		'nvim-treesitter/nvim-treesitter',
+		config = function()
+			require'nvim-treesitter.configs'.setup { highlight = { enable = true } }
+		end
+	})
 	-- HTML Editing
 	use({
 		"mattn/emmet-vim",
@@ -105,9 +67,9 @@ autocmd InsertCharPre * call OpenCompletion()
 	-- Highlight Hex Colors
 	use({
 		"ap/vim-css-color",
-		ft = { "yaml", "css", "html", "text", "lua", "cpp", "fennel" },
+		ft = { "yaml", "css", "html", "text", "lua", "cpp", "fennel", "vim", "scss", "sass" },
 		config = function()
-			vim.cmd([[ 
+			vim.cmd([[
 			au FileType lua    call css_color#init('hex', 'none', 'luaString,luaComment,luaString2')
 			au FileType fennel call css_color#init('hex', 'none', 'fennelString')
 			]])
@@ -140,20 +102,44 @@ autocmd InsertCharPre * call OpenCompletion()
 		ft = "lua",
 	})
 
+	use {
+		"folke/zen-mode.nvim",
+		cmd = 'ZenMode',
+		config = function()
+			require("zen-mode").setup {
+				plugins = {
+					options = {
+						enabled = true,
+						ruler = false
+					}
+				},
+				on_open = function()
+					vim.opt.number = false
+				end,
+				on_close = function()
+					vim.opt.number = true
+				end
+			}
+		end
+	}
+
 	use({
 		"mnacamura/vim-fennel-syntax",
 		ft = 'fennel'
 	})
 
+	-- General Finding Toolkit
 	use {
 		'nvim-telescope/telescope.nvim',
-		requires = { {'nvim-lua/plenary.nvim', cmd = 'Telescope'} },
 		cmd = {'Telescope'},
+		requires = {  "kyazdani42/nvim-web-devicons", "nvim-lua/plenary.nvim" },
 		config = function()
 			local actions = require("telescope.actions")
 
 			require("telescope").setup({
 				defaults = {
+					prompt_prefix = 'λ ',
+					vimgrep_arguments = { "ag", "--vimgrep" },
 					mappings = {
 						i = {
 							["<esc>"] = actions.close,
@@ -161,7 +147,6 @@ autocmd InsertCharPre * call OpenCompletion()
 						},
 					},
 					file_ignore_patterns = { "^.git/" },
-					vimgrep_arguments = { "ag", "--vimgrep" }
 				},
 			})
 		end

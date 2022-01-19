@@ -15,15 +15,10 @@ clean:
 
 define fetchMessage
 
-          |\      _,,,---,,_
-    ZZZzz /,`.-'`'    -.  ;-;;,_
-         |,4-  ) )-,_. ,\ (  `'-'
-        '---''(_/--'  `-'\_)  
-
-    \e[1mos\e[0m - %s
-    \e[1msz\e[0m - %s
-    \e[1mkr\e[0m - %s
-
+          |\      _,,,---,,_            %s@%s
+    ZZZzz /,`.-'`'    -.  ;-;;,_        \e[1m\e[33mos\e[0m - %s
+         |,4-  ) )-,_. ,\ (  `'-'       \e[1m\e[33msz\e[0m - %s
+        '---''(_/--'  `-'\_)            \e[1m\e[33mkr\e[0m - %s
 
 endef
 export fetchMessage
@@ -31,8 +26,10 @@ export fetchMessage
 fetch:
 	@. /etc/os-release
 	@printf "$$fetchMessage"\
-        "$$NAME $$VERSION_ID"\
-        "$$(apt list --installed 2> /dev/null | wc -l)"\
+		"$$USER"\
+		"$$(hostname)"\
+        "$$NAME"\
+        "$$(cat /var/lib/dpkg/status | grep 'Package: .*' | wc -l)"\
         "$$(uname -r | grep -Po '\d+.\d+.\d+')"
 
 # Find todo's

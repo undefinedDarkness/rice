@@ -1,18 +1,28 @@
-scheme: "#Zenburn"
-author: "#elnawe"
-base00: "#383838"
-base01: "#404040"
-base02: "#606060"
-base03: "#6f6f6f"
-base04: "#808080"
-base05: "#dcdccc"
-base06: "#c0c0c0"
-base07: "#ffffff"
-base08: "#dca3a3"
-base09: "#dfaf8f"
-base0A: "#e0cf9f"
-base0B: "#5f7f5f"
-base0C: "#93e0e3"
-base0D: "#7cb8bb"
-base0E: "#dc8cc3"
-base0F: "#000000"
+|	accents	|	code	|
+|-----------|-----------|
+|	red		|	#c65f5f	|
+|	green	|	#859e82	|
+|	yellow	|	#d9b27c	|
+|	blue	|	#728797	|
+|	purple	|	#998396	|
+|	aqua	|	#829e9b	|
+|	beige	|	#ab9382	|
+|	orange	|	#d08b65	|
+
+|	background		|	code	|
+|-------------------|-----------|
+|	gray			|	#3d3837	|
+|	background		|	#252221	|
+|	background-1	|	#262322	|
+|	background-2	|	#302c2b	|
+|	background-3	|	#3d3837	|
+|	background-4	|	#413c3a	|
+
+
+|	foreground		|	code	|
+|-------------------|-----------|
+|	foreground		|	#c8bAA4	|
+|	foreground-1	|	#cdc0ad	|
+|	foreground-2	|	#beae94	|
+|	foreground-3	|	#d1c6b4	|
+

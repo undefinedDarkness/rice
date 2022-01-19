@@ -3,8 +3,7 @@ local M = {}
 local function bind(mode, bind, action, opts)
 	vim.api.nvim_set_keymap(mode, bind, action, vim.tbl_extend("force", { noremap = true }, opts or {}))
 end
-
-vim.g.mapleader = " "
+M.bind = bind
 
 -- System Clipboard
 bind("i", "<C-v>", '<ESC>"+pa')
@@ -17,17 +16,18 @@ bind("", "<C-a>", 'ggVG')
 -- F3 to save
 bind("", "<F3>", ":update<CR>", { silent = true })
 
+-- F9 to get highlight group
+bind("n", "<f9>", ":lua require('ts-info').show_hl_captures()<cr>", {silent=true})
+
 -- File Tree & File Finder
 bind("n", "ff", ":Telescope find_files theme=ivy hidden=true<CR>", {silent=true})
-bind("n", "fi", ":Telescope live_grep theme=ivy<CR>", {silent=true})
+bind("n", "if", ":Telescope live_grep theme=ivy<CR>", {silent=true})
+bind("n", "bb", ":Telescope buffers theme=ivy<CR>", {silent=true})
+bind("n", "hh", ":Telescope highlights theme=ivy<CR>", {silent=true})
 bind("n", "<C-f>", ":NvimTreeToggle<CR>", { silent = true })
 
 -- Terminal
 bind("n", "<C-t>", ":Term<CR>", { silent = true })
-
--- Indentation
--- bind("n", "<leader>t", "%retab!<CR>gg=G") -- Spaces -> Tabs
--- bind("n", "<leader>T", ":setl expandtab | :retab<CR>gg=G") -- Tabs -> Spaces
 
 -- More sensible bindings for the wildmenu
 bind("c", "<Up>", 'pumvisible() ? "\\<Left>"  : "\\<Up>"', { expr = true })

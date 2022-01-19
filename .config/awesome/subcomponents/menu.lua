@@ -1,20 +1,20 @@
 local sections = {
 	{
-		name = "Shortcuts",
-		submenu = true,
-		highlight = beautiful.fg_dark_blue,
-		{ name = "AWM Config", exe = [[ cd $XDG_CONFIG_HOME/awesome ; st ]] },
-		{ name = "NVIM Config", exe = [[ cd $XDG_CONFIG_HOME/nvim ; st ]] },
-		{ name = "Screenshot", exe = [[ import -frame -border -window root ~/screenshot.png ]] },
+		name = 'Shortcuts',
+		-- submenu = true,
+		{ name = 'Awesome Config', exe = [[ cd $XDG_CONFIG_HOME/awesome ; st ]] },
+		{ name = 'Vim Config', exe = [[ cd $XDG_CONFIG_HOME/nvim ; st ]] },
+		{ name = 'Screenshot', exe = [[ import -frame -border -window root ~/screenshot.png ]] },
 		{
-			name = "Screenshot [W]",
+			name = 'Screenshot [W]',
 			exe = [[ import -frame -border -window $(xwininfo | grep -Eo '0x[0-9]+' -m1) ~/screenshot.png ]],
 		},
 	},
 	{
-		name = "Applications",
-		{ name = "Terminal", exe = "st", icon = "" },
-		{ name = "WWW ", exe = "firefox-esr", icon = "" },
+		name = 'Applications',
+		{ name = 'Terminal', exe = beautiful.terminal, icon = '' },
+		{ name = 'Web Browser', exe = 'firefox-esr', icon = '' },
+		{ name = 'File Manager', exe = 'thunar' },
 	},
 }
 local window = nil
@@ -25,8 +25,8 @@ local function setup_section_header(section, layout)
 				{
 					{
 						widget = wibox.widget.textbox,
-						markup = '<span weight="bold">  ' .. section.name .. "</span>",
-						align = "left",
+						markup = '<span weight="bold">  ' .. section.name .. '</span>',
+						align = 'left',
 					},
 					widget = wibox.container.margin,
 					top = dpi(5),
@@ -39,9 +39,8 @@ local function setup_section_header(section, layout)
 				end),
 			},
 			widget = wibox.container.margin,
-			left = dpi(10),
 		},
-		bg = section.highlight or beautiful.fg_dark_red,
+		bg = beautiful.menu_section_bg,
 		widget = wibox.container.background,
 	}
 end
@@ -50,22 +49,21 @@ local function setup_section_item(section, item)
 	return {
 		{
 			widget = wibox.widget.textbox,
-			align = "left", -- "center",
+			align = 'left', -- "center",
 			markup = item.name,
-			font = "UnifontMedium Nerd Font 14",
 			buttons = awful.button({}, mouse.LEFT, function()
-				if type(item.exe) == "string" then
+				if type(item.exe) == 'string' then
 					awful.spawn.with_shell(item.exe)
-				elseif type(item.exe) == "function" then
+				elseif type(item.exe) == 'function' then
 					item.exe()
 				end
 				window.visible = false
 			end),
 		},
 		widget = wibox.container.margin,
-		top = idx == 1 and dpi(3) or 0,
+		top = dpi(5),
 		left = dpi(5),
-		bottom = idx == #section and dpi(5) or 0,
+		bottom = dpi(5),
 	}
 end
 
@@ -100,18 +98,21 @@ window = awful.popup({
 	widget = {
 		setup_root_layout(),
 		widget = wibox.container.background,
-		fg = beautiful.fg_subtle,
 	},
 	minimum_width = 150,
 	ontop = true,
+	hide_on_right_click = true,
 	border_width = 0,
-	bg = beautiful.bg_overlay,
+	bg = beautiful.menu_bg,
 })
 
 return function()
-	local x = not window.visible
-	if x then
-		awful.placement.under_mouse(window)
+	if window.visible then
+		-- Right click on main window, assume that it'll be handled by the keygrabber too
+		-- Avoid repeats
+		return
 	end
-	window.visible = x
+
+	awful.placement.under_mouse(window)
+	require('misc.libs.stdlib').only_popup(window, x)
 end

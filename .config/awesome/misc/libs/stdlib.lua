@@ -79,6 +79,36 @@ end
 
 -- Misc
 
+-- Popup that exits once you click somewhere else
+function M.only_popup(popup, e)
+	e = e or true
+	if not e then
+		return
+	end
+	popup.visible = true
+	popup:connect_signal("mouse::leave", function()
+		if mousegrabber.isrunning() then
+			mousegrabber.stop()
+		end
+		mousegrabber.run(function(m)
+			if (m.buttons[mouse.LEFT] == true or m.buttons[mouse.RIGHT] == true) then
+				if mouse.current_wibox and mouse.current_wibox == popup then
+					return false
+				else
+					popup.visible = false
+					return false
+				end
+			end
+			return true
+		end, "left_ptr")
+	end)
+	popup:connect_signal("mouse::enter", function()
+		if mousegrabber.isrunning() then
+			mousegrabber.stop()
+		end
+	end)
+end
+
 -- Courtesy of no37
 function M.hexagon_shape(cr, width, height)
 	temp = 0

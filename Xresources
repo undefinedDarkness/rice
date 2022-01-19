@@ -1,0 +1,39 @@
+! Xterm:
+XTerm.vt100.scrollBar: false
+XTerm.vt100.faceName: RobotoMono Nerd Font:style=Book:pixelsize=14
+XTerm.vt100.internalBorder: 16
+
+*foreground: #c8bAA4
+*background: #252221
+
+! black
+*color0:     #302c2b
+*color8:     #3d3837
+
+! red
+*color1:     #c65f5f
+*color9:     #c65f5f
+
+! green
+*color2:     #859e82
+*color10:    #859e82
+
+! yellow
+*color3:     #d9b27c
+*color11:    #d9b27c
+
+! blue
+*color4:     #728797
+*color12:    #728797
+
+! magenta
+*color5:     #998396
+*color13:    #998396
+
+! cyan
+*color6:     #829e9b
+*color14:    #829e9b
+
+! white
+*color7:     #c8bAA4
+*color15:    #ab9382

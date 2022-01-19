@@ -10,6 +10,11 @@ build:
 			fennel -c "$$line" > "$$rootdir/$$file.lua";\
 	done
 
+format:
+	stylua --color Always --indent-type Tabs --quote-style AutoPreferSingle ./**/*.lua ./*.lua
+
 watch:
 		@echo "Watching for changes"
 		@find -name "*.fnl" | entr make build
+
+.PHONY: watch build format
