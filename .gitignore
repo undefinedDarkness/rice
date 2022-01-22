@@ -3,8 +3,8 @@ Scripts/bin
 colors.txt
 .config/nvim/plugin/packer_compiled.lua
 apps/**/*.o
-.config/Thunar
-.config/xfce4
-.config/dconf
-.config/gtk-3.0
-.config/configstore
+.config/*
+!.config/awesome
+!.config/emacs/*.el
+!.config/emacs/modules
+!.config/nvim

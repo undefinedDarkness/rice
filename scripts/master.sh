@@ -1,25 +1,5 @@
 #!/usr/bin/env bash
 
-# Setup Colemak & Picom
-case $1 in
-	launch)
-		printf "
-\e[1mLAUNCH TASK:\e[0m
-- Killing Picom\n"
-		pkill -e picom
-		printf "\n- Setting Colemak Keyboard Layout\n"
-		xmodmap "$( dirname "$0" )"/xmodmap.colemak && xset r 66
-		printf "\n- Launching Picom\n\n"
-		xrdb -merge ~/rice/Xresources
-		picom -b #-C -f -b\
-			# --shadow-radius=12\
-			# --shadow-opacity=0.3\
-			# --shadow-offset-y=-12\
-			# --shadow-offset-x=-12
-		exit
-		;;
-esac
-
 # -- ALIASES & SETUP -- 
 
 alias rm='rm -v' 
@@ -41,12 +21,11 @@ shopt -s globstar # Make ** actually work.
 bind 'set enable-bracketed-paste on' # Enable Bracket Paste Mode
 
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
-export GTK_THEME="phocus"
+# export GTK_THEME="phocus"
 export LESSHISTFILE=- # Disable Less History
 export HISTFILE= # Disable History File
 export PATH="$PATH:$HOME/.local/bin:$HOME/.deno/bin" # Path
 export PS1="\[\e]0;SH: \W\a\]\[\e[36m\]\w\[\e[m\] \[\e[32m\]->\[\e[m\] " # Prompt
-export EDITOR="nvim" # Set Editor
 
 case "$(uname -r)" in
 	*microsoft-standard-WSL2)
@@ -85,14 +64,19 @@ ack () {
 }
 
 # Use Nvim's Manpager as its simply better than less
-man () {
+if command -v "nvim" &> /dev/null; then
+    man () {
 	nvim +"Man $*" +"only"
-}
+    }
+    export EDITOR="nvim" # Set Editor
+fi
 
 # Get Package Size
 packageSize() {
 	if [ -n "$1" ]; then
-		apt-cache --no-all-versions show "$1" | grep --color=none  '^Size: ' | numfmt --field=2 --to=si
+	    apt-cache --no-all-versions show "$1" \
+		| grep --color=none  '^Size: ' \
+		| numfmt --field=2 --to=si
 	else
 		dpkg --list | grep "^rc" | cut -d " " -f 3 | xargs sudo dpkg --purge 2> /dev/null
 		dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n

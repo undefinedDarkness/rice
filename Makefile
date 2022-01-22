@@ -16,9 +16,9 @@ clean:
 define fetchMessage
 
           |\      _,,,---,,_            %s@%s
-    ZZZzz /,`.-'`'    -.  ;-;;,_        \e[1m\e[33mos\e[0m - %s
-         |,4-  ) )-,_. ,\ (  `'-'       \e[1m\e[33msz\e[0m - %s
-        '---''(_/--'  `-'\_)            \e[1m\e[33mkr\e[0m - %s
+    ZZZzz /,`.-'`'    -.  ;-;;,_        \033[1m\033[33mos\033[0m - %s
+         |,4-  ) )-,_. ,\ (  `'-'       \033[1m\033[33msz\033[0m - %s
+        '---''(_/--'  `-'\_)            \033[1m\033[33mkr\033[0m - %s
 
 endef
 export fetchMessage
@@ -59,15 +59,15 @@ session-install:
 install:
 	@printf "\nBasic Installation\n"
 	@echo "------------------------"
-	
-	# Build from fennel
+
+# Build from fennel
 	cd .config/awesome
 	$(MAKE)
-	# Install submodules
+# Install submodules
 	cd $$XDG_CONFIG_HOME/awesome
 	git submodule update --init --recursive
 	cp -r .config/* $$XDG_CONFIG_HOME/
-	
+
 	@printf "\nPost Installation\n"
 	@echo "------------------------"
 	git clone --depth 1 https://github.com/wbthomason/packer.nvim\

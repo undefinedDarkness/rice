@@ -1,39 +1,41 @@
 ! Xterm:
 XTerm.vt100.scrollBar: false
-XTerm.vt100.faceName: RobotoMono Nerd Font:style=Book:pixelsize=14
 XTerm.vt100.internalBorder: 16
+Xft.rgba: none
+Xft.hintstyle: hintfull
+XTerm.vt100.faceName: xft:PragmataPro Mono Liga:style=Regular:spacing=mono:size=11:antialias=true
 
-*foreground: #c8bAA4
-*background: #252221
+*foreground: #a9b7c6
+*background: #181818
 
 ! black
 *color0:     #302c2b
 *color8:     #3d3837
 
 ! red
-*color1:     #c65f5f
-*color9:     #c65f5f
+*color1:     #ac0909
+*color9:     #ac0909
 
 ! green
-*color2:     #859e82
-*color10:    #859e82
+*color2:     #5e8759
+*color10:    #5e8759
 
 ! yellow
-*color3:     #d9b27c
-*color11:    #d9b27c
+*color3:     #ffc66d
+*color11:    #ffc66d
 
 ! blue
-*color4:     #728797
-*color12:    #728797
+*color4:     #7ca8c6
+*color12:    #7ca8c6
 
 ! magenta
-*color5:     #998396
-*color13:    #998396
+*color5:     #9676ac
+*color13:    #9676ac
 
 ! cyan
 *color6:     #829e9b
 *color14:    #829e9b
 
 ! white
-*color7:     #c8bAA4
-*color15:    #ab9382
+*color7:     #e8e8e8
+*color15:    #fafafa
