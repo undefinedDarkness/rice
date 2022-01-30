@@ -22,7 +22,7 @@ client.connect_signal('request::titlebars', function(c)
 		end)
 	)
 
-	local title = wibox.widget.textbox(c.name:lower())
+	local title = wibox.widget.textbox((c.name or c.class or c.window):lower())
 	title.font = beautiful.titlebar_font
 	local update_name = function()
 		if c.class == 'Thunar' then
@@ -36,30 +36,12 @@ client.connect_signal('request::titlebars', function(c)
 
 	-- Titlebar Setup!
 	awful.titlebar(c, {
-		size = dpi(48),
-		position = 'left',
+		size = dpi(24),
+		position = 'top',
 	}):setup({
 		{
-			{
-				{{
-					widget = wibox.container.background,
-					bg = require('misc.libs.stdlib').color.darken('#ab9382'),
-					shape = function(cr, w, h)
-						gears.shape.transform(gears.shape.cross):rotate_at(w / 2, h / 2, math.pi / 4)(
-							cr,
-							w,
-							h,
-							4
-						)
-					end,
-				}, widget = wibox.container.margin, margins = dpi(8) },
-				widget = wibox.container.background,
-				forced_height = dpi(48),
-				forced_width = dpi(48),
-				bg = '#ab9382',
-			},
 			require('misc.libs.stdlib').force_right(bling.widget.tabbed_misc.titlebar_indicator(c, {
-				layout = wibox.layout.fixed.vertical,
+				layout = wibox.layout.fixed.horizontal,
 				bg_color_focus = beautiful.titlebar_fg_focus,
 				bg_color = '#00000000',
 				widget_template = {
@@ -89,7 +71,7 @@ client.connect_signal('request::titlebars', function(c)
 					end,
 				},
 			})),
-			layout = wibox.layout.align.vertical,
+			layout = wibox.layout.align.horizontal,
 		},
 		buttons = titlebar_buttons,
 		widget = wibox.container.margin,
@@ -97,22 +79,22 @@ client.connect_signal('request::titlebars', function(c)
 		-- left = dpi(5),
 	})
 
-	awful.titlebar.hide(c, 'left')
-	c:connect_signal('mouse::enter', function()
-		awful.titlebar.show(c, 'left')
-	end)
+	-- awful.titlebar.hide(c, 'left')
+	-- c:connect_signal('mouse::enter', function()
+	-- 	awful.titlebar.show(c, 'left')
+	-- end)
 
-	c:connect_signal('mouse::leave', function()
-		if not (client.focus == c) then
-			awful.titlebar.hide(c, 'left')
-		end
-	end)
+	-- c:connect_signal('mouse::leave', function()
+	-- 	if not (client.focus == c) then
+	-- 		awful.titlebar.hide(c, 'left')
+	-- 	end
+	-- end)
 
-	c:connect_signal('unfocus', function()
-		awful.titlebar.hide(c, 'left')
-	end)
+	-- c:connect_signal('unfocus', function()
+	-- 	awful.titlebar.hide(c, 'left')
+	-- end)
 end)
 
-client.connect_signal('focus', function()
-	awful.titlebar.show(client.focus, 'left')
-end)
+-- client.connect_signal('focus', function()
+-- 	awful.titlebar.show(client.focus, 'left')
+-- end)

@@ -49,8 +49,8 @@ clientkeys = gears.table.join(
 		group = "client",
 	}),
 	awful.key({ modkey }, "m", function(c)
-		awful.titlebar.toggle(c)
-		c.maximized = true
+		-- awful.titlebar.toggle(c)
+		c.maximized = not c.maximized
 		c:raise()
 	end, {
 		description = "(un)maximize",

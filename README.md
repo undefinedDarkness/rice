@@ -1,5 +1,6 @@
 ![rice](https://i.ibb.co/bPyHyT2/s2.png)
 ---
+---
 
 Hello 👋, This is the repository for my debian configuration files,
 Using the following software:
@@ -16,7 +17,7 @@ Using the following software:
 ```sh
 git clone --depth 1 https://github.com/undefinedDarkness/rice.git # Clone The Repository
 cd rice
-make pre-install
+make pre-instalL
 ```
 
 ### Firefox Tabs

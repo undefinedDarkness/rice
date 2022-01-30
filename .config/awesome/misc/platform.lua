@@ -4,33 +4,30 @@
 -- Error handling
 -- Root / Client buttons
 -- Rules
-
--- Set Wallpaper
-screen.connect_signal('request::wallpaper', function(s)
-	bling.module.tiled_wallpaper('♟︎', s, {
-		fg = beautiful.wallpaper_fg,
-		bg = beautiful.wallpaper_bg,
-		offset_y = 25,
-		offset_x = 45,
-		font = 'UnifontMedium Nerd Font',
-		font_size = 23,
-		padding = 100,
-		zickzack = true,
-	})
-end)
+require('awful.autofocus')
 
 -- Setup Window Layouts
-tag.connect_signal('request::default_layouts', function()
-	awful.layout.append_default_layouts({
-		awful.layout.suit.floating,
-		awful.layout.suit.tile,
-		awful.layout.suit.spiral.dwindle,
-	})
-end)
+awful.layout.layouts = {
+	awful.layout.suit.floating,
+	awful.layout.suit.tile,
+	awful.layout.suit.spiral.dwindle,
+}
 
 -- Setup Tags
-screen.connect_signal('request::desktop_decoration', function(s)
+local wall = gears.surface.load(user_home .. '/rice/misc/wallpapers/lotr-map.png')
+awful.screen.connect_for_each_screen(function(s)
 	awful.tag(beautiful.workspaces, s, awful.layout.layouts[1])
+	gears.wallpaper.maximized(wall, s)
+	-- bling.module.tiled_wallpaper('♟︎', s, {
+	-- 	fg = beautiful.wallpaper_fg,
+	-- 	bg = beautiful.wallpaper_bg,
+	-- 	offset_y = 25,
+	-- 	offset_x = 45,
+	-- 	font = 'UnifontMedium Nerd Font',
+	-- 	font_size = 23,
+	-- 	padding = 100,
+	-- 	zickzack = true,
+	-- })
 end)
 
 -- Errors {{{
@@ -88,48 +85,16 @@ clientbuttons = gears.table.join(
 )
 -- }}}
 
--- Rules {{{
-awful.rules.rules = {
-	-- All clients will match this rule.
-	{
-		rule = {},
-		properties = {
-			border_width = beautiful.border_width,
-			border_color = beautiful.border_normal,
-			focus = awful.client.focus.filter,
-			raise = true,
-			keys = require('misc.keybindings.client'),
-			buttons = clientbuttons,
-			screen = awful.screen.preferred,
-			placement = awful.placement.no_overlap + awful.placement.no_offscreen,
-		},
-	},
-
-	-- Add titlebars to normal clients and dialogs
-	{
-		rule_any = {
-			type = { 'normal', 'dialog' },
-		},
-		properties = { titlebars_enabled = true },
-	},
-
-	-- 🤮 Disable Titlebars For CSD Apps
-	{
-		rule = {
-			requests_no_titlebar = true,
-		},
-		properties = { titlebars_enabled = false },
-	},
-}
-
--- }}}
-
 -- Signals {{{
 local lookup_icon = require('menubar.utils').lookup_icon
 client.connect_signal('manage', function(c)
 	if awesome.startup and not c.size_hints.user_position and not c.size_hints.program_position then
-		awful.placement.no_overlap(c) --offscreen(c)
+		(awful.placement.no_overlap + awful.placement.no_offscreen)(c) --offscreen(c)
 	end
 end)
 
--- }}}
+-- client.connect_signal("mouse::enter", function(c)
+--     c:emit_signal("request::activate", "mouse_enter", {raise = false})
+-- end)
+
+require('subcomponents.rules')

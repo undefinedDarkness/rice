@@ -16,6 +16,7 @@ beautiful = require('beautiful')
 -- Config Directory
 _config_dir = gears.filesystem.get_dir('config')
 dpi = require('beautiful.xresources').apply_dpi
+user_home = os.getenv('HOME')
 
 -- 🎨 Load Theme
 beautiful.init(_config_dir .. '/theme/theme.lua')
@@ -30,14 +31,16 @@ require('awful.autofocus')
 -- Post Init
 
 -- 🚀 Launch Script
-awful.spawn.with_shell(beautiful.on_startup)
+for _, thing in ipairs(beautiful.on_startup) do
+	awful.spawn.with_shell(thing)
+end
 
 -- For Keybindings
 
 -- Mod1 = Alt
 -- Mod4 = Windows Key
 -- See: `xmodmap`
-modkey = 'Mod1'
+modkey = 'Mod4'
 
 mouse.LEFT = 1
 mouse.MIDDLE = 2
@@ -46,9 +49,11 @@ mouse.SCROLL_UP = 4
 mouse.SCROLL_DOWN = 5
 
 -- Load Components
-require('components.titlebar')
-require('components.notifications')
-require('subcomponents.clock')
+-- require('components.titlebar')
+if awesome.version:match('git') then
+	require('components.notifications')
+end
+-- require('subcomponents.clock')
 require('components.bar')
 
 -- Load Global Keybindings

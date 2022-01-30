@@ -9,6 +9,7 @@ alias cat='cat -n'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias vim='nvim'
+alias emacs='TERM=xterm-24bit emacs '
 alias wget='wget --hsts-file /dev/null' # Disable Wget History
 alias killall='pkill'
 alias colemak="xmodmap ~/rice/scripts/xmodmap.colemak && xset r 66"

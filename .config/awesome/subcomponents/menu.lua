@@ -19,7 +19,7 @@ local sections = {
 }
 local window = nil
 local function setup_section_header(section, layout)
-	return {
+	return wibox.widget({
 		{
 			{
 				{
@@ -42,11 +42,11 @@ local function setup_section_header(section, layout)
 		},
 		bg = beautiful.menu_section_bg,
 		widget = wibox.container.background,
-	}
+	})
 end
 
 local function setup_section_item(section, item)
-	return {
+	return wibox.widget({
 		{
 			widget = wibox.widget.textbox,
 			align = 'left', -- "center",
@@ -64,7 +64,7 @@ local function setup_section_item(section, item)
 		top = dpi(5),
 		left = dpi(5),
 		bottom = dpi(5),
-	}
+	})
 end
 
 local function setup_section(section)

@@ -1,6 +1,7 @@
 ! Xterm:
 XTerm.vt100.scrollBar: false
 XTerm.vt100.internalBorder: 16
+XTerm.vt100.borderWidth: 0
 Xft.rgba: none
 Xft.hintstyle: hintfull
 XTerm.vt100.faceName: xft:PragmataPro Mono Liga:style=Regular:spacing=mono:size=11:antialias=true

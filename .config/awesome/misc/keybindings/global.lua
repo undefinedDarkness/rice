@@ -1,17 +1,26 @@
 local hotkeys_popup = require("awful.hotkeys_popup")
 
 local tabbed = bling.module.tabbed
+bling.widget.window_switcher.enable({})
 
 globalkeys = gears.table.join(
 
 	awful.key({ modkey }, "Print", function()
-		awful.spawn.with_shell(beautiful.on_screenshot)
+	  awful.spawn.with_shell([[ scrot -s -b $HOME'/Pictures/Screenshots/%m-%d-%Y-%M.png' ]])
 	end, {
 		description = "Take Screenshot (selection)",
 		group = "User",
 	}),
-	awful.key({ modkey }, "d", function()
-		awful.spawn.with_shell("cd ~/rice/apps/ss; ./launch.sh")
+
+	awful.key({}, "Print", function()
+	  awful.spawn.with_shell([[ scrot -b $HOME'/Pictures/Screenshots/%d-%m-%Y-%M.png' ]])
+	end, {
+	  description = "Take Screenshot",
+	  group = "User"
+	}),
+	awful.key({ modkey }, "r", function()
+	  require('menubar').show()
+	  -- awful.spawn.with_shell("cd ~/rice/apps/ss; ./launch.sh")
 	end, {
 		description = "Launch Dmenu (Run)",
 		group = "User",
@@ -24,6 +33,13 @@ globalkeys = gears.table.join(
 		group = "User",
 	}),
 
+	-- awful.key({modkey}, "Space", function()
+	--   awful.layout.inc(1)
+	-- end, {
+	--   description = "Increment layout",
+	--   group = "layout"
+	-- }),
+	
 	awful.key({ modkey, "Shift" }, "t", function()
 		bling.module.tabbed.pick()
 	end, {
@@ -123,7 +139,12 @@ globalkeys = gears.table.join(
 	end, {
 		description = "restore minimized",
 		group = "client",
-	}) -- Prompt
+	}), -- Prompt
+
+
+	awful.key({ modkey }, "w", function()
+	  awesome.emit_signal("bling::window_switcher::show")
+	end)
 )
 
 -- Bind all key numbers to tags.
