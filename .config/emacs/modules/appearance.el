@@ -8,7 +8,7 @@
 (add-to-list 'default-frame-alist '(font . "PragmataPro Mono Liga-12"))
 
 ;; Window Padding
-;; (add-to-list 'default-frame-alist '(internal-border-width . 24))
+(add-to-list 'default-frame-alist '(internal-border-width . 24))
 
 ;; Hide Line Truncation Symbol
 (set-display-table-slot standard-display-table 'truncation 32)
@@ -35,12 +35,9 @@
 (add-hook 'window-configuration-change-hook 'update-scroll-bars)
 (add-hook 'buffer-list-update-hook 'update-scroll-bars)
 
-;; Main Theme
-(use-package all-the-icons)
+;; Theme
 
-(add-to-list 'custom-theme-load-path (expand-file-name "modules" user-emacs-directory))
-(load-theme 'jetbrains-darcula t)
-(load-file custom-file)
+
 
 ;; Mode Line Configuration
 (require 'modeline)
@@ -49,7 +46,6 @@
 ;; (use-package uptimes)
 (use-package splash
   :load-path "modules/"
-  ;; :after uptimes
   :config
   (my-splash/show)
   :custom
@@ -58,6 +54,7 @@
 ;; Fancy Ligatures
 (use-package pragmatapro-lig
   :load-path "modules/"
+  :when (display-graphic-p)
   :config
   (pragmatapro-lig-global-mode))
 

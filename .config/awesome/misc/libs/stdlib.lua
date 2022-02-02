@@ -2,6 +2,69 @@ local Gtk = require("lgi").Gtk
 local Gio = require("lgi").Gio
 local M = {}
 
+-- This is so very cursed ;-;
+M.shadow_box = {}
+function M.shadow_box.new(widget, size, offset,bg)
+  return wibox.widget {
+	  layout = wibox.layout.fixed.horizontal,
+	  {
+		-- Main Content
+		{
+		  {
+			widget,
+			widget = wibox.container.margin,
+			margins = dpi(6)
+		  },
+		  widget = wibox.container.background,
+		  shape = gears.shape.rectangle,
+		  shape_border_width = dpi(3),
+		  bg = bg,
+		  shape_border_color = beautiful.bg_shadow
+		},
+		-- Bottom Horizontal Separator
+		{
+		  {
+			widget = wibox.widget.separator,
+			color = beautiful.bg_shadow,
+			orientation = 'horizontal',
+			id = 'b_h_sep',
+			thickness = 8,
+			forced_width = dpi(1),
+			forced_height = dpi(size or 6),
+			border_width = 0
+		  },
+		  widget = wibox.container.margin,
+		  left = dpi(offset or 4),
+		},
+		layout = wibox.layout.fixed.vertical
+	  },
+	  {
+		-- Right Vertical Separator
+		{
+		  widget = wibox.widget.separator,
+			color = beautiful.bg_shadow,
+		  orientation = 'vertical',
+		  thickness = 8,
+		  id = 'r_v_sep',
+		  forced_width = dpi(size or 6),
+		  forced_height = dpi(1),
+		  border_width = 0
+		},
+		widget = wibox.container.margin,
+		top = dpi(offset or 4),
+	  }
+	}
+end
+
+function M.shadow_box.toggle(w)
+  local a = w:get_children_by_id('b_h_sep')[1]
+  a.color = a.color == beautiful.bg_shadow and '#00000000' or beautiful.bg_shadow
+
+  local b = w:get_children_by_id('r_v_sep')[1]
+  b.color = b.color == beautiful.bg_shadow and '#00000000' or beautiful.bg_shadow
+end
+
+
 function M.gtk_lookup_icon(icon_name, size)
   local theme = Gtk.IconTheme.get_default()
   return theme:lookup_icon(icon_name, size or 24, {})
@@ -89,74 +152,6 @@ end
 
 -- Misc
 
-function M.tooltip(v, on_show, placement_fn)
-
-  local text = wibox.widget.textbox()
-  -- eh
-  -- need to find a better solution
-  placement_fn = placement_fn or function(c)  awful.placement.bottom_left(c, { honor_workarea = true, margins = { left = dpi(10), bottom = dpi(6) } }) end
-  local popup = awful.popup {
-	ontop = true,
-	type = 'tooltip',
-	bg = '#00000000',
-	widget = {
-	  layout = wibox.layout.fixed.horizontal,
-	  {
-		{
-		  {
-			text,
-			widget = wibox.container.margin,
-			margins = dpi(6)
-		  },
-		  widget = wibox.container.background,
-		  bg = '#f0f0f0',
-		  shape = gears.shape.rectangle,
-		  shape_border_width = dpi(3),
-		  shape_border_color = '#181818'
-		},
-		{
-		  {
-			widget = wibox.widget.separator,
-			color='#181818',
-			orientation = 'horizontal',
-			thickness = 8,
-			forced_width = dpi(1),
-			forced_height = dpi(6),
-			border_width = 0
-		  },
-		  widget = wibox.container.margin,
-		  left = dpi(4)
-		},
-		layout = wibox.layout.fixed.vertical
-	  },
-	  {
-		{
-		  widget = wibox.widget.separator,
-		  color='#181818',
-		  orientation = 'vertical',
-		  thickness = 8,
-		  forced_width = dpi(6),
-		  forced_height = dpi(1),
-		  border_width = 0
-		},
-		widget = wibox.container.margin,
-		top = dpi(4)
-	  }
-	},
-	placement = placement_fn,
-	visible = false
-  }
-
-  v:connect_signal("mouse::enter", function()
-	text.markup = on_show()
-	popup.visible = true
-  end)
-
-  v:connect_signal("mouse::leave", function()
-	popup.visible = false
-  end)
-
-end
 
 -- Popup that exits once you click somewhere else
 function M.only_popup(popup, e)
@@ -165,22 +160,39 @@ function M.only_popup(popup, e)
 	return
   end
   popup.visible = true
+
+  local keygrab = awful.keygrabber {
+	stop_key = 'Escape',
+	stop_event = 'press',
+	stop_callback = function()
+	  popup.visible = false
+	  if mousegrabber.isrunning() then
+		mousegrabber.stop()
+		end
+	end
+  }
+  keygrab:start()
+
   popup:connect_signal("mouse::leave", function()
 	if mousegrabber.isrunning() then
 	  mousegrabber.stop()
 	end
+
 	mousegrabber.run(function(m)
-	  if (m.buttons[mouse.LEFT] == true or m.buttons[mouse.RIGHT] == true) then
-		if mouse.current_wibox and mouse.current_wibox == popup then
-		  return false
-		else
+
+	  if mouse.current_wibox and mouse.current_wibox == popup then
+		return false
+		end
+
+	  if (m.buttons[1] or m.buttons[3]) and mouse.current_wibox ~= popup then
 		  popup.visible = false
+		  keygrab:stop()
 		  return false
 		end
-	  end
-	  return true
-	end, "left_ptr")
+		return true
+	end, 'left_ptr')
   end)
+
   popup:connect_signal("mouse::enter", function()
 	if mousegrabber.isrunning() then
 	  mousegrabber.stop()
@@ -188,55 +200,8 @@ function M.only_popup(popup, e)
   end)
 end
 
--- Requirement {{{
-local function update_dpi(self, ctx)
-    if not self._private.handle then return end
-
-    local dpi = self._private.auto_dpi and
-        ctx.dpi or
-        self._private.dpi or
-        nil
-
-    local need_dpi = dpi and
-        self._private.last_dpi ~= dpi
-
-    local need_style = self._private.handle.set_stylesheet and
-        self._private.stylesheet
-
-    local old_size = self._private.default and self._private.default.width
-
-    if dpi and dpi ~= self._private.cache.dpi then
-        if type(dpi) == "table" then
-            self._private.handle:set_dpi_x_y(dpi.x, dpi.y)
-        else
-            self._private.handle:set_dpi(dpi)
-        end
-    end
-
-    if need_style and self._private.cache.stylesheet ~= self._private.stylesheet then
-        self._private.handle:set_stylesheet(self._private.stylesheet)
-    end
-
-    -- Reload the size.
-    if need_dpi or (need_style and self._private.stylesheet ~= self._private.last_stylesheet) then
-        set_handle(self, self._private.handle, self._private.cache)
-    end
-
-    self._private.last_dpi = dpi
-    self._private.cache.dpi = dpi
-    self._private.last_stylesheet = self._private.stylesheet
-    self._private.cache.stylesheet = self._private.stylesheet
-
-    -- This can happen in the constructor when `dpi` is set after `image`.
-    if old_size and old_size ~= self._private.default.width then
-        self:emit_signal("widget::redraw_needed")
-        self:emit_signal("widget::layout_changed")
-    end
-end
--- }}}
 
 
-  
 -- Courtesy of no37
 function M.hexagon_shape(cr, width, height)
   temp = 0

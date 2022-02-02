@@ -45,11 +45,39 @@
  '(custom-safe-themes nil)
  '(org-confirm-babel-evaluate nil)
  '(org-edit-src-content-indentation 2)
+ '(org-format-latex-options
+   '(:foreground default :background default :scale 1.2 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
+				 ("begin" "$1" "$" "$$" "\\(" "\\[")))
+ '(org-preview-latex-default-process 'imagemagick)
+ '(org-preview-latex-process-alist
+   '((dvipng :programs
+			 ("latex" "dvipng")
+			 :description "dvi > png" :message "you need to install the programs: latex and dvipng." :image-input-type "dvi" :image-output-type "png" :image-size-adjust
+			 (1.0 . 1.0)
+			 :latex-compiler
+			 ("latex -interaction nonstopmode -output-directory %o %f")
+			 :image-converter
+			 ("dvipng -D %D -T tight -bg Transparent -o %O %f"))
+	 (dvisvgm :programs
+			  ("latex" "dvisvgm")
+			  :description "dvi > svg" :message "you need to install the programs: latex and dvisvgm." :image-input-type "dvi" :image-output-type "svg" :image-size-adjust
+			  (1.7 . 1.5)
+			  :latex-compiler
+			  ("latex -interaction nonstopmode -output-directory %o %f")
+			  :image-converter
+			  ("dvisvgm %f -n -b min -c %S -o %O"))
+	 (imagemagick :programs
+				  ("tectonic" "convert")
+				  :description "pdf > png" :message "you need to install the programs: latex and imagemagick." :image-input-type "pdf" :image-output-type "png" :image-size-adjust
+				  (1.0 . 1.0)
+				  :latex-compiler
+				  ("tectonic -o %o %f")
+				  :image-converter
+				  ("convert -density %D -trim -antialias %f -quality 100 %O"))))
  '(org-src-preserve-indentation t)
- '(package-selected-packages
-   '(origami hotfuzz flx vterm vertico use-package uptimes rainbow-mode projectile perfect-margin parinfer-rust-mode org-superstar org-download org-bullets no-littering neotree markdown-mode magit lua-mode htmlize highlight-defined evil consult centered-window all-the-icons)))
-'("c18d7ab6938a6368343800f2ff9d071f0a9a96b96235b8238ecfacf17f235386" default)
+ '(org-superstar-item-bullet-alit '((42 . 8226) (43 . 8226) (45 . 8226)))
  '(org-hide-emphasis-markers t)
- '(org-superstar-item-bullet-alist '((42 . 8226) (43 . 8226) (45 . 8226)))
  '(package-selected-packages
-   '(highlight-defined org-download htmlize org-superstar org-bullets projectile vterm vertico use-package rainbow-mode perfect-margin parinfer-rust-mode neotree markdown-mode magit lua-mode evil consult centered-window all-the-icons))
+   '(flycheck typescript-mode origami hotfuzz flx vterm vertico use-package uptimes rainbow-mode projectile perfect-margin parinfer-rust-mode org-superstar org-download org-bullets no-littering neotree markdown-mode magit lua-mode htmlize highlight-defined evil consult centered-window all-the-icons)))
+ ;; '(package-selected-packages
+   ;; '(highlight-defined org-download htmlize org-superstar org-bullets projectile vterm vertico use-package rainbow-mode perfect-margin parinfer-rust-mode neotree markdown-mode magit lua-mode evil consult centered-window all-the-icons))

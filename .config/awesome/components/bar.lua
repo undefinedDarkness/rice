@@ -19,18 +19,22 @@ awful.screen.connect_for_each_screen(function(s)
 
 	local time = wibox.widget.textclock(beautiful.clock_fmt)
 	time.font = 'Ringbearer Medium 16'
-	cl.tooltip(time,
-	  function()
+	awful.tooltip({
+	  objects = { time },
+	  timer_function = function()
 		return require('lgi').GLib.DateTime.new_now_local():format("%d-%B-%y (%a) - %I:%M %P")
 	  end,
-	  function(c)
-		awful.placement.bottom(c, { honor_workarea = true, margins = { bottom = dpi(4) } })
-	end)
-
+	  timeout = 60
+	})
 	local layout_no = wibox.widget.textbox()
 	layout_no.font = 'Ringbearer Medium 16'
 	layout_no.text = 0 -- s.selected_tag.index
-
+	layout_no:buttons(
+	  awful.button({}, mouse.LEFT, function()
+		awful.tag.viewnext(mouse.screen)
+	  end)
+	)
+	
 	-- [WARN] Might cause issues if you have > 3 workspaces
 	awful.screen.focused():connect_signal("tag::history::update", function()
 	  layout_no.text = string.rep("i", s.selected_tag.index)
@@ -61,11 +65,11 @@ awful.screen.connect_for_each_screen(function(s)
 			},
 			{
 			  {
-			  wibox.widget.systray(),
-			  layoutbox,
-			  layout_no,
-			  spacing = dpi(4),
-			  layout = wibox.layout.fixed.horizontal,
+				wibox.widget.systray(),
+				layoutbox,
+				layout_no,
+				spacing = dpi(4),
+				layout = wibox.layout.fixed.horizontal,
 			  },
 			  widget = wibox.container.margin,
 			  margins = dpi(4)

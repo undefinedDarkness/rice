@@ -4,6 +4,8 @@ colors.txt
 .config/nvim/plugin/packer_compiled.lua
 apps/**/*.o
 .config/*
+
+# Emacs Configuration
 .config/emacs/elpa
 .config/emacs/parinfer-rust
 .config/emacs/*.eld
@@ -12,6 +14,8 @@ apps/**/*.o
 .config/emacs/auto-save-list
 !.config/emacs/
 !.config/emacs/modules
+
+# Other
 !.config/awesome
 !.config/emacs
 !.config/nvim

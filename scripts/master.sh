@@ -5,7 +5,7 @@
 alias rm='rm -v' 
 alias mv='mv -v'
 alias cp='cp -v'
-alias cat='cat -n'
+# This was a really bad idea ;-; alias cat='cat -n'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias vim='nvim'

@@ -5,24 +5,30 @@ local themes_path = _config_dir .. 'theme/'
 local theme = {}
 
 -- Colors
-theme.wallpaper_bg = '#E5CEAE'
-theme.wallpaper_fg = '#E5CEAE'
-theme.titlebar_bg_focus = '#d9b27c'
-theme.titlebar_bg_normal = '#ab9382'
-theme.menu_bg = '#262322'
 theme.bg_normal = '#ff0000'
-theme.menu_section_bg = '#859e82'
-theme.wibar_bg = '#f7f3ea'
-theme.tasklist_bg_normal = theme.wibar_bg
-theme.bg_systray = theme.wibar_bg
+theme.bg_shadow = '#111111'
 theme.fg_normal = '#181818'
-theme.wibar_top_border_width = 2
--- theme.wibar_border_color = "#181818"
+theme.bg_light = "#fafafa"
+theme.bg_wall = '#f7f3e8'
+theme.fg_grey = '#b0b0b0'
+
+theme.wibar_bg = theme.bg_wall
+theme.bg_systray = theme.wibar_bg
+theme.tasklist_bg_normal = theme.wibar_bg
+theme.menubar_bg_normal = theme.wibar_bg
+
+-- theme.menu_bg = '#262322'
+-- theme.menu_section_bg = '#859e82'
+
+theme.prompt_bg = theme.fg_normal
+theme.prompt_fg = theme.bg_light
+theme.prompt_bg_cursor = theme.bg_gray
 
 -- Tasklist Status Icons
 theme.tasklist_maximized = ' &lt;<b>M</b>&gt; '
 
 -- Other
+theme.wibar_top_border_width = dpi(2)
 theme.useless_gap = dpi(8)
 theme.systray_icon_spacing = dpi(8)
 theme.font = 'Commissioner Regular'

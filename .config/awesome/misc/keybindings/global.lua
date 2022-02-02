@@ -1,4 +1,4 @@
-local hotkeys_popup = require("awful.hotkeys_popup")
+-- local hotkeys_popup = require("awful.hotkeys_popup")
 
 local tabbed = bling.module.tabbed
 bling.widget.window_switcher.enable({})
@@ -19,19 +19,18 @@ globalkeys = gears.table.join(
 	  group = "User"
 	}),
 	awful.key({ modkey }, "r", function()
-	  require('menubar').show()
-	  -- awful.spawn.with_shell("cd ~/rice/apps/ss; ./launch.sh")
+	  require('components.menubar').show()
 	end, {
 		description = "Launch Dmenu (Run)",
 		group = "User",
 	}),
 
-	awful.key({ modkey }, "o", function()
-		require("components.overview")(true)
-	end, {
-		description = "Launch tag overview",
-		group = "User",
-	}),
+	-- awful.key({ modkey }, "o", function()
+	-- 	require("components.overview")(true)
+	-- end, {
+	-- 	description = "Launch tag overview",
+	-- 	group = "User",
+	-- }),
 
 	-- awful.key({modkey}, "Space", function()
 	--   awful.layout.inc(1)
@@ -54,7 +53,7 @@ globalkeys = gears.table.join(
 	}),
 
 	awful.key({ modkey }, "s", function()
-		require("subcomponents.keys")()
+		require("components.keys")()
 	end, {
 		description = "show help",
 		group = "User",
@@ -141,10 +140,17 @@ globalkeys = gears.table.join(
 		group = "client",
 	}), -- Prompt
 
+	awful.key({ modkey, "Shift" }, "p", function()
+	  require('components.powermenu')()
+	end, {
+	  description = "Launch powermenu",
+	  group = "User"
+	})
+	
 
-	awful.key({ modkey }, "w", function()
-	  awesome.emit_signal("bling::window_switcher::show")
-	end)
+-- 	awful.key({ modkey }, "w", function()
+-- 	  awesome.emit_signal("bling::window_switcher::show")
+-- 	end)
 )
 
 -- Bind all key numbers to tags.

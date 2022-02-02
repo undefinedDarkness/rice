@@ -13,7 +13,10 @@
 
   (advice-add #'lua-calculate-indentation-block-modifier
               :around #'lua-at-most-one-indent))
- 
+
+(use-package typescript-mode
+  :mode "\\.ts\\'")
+
 (use-package highlight-defined
   :hook (emacs-lisp-mode . highlight-defined-mode))
 
@@ -26,9 +29,6 @@
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode))
 
-(use-package hotfuzz
-  :custom
-  (completion-styles '(hotfuzz)))
 
 (use-package origami
   :after evil
@@ -45,18 +45,12 @@
   (evil-define-key 'normal prog-mode-map (kbd "TAB") 'my/origami-toggle-node))
       
 
-(use-package consult
- :after vertico
- :bind (("C-c f"  . consult-find)
-        ("C-c b"  . consult-buffer)
-        ("C-c B" . consult-bookmark)
-        ("C-c if" . consult-grep)
-        ("C-c man"  . consult-man))
- :custom
- (consult-find-args "find .")
- (consult-project-root-function
-      (lambda ()
-        (when-let (project (project-current))
-          (car (project-roots project))))))
+;; Completion / Linting
+(use-package flycheck
+  :hook (prog-mode . flycheck-mode)
+  :custom
+  (flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+
+;; (add-hook 'prog-mode-hook (lambda () (flyspell-prog-mode)))
 
 (provide 'programming)

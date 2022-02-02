@@ -35,7 +35,8 @@ return function(s)
 	  {
 		{
 		  {
-			widget = wibox.widget.imagebox,
+			widget = require('misc.libs.imagebox'),
+			-- ;-; Scaling the pixel art correctly makes it look like shite, scaling_quality = 'nearest',
 			id = 'c_icon',
 		  },
 		  widget = wibox.container.margin,
@@ -52,16 +53,26 @@ return function(s)
 	  create_callback = function(self, c, index, objects)
 		local box = self:get_children_by_id('c_icon')[1]
 		box.image = get_icon_for(c, box)
-		  
-		require('misc.libs.bling.widget.tabbed_misc.custom_tasklist').register(self, c)
 
-		cl.tooltip(self, function()
+		-- TODO:
+		-- Fix possible problem that you can't tell which are firefox tabs
+		-- and which are bling tabs
+		require('misc.libs.bling.widget.tabbed_misc.custom_tasklist').register(self, c)
+		if c.class == "Firefox" then
+		  self:add(require('misc.libs.firefox').attach(c))
+		end
+		
+		awful.tooltip({
+		  objects = { self.children[1] },
+		  timer_function = function()
 		  local out = c.name
 		  if c.first_tag ~= mouse.screen.selected_tag then
 			out = out .. " (" .. (c.first_tag or { index = "?" }).index .. ")"
 		  end
 		  return out
-		end)
+		  end,
+		  timeout = 60
+		})
 		self.children[1]:buttons(awful.button({}, 1, function()
 		  if awful.screen.focused().selected_tag ~= c:tags()[1] then
 			c.first_tag:emit_signal('request::select')

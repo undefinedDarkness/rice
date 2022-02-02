@@ -19,16 +19,22 @@
       tab-always-indent nil
       confirm-kill-processes nil
       bookmark-save-flag t
+      ispell-program-name "aspell"
       frame-title-format "Editing: %b"  
       custom-file (expand-file-name "modules/custom.el" user-emacs-directory))
-
+     
 (setq-default tab-width 4)
 
 (unless (display-graphic-p)
     (require 'tty))
-(unless noninteractive
-  (progn (require 'appearance)
-         (require 'ui)
-         (require 'programming)))
 
+(require 'programming)
 (require 'writing)
+
+(unless noninteractive
+  (require 'ui)
+  (require 'appearance))
+
+(add-to-list 'custom-theme-load-path (expand-file-name "modules" user-emacs-directory))
+(load-theme 'jetbrains-darcula t)
+(load-file custom-file)
