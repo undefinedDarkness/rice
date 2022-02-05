@@ -1,11 +1,12 @@
 ;; -*- lexical-binding: t; -*-
 
-;; Disable
+;; Disable some modes
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 
 ;; Append to load path
 (add-to-list 'load-path (expand-file-name "modules/" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "modules/extern" user-emacs-directory))
 
 ;; Init Package System
 (require 'package)
@@ -15,13 +16,31 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
+;; Appearance
+
+(pixel-scroll-precision-mode 1) ;; Good Scrolling
+(fringe-mode -1)
+
+;; Font
+(add-to-list 'default-frame-alist '(font . "iA Writer Quattro V-12"))
+
+;; Window Padding
+(add-to-list 'default-frame-alist '(internal-border-width . 24))
+
+;; Hide Line Truncation Symbol
+(set-display-table-slot standard-display-table 'truncation 32)
+
+;; Performance
 (defvar custom-file-name-handler-alist file-name-handler-alist)
+
 (setq use-package-always-ensure t
+      ;; Breaks config so not using it rn use-package-always-defer t 
       file-name-handler-alist nil
  
       ;; Package Starting Unwanted
       package-enable-at-startup nil
       package--init-file-ensured t
+      package-native-compile t
 
       ;; Garbage Collector Hack
       gc-cons-threshold most-positive-fixnum ; 2^61 bytes

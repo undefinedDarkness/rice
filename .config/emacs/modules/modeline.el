@@ -1,16 +1,21 @@
-;; -*- lexical-binding: t; -*-
+;; ===============
+;; Helper Functions
+;; ===============
 
-;; (setq custom-mode-line-right '("" mode-line-modes))
+(defun my/mode-line--right-align (reserve)
+ "Return empty space using FACE and leaving RESERVE space on the right."
+ (when
+   (and window-system (eq 'right (get-scroll-bar-mode)))
+   (setq reserve (- reserve 3)))
+ (propertize " "
+   'display
+   `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))))
 
-;; (defun custom-mode-line/separator ()
-;;   (let ((r-length (length (format-mode-line custom-mode-line-right))))
-;;     (propertize " "
-;;                 'display `(space :align-to (- (+ right right-fringe right-margin) ,r-length)))))
+;; =================
+;; Mode Line Variants
+;; =================
 
-;; (setq-default mode-line-format
-;;               '(""
-;;                 (:eval (custom-mode-line/separator))
-;;                 mode-line-modes))
+(defun my/mode-line-for-writing ()
+  (setq mode-line-format (list (my/mode-line--right-align 13) '(:eval wc-buffer-stats))))
 
-(setq-default mode-line-format "%-")
 (provide 'modeline)

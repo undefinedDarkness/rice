@@ -6,14 +6,14 @@ bling.widget.window_switcher.enable({})
 globalkeys = gears.table.join(
 
 	awful.key({ modkey }, "Print", function()
-	  awful.spawn.with_shell([[ scrot -s -b $HOME'/Pictures/Screenshots/%m-%d-%Y-%M.png' ]])
+	  awful.spawn.with_shell([[ maim -s $(date +$HOME'/Pictures/Screenshots/%d-%m-%y-%T.png') ]])
 	end, {
 		description = "Take Screenshot (selection)",
 		group = "User",
 	}),
 
 	awful.key({}, "Print", function()
-	  awful.spawn.with_shell([[ scrot -b $HOME'/Pictures/Screenshots/%d-%m-%Y-%M.png' ]])
+	  awful.spawn.with_shell([[ maim $(date +$HOME'/Pictures/Screenshots/%d-%m-%y-%T.png') ]])
 	end, {
 	  description = "Take Screenshot",
 	  group = "User"

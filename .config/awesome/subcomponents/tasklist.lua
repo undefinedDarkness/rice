@@ -17,7 +17,7 @@ return function(s)
 
   local function get_icon_for(c, box)
 	local class = c.class:lower()
-	local icons = { "libresprite", "xterm", "emacs", "firefox", "thunar", "colr" }
+	local icons = { "libresprite", "xterm", "emacs", "firefox", "thunar", "colr", "firefox-esr" } -- TODO: Get this list automatically
 	for _, v in ipairs(icons) do
 	  if class == v then
 		return gears.filesystem.get_configuration_dir() .. 'theme/assets/icons/' .. v .. '.png'

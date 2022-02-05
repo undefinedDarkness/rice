@@ -28,6 +28,9 @@ export HISTFILE= # Disable History File
 export PATH="$PATH:$HOME/.local/bin:$HOME/.deno/bin" # Path
 export PS1="\[\e]0;SH: \W\a\]\[\e[36m\]\w\[\e[m\] \[\e[32m\]->\[\e[m\] " # Prompt
 
+# Set Config Directory To Dotfiles
+export XDG_CONFIG_HOME=$HOME/rice/.config
+
 case "$(uname -r)" in
 	*microsoft-standard-WSL2)
 
@@ -40,8 +43,6 @@ case "$(uname -r)" in
 		export DISPLAY=$(ip route | awk '/^default/{print $3}'):0.0
 		#export LIBGL_ALWAYS_INDIRECT=1
 
-		# Set Config Directory To Dotfiles
-		export XDG_CONFIG_HOME=$HOME/rice/.config
 		;;
 
 esac

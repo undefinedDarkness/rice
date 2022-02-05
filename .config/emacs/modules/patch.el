@@ -1,5 +1,9 @@
 ;; -*- lexical-binding: t; -*-
 
+;; =====================
+;; Evil Mode Compatibility
+;; =====================
+
 (defun make-obsolete (obsolete-name current-name &optional when)
   "Make the byte-compiler warn that function OBSOLETE-NAME is obsolete.
 OBSOLETE-NAME should be a function name or macro name (a symbol).
@@ -93,7 +97,10 @@ CURRENT-NAME, if it does not already have them:
             (put ,current-name prop (get ,obsolete-name prop))))
      (make-obsolete-variable ,obsolete-name ,current-name ,when)))
 
-;; Fix the cl error
+;; =====
+;; Other
+;; =====
+
 (setq byte-compile-warnings '(cl-functions))
 
 (provide 'patch)

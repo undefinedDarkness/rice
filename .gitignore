@@ -10,6 +10,8 @@ apps/**/*.o
 .config/emacs/parinfer-rust
 .config/emacs/*.eld
 .config/emacs/var
+.config/emacs/eln-cache
+.config/emacs/.cache
 .config/emacs/etc
 .config/emacs/auto-save-list
 !.config/emacs/

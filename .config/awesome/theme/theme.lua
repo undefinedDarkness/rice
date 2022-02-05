@@ -39,7 +39,7 @@ theme.workspaces = { 'Hephaestus', 'Apollo', 'Hermes' }
 theme.terminal = 'xterm -geometry 50x20'
 theme.tabbar_disable = true
 theme.clock_fmt = '<b>%R</b>'
-theme.on_startup = { 'picom -b -c -C' }
+theme.on_startup = { 'picom -b -c -C', 'xrdb -load ~/rice/Xresources', 'nm-applet' }
 
 -- Notifications
 theme.notification_spacing = dpi(16)

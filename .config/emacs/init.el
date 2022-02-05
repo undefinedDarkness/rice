@@ -2,6 +2,7 @@
 (package-initialize)
 (require 'use-package)
 
+;; Clean up emacs configuration directory
 (use-package no-littering)
 (use-package patch
   :load-path "modules")
@@ -14,27 +15,38 @@
   (evil-mode 1)
   (require 'bindings))
 
+;; Settings for builtins that I have not made a new place for
 (setq auto-save-default nil
+      comp-deferred-compilation t
       backup-inhibited t
-      tab-always-indent nil
       confirm-kill-processes nil
       bookmark-save-flag t
+      tab-always-indent 'complete
+      
       ispell-program-name "aspell"
+      flyspell-prog-text-faces '(font-lock-comment-face font-lock-doc-face) ;; Don't find mistakes in any old strings
+
       frame-title-format "Editing: %b"  
-      custom-file (expand-file-name "modules/custom.el" user-emacs-directory))
+      custom-file (expand-file-name "modules/custom.el" user-emacs-directory)
+      bookmark-default-file (expand-file-name "var/bookmark-default.el" user-emacs-directory))
      
-(setq-default tab-width 4)
+(setq-default tab-width 4
+                  mode-line-format "⠀"
+                  indent-tabs-mode nil
+                  cursor-in-non-selected-windows nil)
 
-(unless (display-graphic-p)
-    (require 'tty))
-
-(require 'programming)
-(require 'writing)
+(unless (or noninteractive (display-graphic-p))
+    (xterm-mouse-mode 1))
 
 (unless noninteractive
-  (require 'ui)
-  (require 'appearance))
+  ;; New UI Components
+  ;; & Appearance Settings
+  (require 'ui))
 
-(add-to-list 'custom-theme-load-path (expand-file-name "modules" user-emacs-directory))
-(load-theme 'jetbrains-darcula t)
+;; Editing Experience
+(require 'programming)
+
+;; Writing Experience
+(require 'writing)
+
 (load-file custom-file)
