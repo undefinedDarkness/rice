@@ -16,27 +16,26 @@
   (require 'bindings))
 
 ;; Settings for builtins that I have not made a new place for
-(setq auto-save-default nil
-      comp-deferred-compilation t
-      backup-inhibited t
-      confirm-kill-processes nil
-      bookmark-save-flag t
-      tab-always-indent 'complete
-      
-      ispell-program-name "aspell"
-      flyspell-prog-text-faces '(font-lock-comment-face font-lock-doc-face) ;; Don't find mistakes in any old strings
+(use-package emacs
+  :custom
+  (auto-save-default nil)
+  (comp-deferred-compilation t)
+  (backup-inhibited t)
+  (confirm-kill-processes nil)
+  (bookmark-save-flag t)
+  (image-use-external-converter t)
+  (tab-always-indent 'complete)
+  (frame-title-format "Editing: %b")  
+  (custom-file  (expand-file-name "modules/custom.el" user-emacs-directory))
+  (bookmark-default-file (expand-file-name "var/bookmark-default.el" user-emacs-directory)))
 
-      frame-title-format "Editing: %b"  
-      custom-file (expand-file-name "modules/custom.el" user-emacs-directory)
-      bookmark-default-file (expand-file-name "var/bookmark-default.el" user-emacs-directory))
-     
 (setq-default tab-width 4
-                  mode-line-format "⠀"
-                  indent-tabs-mode nil
-                  cursor-in-non-selected-windows nil)
+              mode-line-format "⠀"
+              indent-tabs-mode nil
+              cursor-in-non-selected-windows nil)
 
 (unless (or noninteractive (display-graphic-p))
-    (xterm-mouse-mode 1))
+ (require 'terminal)) 
 
 (unless noninteractive
   ;; New UI Components

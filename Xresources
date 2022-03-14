@@ -2,9 +2,17 @@
 XTerm.vt100.scrollBar: false
 XTerm.vt100.internalBorder: 16
 XTerm.vt100.borderWidth: 0
-Xft.rgba: none
-Xft.hintstyle: hintfull
-XTerm.vt100.faceName: xft:PragmataPro Mono Liga:style=Regular:spacing=mono:size=11:antialias=true
+! Xft.rgba: none
+! Xft.hintstyle: hintfull
+XTerm.vt100.faceName: xft:Gohu GohuFont:size=14:antialias=false
+! xft:mononoki:style=Regular:spacing=mono:size=11:antialias=true
+XTerm.vt100.metaSendsEscape: true
+
+! Sane copy paste behaviour
+XTerm.selectToClipboard: true
+XTerm.vt100.translations: #override \
+    Shift Ctrl <Key> C: copy-selection(CLIPBOARD) \n\
+    Shift Ctrl <Key> V: insert-selection(CLIPBOARD)
 
 *foreground: #a9b7c6
 *background: #181818

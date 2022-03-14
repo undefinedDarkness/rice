@@ -4,6 +4,17 @@
 ;; Language Support
 ;; ================
 
+(use-package gnuplot)
+
+(use-package gdscript-mode
+  :mode "\\.gd\\'")
+
+(use-package glsl-mode
+  :mode "\\.glsl\\'")
+ 
+(use-package rust-mode
+  :mode "\\.rs\\'")
+
 (use-package lua-mode
   :mode "\\.lua\\'"
   :custom
@@ -28,6 +39,9 @@
 ;; ================
 ;; Editing Experience
 ;; ================
+
+(use-package format-all
+  :commands (format-all-buffer format-all-mode))
 
 ;; Find bookmarks, files, many other things
 (use-package consult
@@ -61,7 +75,8 @@
 ;; Highlight Color Codes
 (use-package rainbow-mode
   :unless noninteractive
-  :hook (prog-mode . rainbow-mode))
+  :commands rainbow-mode
+  :hook (css-mode . rainbow-mode))
 
 ;; Code Folding
 (use-package origami
@@ -87,8 +102,10 @@
   :custom
   (flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 
+(add-hook 'prog-mode-hook (lambda () (flymake-mode -1)))
+
 ;; Spell checking in comments
-(add-hook 'prog-mode-hook (lambda () (flyspell-prog-mode)))
+;; (add-hook 'prog-mode-hook (lambda () (flyspell-prog-mode)))
 
 ;; Completion
 (unless noninteractive

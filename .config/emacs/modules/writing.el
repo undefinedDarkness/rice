@@ -4,6 +4,24 @@
 ;; Org Mode & Plugins
 ;; =================
 
+(defun my/insert-key (key)
+  "Ask for a key then insert its description.
+Will work on both org-mode and any mode that accepts plain html."
+  (interactive "kType key sequence: ")
+  (let* ((orgp (derived-mode-p 'org-mode))
+         (tag (if orgp "=%s=" "<kbd>%s</kbd>")))
+    (if (null (equal key "\C-m"))
+        (insert 
+         (format tag (help-key-description key nil)))
+      ;; If you just hit RET.
+      (insert (format tag ""))
+      (forward-char (if orgp -1 -6)))))
+
+;; Syntax Highlighting in HTML Export
+;; [NOTE] Will interefere with exporting manually
+(use-package htmlize
+  :when noninteractive)
+
 (use-package org
   :mode ("\\.org\\'" . org-mode)
   :custom
@@ -19,7 +37,8 @@
   (org-todo-keywords '((sequence "TODO" "WIP" "MAYBE" "|" "DONE" "WONT DO")))
   
   (org-startup-align-all-tables t)
-  (org-startup-indented t)
+  ;; (org-startup-indented t)
+  (org-startup-with-latex-preview t)
   (org-startup-with-inline-images t)
   (org-pretty-entities t)
 
@@ -48,16 +67,35 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp t)
-     (C t))))
+     (C t)
+     (latex t)
+     (gnuplot t)))
      
-;; Syntax Highlighting in HTML Export
-;; [NOTE] Will interefere with exporting manually
-(use-package htmlize
-  :when noninteractive)
+
+  (eval-after-load 'ox-html
+   '(push '(verbatim . "<kbd>%s</kbd>") org-html-text-markup-alist))
+
+  (define-key org-mode-map "\C-ck" #'my/insert-key))
+
+(use-package org-modern
+  :load-path "modules/extern"
+  :after org
+  :commands org-modern-mode
+  :hook (org-mode . org-modern-mode))
+
+(use-package org-download
+  :after org
+  :commands org-download-yank)
+
+(use-package org-fragtog
+  :after org
+  :hook (org-mode . org-fragtog-mode))
+ 
 
 ;; Better Bullets
 (use-package org-superstar
   :after org
+  :disabled
   :unless noninteractive
   :custom
   (org-superstar-headline-bullets-list '(42 42 42 32))
@@ -115,13 +153,24 @@
 (require 'modeline)
 
 (unless noninteractive
+  ;; Word Count
   (use-package wc-mode
     :load-path "modules/extern"
     :after (org markdown-mode)
     :custom
     (wc-modeline-format "%tw Words")))
 
+;; Spell Checking
+(use-package flyspell
+  :hook ((org-mode . flyspell-mode)
+         (markdown-mode . flyspell-mode))
+  :custom
+  (ispell-program-name "aspell")
+  (flyspell-prog-text-faces '(font-lock-comment-face font-lock-doc-face)))
+
+
 ;; Cleanup stuff for org & markdown mode
+;; [TODO] Move into a actual mode
 (defun my/writing-mode ()
   (variable-pitch-mode 1)
   (flyspell-mode 1)
@@ -139,11 +188,11 @@
   (set-window-scroll-bars (minibuffer-window) 0 'none) ;; Fix scrollbars randomly showing up in writing-mode
 
   ;; Pretty symbols
-  (my/setup-prettify-symbols)
-  (prettify-symbols-mode 1)
+  ;; (my/setup-prettify-symbols)
+  ;; (prettify-symbols-mode 1)
 
-  (when (equal major-mode 'markdown-mode)
-    (markdown-display-inline-images))
+  (if (equal major-mode 'markdown-mode)
+      (markdown-display-inline-images))
 
   ;; Clear any messages
   (message ""))

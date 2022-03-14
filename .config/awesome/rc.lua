@@ -49,12 +49,9 @@ mouse.SCROLL_UP = 4
 mouse.SCROLL_DOWN = 5
 
 -- Load Components
--- require('components.titlebar')
-if awesome.version:match('git') then
-	require('components.notifications')
-end
--- require('subcomponents.clock')
-require('components.bar')
+require('components.notifications')
+-- require('components.bar')
+require('components.titlebar')
 
 -- Load Global Keybindings
 require('misc.keybindings.global')

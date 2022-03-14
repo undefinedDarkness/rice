@@ -11,7 +11,7 @@ build:
 	done
 
 format:
-	stylua --color Always --indent-type Tabs --quote-style AutoPreferSingle ./**/*.lua ./*.lua
+	stylua --color Always --indent-type Tabs --quote-style AutoPreferSingle $$(find '.' -name '*.lua' -not -name '*#*' -not -path './misc/libs/bling')
 
 watch:
 		@echo "Watching for changes"

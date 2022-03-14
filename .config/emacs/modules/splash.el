@@ -5,7 +5,7 @@
   (get-buffer-create "*splash*")
   (interactive)
   (with-current-buffer "*splash*"
-        (erase-buffer)
+    (erase-buffer)
     (setq header-line-format nil)
     (setq mode-line-format nil)
     (setq cursor-type nil)
@@ -13,33 +13,31 @@
     (setq vertical-scroll-bar nil)
     (setq horizontal-scroll-bar nil)
     (face-remap-add-relative 'link :underline nil)
-   (let* ((selected-img (expand-file-name "modules/splash.png" user-emacs-directory)))
-           ;; top paddin g
-         (insert-char ?\n 8)
+    (let* ((selected-img (expand-file-name "modules/bot.png" user-emacs-directory)))
+      ;; top paddin g
+      (insert-char ?\n 5)
 
-           ;; center image horizontally with spaces
-       (insert (propertize " " 'display
-                                             `(space :align-to (+ center (-0.5 . ,(create-image selected-img))))))
-       (insert-image (create-image selected-img)))
-   (insert-char ?\n 3)
-
-   (let* ((splash-lines (split-string (my-splash--show-text) "\n")))
-     (dolist (line splash-lines)
+      ;; center image horizontally with spaces
       (insert (propertize " " 'display
-                          `(space :align-to (+ center (-0.5 . ,(length line))))))
-      (insert line)
-      (insert "\n")))
-          ;;set read only mode
-   (read-only-mode t)
-        ;; jump to beginning of buffer
-   (beginning-of-buffer)
-   (goto-char 0)
-   (local-set-key [t] 'my-splash--kill)))
+                          `(space :align-to (+ center (-0.5 . ,(create-image selected-img))))))
+      (insert-image (create-image selected-img)))
+    (insert-char ?\n 3)
 
-(require 'my-uptime)
+    (let* ((splash-text (my-splash--show-text)))
+      (insert (propertize " " 'display
+                          `(space :align-to (+ center (-0.5 . ,(length splash-text))))))
+      (insert splash-text))
+    (insert "\n")
+
+    ;;        ;;set read only mode
+    (read-only-mode t)
+    ;; jump to beginning of buffer
+    (beginning-of-buffer)
+    (goto-char 0)
+    (local-set-key [t] 'my-splash--kill)))
+
 (defun my-splash--show-text ()
-  (my-uptime-load)
-  (format-seconds "%D %H %M %z%S" my-past-uptime))
+  (propertize (emacs-init-time "Started in %.3f seconds") 'face '('shadow 'italic))) 
 
 (defun my-splash--kill ()
   "Kill the splash screen buffer (immediately)."

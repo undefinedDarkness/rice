@@ -16,6 +16,11 @@
 ;; =================
 
 (defun my/mode-line-for-writing ()
-  (setq mode-line-format (list (my/mode-line--right-align 13) '(:eval wc-buffer-stats))))
+  (setq mode-line-format (list '(:eval (substring-no-properties (org-display-outline-path nil t " > " t)) (my/mode-line--right-align 13) '(:eval wc-buffer-stats)))))
+
+(defun my/mode-line-for-lsp ()
+  (lsp-headerline-breadcrumb-mode -1)
+  (setq mode-line-format (list '(:eval (substring-no-properties (lsp-headerline--build-string))))))
+  
 
 (provide 'modeline)

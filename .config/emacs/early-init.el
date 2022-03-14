@@ -3,6 +3,7 @@
 ;; Disable some modes
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+(scroll-bar-mode -1)
 
 ;; Append to load path
 (add-to-list 'load-path (expand-file-name "modules/" user-emacs-directory))
@@ -22,7 +23,11 @@
 (fringe-mode -1)
 
 ;; Font
-(add-to-list 'default-frame-alist '(font . "iA Writer Quattro V-12"))
+(add-to-list 'default-frame-alist '(font . "IBM Plex Mono-12"))
+
+;; Window Size
+(add-to-list 'default-frame-alist '(width . 40))
+(add-to-list 'default-frame-alist '(height . 18))
 
 ;; Window Padding
 (add-to-list 'default-frame-alist '(internal-border-width . 24))
@@ -33,10 +38,12 @@
 ;; Performance
 (defvar custom-file-name-handler-alist file-name-handler-alist)
 
+
+
 (setq use-package-always-ensure t
       ;; Breaks config so not using it rn use-package-always-defer t 
       file-name-handler-alist nil
- 
+      
       ;; Package Starting Unwanted
       package-enable-at-startup nil
       package--init-file-ensured t
@@ -52,8 +59,10 @@
 
 ;; Restore GC & File List To Normal
 (add-hook 'emacs-startup-hook (lambda ()
-                               (setq gc-cons-threshold 16777216 ; 16mb
-                                     gc-cons-percentage 0.1
-                                     file-name-handler-alist custom-file-name-handler-alist)))
-     
+                                (setq gc-cons-threshold 16777216 ; 16mb
+                                      gc-cons-percentage 0.1
+                                      file-name-handler-alist custom-file-name-handler-alist)))
 
+
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8)

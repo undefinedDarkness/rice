@@ -14,20 +14,10 @@ awful.layout.layouts = {
 }
 
 -- Setup Tags
-local wall = gears.surface.load(user_home .. '/rice/misc/wallpapers/lotr-map.png')
+local wall = gears.surface.load(beautiful.wallpaper)
 awful.screen.connect_for_each_screen(function(s)
 	awful.tag(beautiful.workspaces, s, awful.layout.layouts[1])
 	gears.wallpaper.maximized(wall, s)
-	-- bling.module.tiled_wallpaper('♟︎', s, {
-	-- 	fg = beautiful.wallpaper_fg,
-	-- 	bg = beautiful.wallpaper_bg,
-	-- 	offset_y = 25,
-	-- 	offset_x = 45,
-	-- 	font = 'UnifontMedium Nerd Font',
-	-- 	font_size = 23,
-	-- 	padding = 100,
-	-- 	zickzack = true,
-	-- })
 end)
 
 -- Errors {{{

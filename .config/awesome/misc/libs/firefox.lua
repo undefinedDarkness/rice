@@ -1,4 +1,4 @@
-local json = require("misc.libs.json") -- JSON Library
+local json = require('misc.libs.json') -- JSON Library
 
 -- Write command to file; then send signal to python script
 local function focusTab(id)
@@ -14,52 +14,51 @@ local function forceUpdate()
 end
 
 local function createItem(tabData)
-  -- print(require('misc.libs.inspect')(tabData))
-  local w = wibox.widget {
-	{
-	  widget = wibox.container.background,
-	  forced_width = dpi(10),
-	  forced_height = dpi(10)
-	},
-	bg = tabData.active == true and '#181818' or '#00000000',
-	widget = wibox.container.background,
-	shape_border_width = 1,
-	shape_border_color = '#181818',
-	shape = gears.shape.circle,
-	tabId = tabData.id, -- special snowflake wont become an id
-	buttons = gears.table.join(
-	  awful.button({}, mouse.LEFT, function()
-		focusTab(tabData.id)
-	  end),
-	  awful.button({}, mouse.RIGHT, function()
-		removeTab(tabData.id)
-	  end)
-	),
-  }
-  awful.tooltip {
-	objects = { w },
-	text = tabData.title or ""
-  }
-  return w
+	-- print(require('misc.libs.inspect')(tabData))
+	local w = wibox.widget({
+		{
+			widget = wibox.container.background,
+			forced_width = dpi(10),
+			forced_height = dpi(10),
+		},
+		bg = tabData.active == true and '#181818' or '#00000000',
+		widget = wibox.container.background,
+		shape_border_width = 1,
+		shape_border_color = '#181818',
+		shape = gears.shape.circle,
+		tabId = tabData.id, -- special snowflake wont become an id
+		buttons = gears.table.join(
+			awful.button({}, mouse.LEFT, function()
+				focusTab(tabData.id)
+			end),
+			awful.button({}, mouse.RIGHT, function()
+				removeTab(tabData.id)
+			end)
+		),
+	})
+	awful.tooltip({
+		objects = { w },
+		text = tabData.title or '',
+	})
+	return w
 end
-
 
 -- Setup
 local export = {}
 function export.attach(c)
 	-- Ignore windows that arent firefox!
-  if c.class ~= "Firefox" then
-		return nil
-	end
+	-- if c.class ~= "Firefox" or c.class ~= "Firefox-esr" then
+	--   	return nil
+	--   end
 
 	-- Container
 	local list = wibox.widget({
-	  layout = wibox.layout.fixed.horizontal,
-	  spacing = dpi(5)
+		layout = wibox.layout.fixed.horizontal,
+		spacing = dpi(5),
 	})
 
 	-- Setup Connections
-	awesome.connect_signal("custom::update_ff_focused", function(id)
+	awesome.connect_signal('custom::update_ff_focused', function(id)
 		for _, child in ipairs(list.children) do
 			-- Focused tab was changed
 			if child.tabId == id then
@@ -81,11 +80,11 @@ function export.attach(c)
 			end
 		end,
 	})
-	
+
 	-- Full Update
-	awesome.connect_signal("custom::update_ff_tabs", function(out)
-	  local firefoxTabs = json.decode(out)
-	  list:reset()
+	awesome.connect_signal('custom::update_ff_tabs', function(out)
+		local firefoxTabs = json.decode(out)
+		list:reset()
 
 		for _, tab in ipairs(firefoxTabs) do
 			list:add(createItem(tab))
@@ -93,33 +92,33 @@ function export.attach(c)
 	end)
 
 	-- Remove Specific Tab
-	awesome.connect_signal("custom::remove_ff_tab", function(id)
-	  for idx, tab in ipairs(list.children) do
-		if id == tab.tabId then
-		  list:remove(idx)
-		  return
+	awesome.connect_signal('custom::remove_ff_tab', function(id)
+		for idx, tab in ipairs(list.children) do
+			if id == tab.tabId then
+				list:remove(idx)
+				return
+			end
 		end
-	  end
 	end)
 
 	-- New Tab
-	awesome.connect_signal("custom::add_ff_tab", function(payload)
+	awesome.connect_signal('custom::add_ff_tab', function(payload)
 		local tab = json.decode(payload)
 		list:add(createItem(tab))
 	end)
 
 	-- Update Tab Icon / URL / Etc
-	awesome.connect_signal("custom::update_ff_tab", function(payload)
+	awesome.connect_signal('custom::update_ff_tab', function(payload)
 		local tab = json.decode(payload)
 
 		for idx, child in ipairs(list.children) do
-		  if tab.id == child.tabId then
-			list:set(idx, createItem(tab))
-			child = nil
-			-- Otherwise, if it was the active tab
-		  elseif tab.active then
-			child.bg = '#00000000'
-		  end
+			if tab.id == child.tabId then
+				list:set(idx, createItem(tab))
+				child = nil
+				-- Otherwise, if it was the active tab
+			elseif tab.active then
+				child.bg = '#00000000'
+			end
 		end
 	end)
 
