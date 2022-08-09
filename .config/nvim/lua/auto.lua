@@ -46,4 +46,7 @@ au({
 -- Special Commands
 vim.cmd [[ cnoreabbrev <expr> Man 'vertical Man' ]]
 
+-- Auto Close Nvim Tree
+vim.cmd [[ autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif ]]
+
 return M

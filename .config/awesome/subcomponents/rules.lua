@@ -1,4 +1,4 @@
--- Rules {{{
+-- Rules
 awful.rules.rules = {
 	-- All clients will match this rule.
 	{
@@ -8,7 +8,7 @@ awful.rules.rules = {
 			border_color = beautiful.border_normal,
 			focus = awful.client.focus.filter,
 			raise = true,
-			keys = require('misc.keybindings.client'),
+			keys = require('platform.keybindings.client'),
 			buttons = clientbuttons,
 			screen = awful.screen.preferred,
 			placement = awful.placement.no_overlap + awful.placement.no_offscreen,
@@ -31,5 +31,3 @@ awful.rules.rules = {
 		properties = { titlebars_enabled = false },
 	},
 }
-
--- }}}

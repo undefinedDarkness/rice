@@ -1,7 +1,16 @@
-local cl = require('misc.libs.stdlib') --.color
+local cl = require('platform.stdlib') --.color
 
 awful.screen.connect_for_each_screen(function(s)
-	local layoutbox = awful.widget.layoutbox.new(s.index)
+	local layoutbox = awful.widget.layoutbox.new({ screen = s })
+	layoutbox._layoutbox_tooltip:remove_from_object(layoutbox)
+	require('subcomponents.tooltip').new({
+		placement = awful.placement.top_left,
+		widget = require('subcomponents.tooltip').layoutlist,
+		trigger = layoutbox,
+		mh = 40,
+		mw = 100,
+		autoleave = true,
+	})
 	layoutbox:buttons(gears.table.join(
 		awful.button({}, 1, function()
 			awful.layout.inc(1)
@@ -17,73 +26,51 @@ awful.screen.connect_for_each_screen(function(s)
 		end)
 	))
 
-	local time = wibox.widget.textclock(beautiful.clock_fmt)
-	awful.tooltip({
-		objects = { time },
-		timer_function = function()
-			return require('lgi').GLib.DateTime.new_now_local():format('%d-%B-%y (%a) - %I:%M %P')
-		end,
-		timeout = 60,
-	})
 	local layout_no = wibox.widget.textbox()
 	layout_no.text = 0 -- s.selected_tag.index
 	layout_no.font = 'IBM Plex Sans Medium'
 	layout_no.valign = 'center'
+	layout_no.align = 'center'
 	layout_no:buttons(awful.button({}, mouse.LEFT, function()
 		awful.tag.viewnext(mouse.screen)
 	end))
+
+	local clock = awful.widget.textclock("<b>%H\n<span foreground='#888'>―</span>\n%M</b>")
+	clock.align = 'center'
+	require('subcomponents.tooltip').new({
+		placement = awful.placement.left,
+		widget = awful.widget.textclock('<b>%A</b>\n%d/%m/%y'),
+		trigger = clock,
+		mh = 60,
+		mw = 100,
+		autoleave = true,
+	})
 
 	awful.screen.focused():connect_signal('tag::history::update', function()
 		layout_no.markup = s.selected_tag.name
 	end)
 
+	local tray = wibox.widget.systray()
+	tray:set_horizontal(false)
+
 	s.mywibar = awful.wibar({
-		position = 'bottom',
+		position = 'left',
 		screen = s,
 		ontop = true,
 		type = 'dock',
 	})
 	s.mywibar:setup({
-		-- {
-		-- 	{
-		-- 		border_width = 0,
-		-- 		span_ratio = 1,
-		-- 		thickness = beautiful.wibar_top_border_width,
-		-- 		widget = wibox.widget.separator,
-		-- 	},
-		-- 	widget = wibox.container.constraint,
-		-- 	height = beautiful.wibar_top_border_width,
-		-- },
 		{
-			{
-				{
-					layoutbox,
-					require('subcomponents.tasklist')(s),
-					layout = wibox.layout.fixed.horizontal,
-					spacing = dpi(8),
-					spacing_widget = wibox.widget.separator,
-				},
-				nil,
-				{
-					time,
-					{ wibox.widget.systray(), widget = wibox.container.margin, margins = 4 },
-					{
-						widget = wibox.widget.separator,
-						orientation = 'vertical',
-						forced_width = 5,
-						color = '#888',
-						thickness = 2,
-					},
-					layout_no,
-					spacing = dpi(4),
-					layout = wibox.layout.fixed.horizontal,
-				},
-				expand = 'none',
-				layout = wibox.layout.align.horizontal,
-			},
-			widget = wibox.container.margin,
-			right = 5,
+			layout = wibox.layout.fixed.vertical,
+			spacing = dpi(8),
+			layoutbox,
+			layout_no,
+			require('subcomponents.tasklist'),
 		},
-		layout = wibox.layout.fixed.vertical,
+		clock,
+		{ tray, widget = wibox.container.margin, margins = 8 },
+		layout = wibox.layout.align.vertical,
+		expand = 'none',
+		buttons = awful.button({}, mouse.LEFT, require('components.dashboard')),
 	})
 end)

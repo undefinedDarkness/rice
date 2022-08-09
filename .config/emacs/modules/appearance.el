@@ -10,10 +10,10 @@
 (set-fontset-font t 'symbol "Symbola" nil 'append)
 
 ;; Change Minibuffer Background & Hide Scrollbars
-(add-hook 'minibuffer-setup-hook (lambda ()
-                                   (set (make-local-variable 'face-remapping-alist)
-                                        '((default :background "#1f1f1f"))))
-                                 (set-window-scroll-bars (minibuffer-window) 0 'none))
+;; (add-hook 'minibuffer-setup-hook (lambda ()
+;; (set (make-local-variable 'face-remapping-alist)
+;; '((default :background "#1f1f1f"))
+;; (set-window-scroll-bars (minibuffer-window) 0 'none))
 
 ;; Scrollbars only on active windows
 (defun update-scroll-bars ()
@@ -38,7 +38,12 @@
 
 ;; Color Theme
 (add-to-list 'custom-theme-load-path (expand-file-name "modules/extern" user-emacs-directory))
-(load-theme 'jetbrains-darcula t)
+
+(use-package tao-theme)
+
+(if (display-graphic-p)
+    (load-theme 'github-modern t)
+  (load-theme 'jetbrains-darcula t))
 
 ;; Apply a sans-serif font to certain buffers
 (defun my/sans-serif-font () (variable-pitch-mode 1))

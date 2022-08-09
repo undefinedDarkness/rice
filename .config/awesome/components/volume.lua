@@ -1,6 +1,6 @@
 local value = nil
 local timer = nil
-local C = require('misc.libs.stdlib')
+local C = require('platform.stdlib')
 local icon_fnt = 'Noto Sans 15'
 local playerctl = bling.signal.playerctl.lib()
 
@@ -54,7 +54,7 @@ local function update_from_system(inc)
 	)
 end
 
-local art = require('misc.libs.backport.imagebox')()
+local art = require('platform.libs.backport.imagebox')()
 art.align = 'center'
 art.resize = true
 art.upscale = true

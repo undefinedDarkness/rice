@@ -1,5 +1,9 @@
 local M = {}
 
+-- Opt into filetype.lua
+vim.g.do_filetype_lua = 1
+vim.g.did_load_filetypes = 0
+
 -- Enable Mouse Support
 vim.opt.mouse = "a"
 
@@ -21,8 +25,9 @@ vim.o.completeopt = "menuone,noselect"
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 
--- Statusline
+-- Statusline & Command Line
 vim.opt.laststatus = 0
+vim.opt.cmdheight = 0
 
 -- Split below
 vim.opt.splitbelow = true

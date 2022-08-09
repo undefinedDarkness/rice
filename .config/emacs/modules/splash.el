@@ -15,13 +15,13 @@
     (face-remap-add-relative 'link :underline nil)
     (let* ((selected-img (expand-file-name "modules/bot.png" user-emacs-directory)))
       ;; top paddin g
-      (insert-char ?\n 5)
+      (insert-char ?\n 3)
 
       ;; center image horizontally with spaces
       (insert (propertize " " 'display
                           `(space :align-to (+ center (-0.5 . ,(create-image selected-img))))))
       (insert-image (create-image selected-img)))
-    (insert-char ?\n 3)
+    (insert-char ?\n 2)
 
     (let* ((splash-text (my-splash--show-text)))
       (insert (propertize " " 'display

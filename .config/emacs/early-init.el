@@ -23,7 +23,7 @@
 (fringe-mode -1)
 
 ;; Font
-(add-to-list 'default-frame-alist '(font . "IBM Plex Mono-12"))
+;; (add-to-list 'default-frame-alist '(font . "IBM Plex Mono Medium-12"))
 
 ;; Window Size
 (add-to-list 'default-frame-alist '(width . 40))

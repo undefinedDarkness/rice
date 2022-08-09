@@ -106,13 +106,38 @@ window = awful.popup({
 	bg = beautiful.menu_bg,
 })
 
-return function()
-	if window.visible then
-		-- Right click on main window, assume that it'll be handled by the keygrabber too
-		-- Avoid repeats
-		return
-	end
+return {
+	root_menu = function()
+		if window.visible then
+			-- Right click on main window, assume that it'll be handled by the keygrabber too
+			-- Avoid repeats
+			return
+		end
 
-	awful.placement.under_mouse(window)
-	require('misc.libs.stdlib').only_popup(window, x)
-end
+		awful.placement.under_mouse(window)
+		require('platform.stdlib').only_popup(window, x)
+	end,
+	app_menu = function()
+		local input = ''
+		local clients = awful.screen.focused().selected_tag:clients()
+		if #clients <= 1 then
+			return
+		end
+
+		for i, client in ipairs(clients) do
+			local icon = require('platform').gtk_lookup_icon(client.class:lower()):get_filename()
+			local name = client.class
+			local index = i
+			input = input .. ('IMG:%s	%s	%s\n'):format(icon, name, index)
+		end
+
+		awful.spawn.easy_async_with_shell("echo -n '" .. input .. "' | ~/.local/bin/pmenu", function(stdout, stderr)
+			if not stdout or stdout == '' then
+				return
+			end
+			stdout = stdout:gsub('\n', '')
+			local selected_client = clients[tonumber(stdout)]
+			selected_client:jump_to()
+		end)
+	end,
+}

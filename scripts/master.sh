@@ -1,5 +1,27 @@
 #!/usr/bin/env bash
 
+case $1 in
+    "startup")
+        rm ~/.python_history
+        rm ~/.gnuplot_history
+        rm ~/.wget-hsts
+        rm ~/.viminfo
+        exit
+        ;;
+
+    "i3Startup")
+        killall picom
+        killall hsetroot
+        killall polybar 
+        picom -b --config ~/rice/.config/picom.conf
+        hsetroot -cover ~/Pictures/lisboa.jpg # -cursor_name left_ptr
+        polybar example &
+        xrdb -merge ~/rice/Xresources
+        # stalonetray -t --sticky --window-layer bottom --window-type desktop --geometry 1x1+50-50 
+        exit
+        ;;
+esac
+
 # -- ALIASES & SETUP -- 
 
 alias rm='rm -v' 
@@ -7,7 +29,7 @@ alias mv='mv -v'
 alias cp='cp -v'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
-alias vim='nvim'
+alias nvim='TERM="" nvim'
 alias emacs='TERM=xterm-direct emacs '  # Get true color working in emacs terminal mode
 alias wget='wget --hsts-file /dev/null' # Disable Wget History
 alias killall='pkill'
@@ -28,7 +50,7 @@ export PATH="$PATH:$HOME/.local/bin:$HOME/.deno/bin" # Path
 export PS1="\[\e]0;SH: \W\a\]\[\e[36m\]\w\[\e[m\] \[\e[32m\]->\[\e[m\] " # Prompt
 
 # Set Config Directory To Dotfiles
-export XDG_CONFIG_HOME=$HOME/rice/.config
+# export XDG_CONFIG_HOME=$HOME/rice/.config
 
 case "$(uname -r)" in
     *microsoft-standard-WSL2)
@@ -90,17 +112,31 @@ keyNames () {
 }
 
 download () {
-    curl --progress-bar -L -o "$(basename "$1")" "$1"
+    if [[ $1 == *.git ]] || [[ $1 == *github.com*  ]]; then
+        git clone $1 $(basename "$1")
+    else
+        curl --progress-bar -L -o "$(basename "$1")" "$1"
+    fi
+}
+
+pspConvert() {
+ffmpeg -y -i $1 -flags +bitexact -vcodec libx264 -profile:v baseline -level 3.0 -s 480x272 -r 29.97 -b:v 384k -acodec aac -b:a 96k -ar 48000 -f psp -strict -2 ${1%.*}.MP4
 }
 
 manipulateImage () {
     case "$1" in
+        "replace")
+            convert "$2" -fill "$3" -opaque "$4" "$5" 
+        ;;
         "nnscale")
             file=$2
             shift; shift;
             convert "$file" -interpolate Nearest -filter -point "$@"
             ;;
         "view")
+            convert $2 -resize $(( COLUMNS * 10 ))x$(( LINES * 10 ))\> sixel:
+            ;;
+        "nview")
             if [ -f "$2" ]; then
                 display -frame 15 -mattecolor snow "$2"
             else
@@ -109,7 +145,8 @@ manipulateImage () {
             ;;
         "help")
             printf 'nnscale -> Nearest Neighbour Scaling
-                    view -> Display image\n'
+nview -> Display image in new window
+\n'
             ;;
     esac
 }

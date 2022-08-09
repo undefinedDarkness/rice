@@ -11,7 +11,7 @@
 " Syntax
 hi Statement guifg=#c65f5f gui=none
 hi Type guifg=#d9b27c gui=none
-hi Comment guifg=#3d3837 gui=italic
+hi Comment guifg=#665e5c cterm=NONE ctermfg=NONE gui=italic
 hi Identifier guifg=#728797
 hi Underlined guifg=#829e9b
 hi Constant guifg=#859e82
@@ -71,6 +71,7 @@ hi cStructure guifg=#829e9b
 hi cTSConstant guifg=#ab9382
 hi TSBoolean guifg=#d08b65
 hi cTSKeywordOperator guifg=#829e9b
+hi! link TSConstant TSVariableBuiltin
 hi! link cppNumber Special
 hi! link cNumber cppNumber
 hi! link TSProperty Normal

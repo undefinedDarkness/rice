@@ -9,6 +9,7 @@
   :config
   (add-hook 'neotree-mode-hook (lambda () (variable-pitch-mode)))
   :custom
+  (neo-window-width 20)
   (neo-show-hidden-files t)
   (neo-smart-open t)
   (neo-theme 'icons)

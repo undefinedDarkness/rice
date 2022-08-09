@@ -15,16 +15,16 @@
   (evil-mode 1)
   (require 'bindings))
 
-;; Settings for builtins that I have not made a new place for
 (use-package emacs
   :custom
+  (debug-on-error t)
   (auto-save-default nil)
   (comp-deferred-compilation t)
   (backup-inhibited t)
   (confirm-kill-processes nil)
   (bookmark-save-flag t)
   (image-use-external-converter t)
-  (tab-always-indent 'complete)
+  (tab-always-indent nil)
   (frame-title-format "Editing: %b")  
   (custom-file  (expand-file-name "modules/custom.el" user-emacs-directory))
   (bookmark-default-file (expand-file-name "var/bookmark-default.el" user-emacs-directory)))

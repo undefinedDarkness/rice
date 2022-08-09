@@ -23,6 +23,8 @@
   (lsp-eldoc-enable-hover nil)
   (lsp-restart 'auto-restart)
   (lsp-headerline-breadcrumb-enable nil)
+  (lsp-signature-render-documentation nil)
+  (lsp-signature-auto-activate nil)
   
   :init
   (defun my/lsp-corfu-compat ()
@@ -49,13 +51,12 @@
              (corfu-cycle t)
              (corfu-quit-no-match t)
              (corfu-auto t)
-             :config
-             (corfu-global-mode 1))
+             :hook (lsp-mode . corfu-mode))
 
 (use-package lsp-ui
-  :after lsp-mode
-  :custom
-  (lsp-ui-doc-enable t))
+  :after lsp-mode)
+  ;; :custom)
+  ;; (lsp-ui-doc-enable t))
 
 ;; Show icons per type of completion item
 (use-package kind-icon

@@ -1,100 +1,79 @@
+local math = require('math')
+
 client.connect_signal('request::titlebars', function(c)
-  -- Titlebar Buttons
-  local raise = function()
-    c:emit_signal('request::activate', 'titlebar', { raise = true })
-  end
-  local titlebar_buttons = gears.table.join(
-    awful.button({}, mouse.LEFT, function()
-      raise()
-      awful.mouse.client.move(c)
-    end),
-    awful.button({}, mouse.RIGHT, function()
-      raise()
-      awful.mouse.client.resize(c)
-    end),
-    awful.button({ 'Shift' }, mouse.LEFT, function()
-      raise()
-      c.maximized = not c.maximized
-    end),
-    awful.button({ 'Shift' }, mouse.RIGHT, function()
-      raise()
-      require('subcomponents.layout')(c)
-    end)
-  )
+	-- Titlebar Buttons
+	local raise = function()
+		c:emit_signal('request::activate', 'titlebar', { raise = true })
+	end
 
-  local title = wibox.widget.textbox((c.name or c.class or c.window):lower())
-  title.font = beautiful.titlebar_font
-  local update_name = function()
-    if c.class == 'Thunar' then
-      title.text = 'fm: ' .. c.name
-    else
-      title.text = (c.name or ""):lower()
-    end
-  end
-  c:connect_signal('property::name', update_name)
-  update_name()
+	local titlebar_buttons = gears.table.join(
+		awful.button({}, mouse.LEFT, function()
+			raise()
+			awful.mouse.client.move(c)
+		end),
+		awful.button({}, mouse.RIGHT, function()
+			raise()
+			awful.mouse.client.resize(c)
+		end),
+		awful.button({ 'Shift' }, mouse.LEFT, function()
+			raise()
+			c.maximized = not c.maximized
+		end)
+		-- awful.button({ 'Shift' }, mouse.RIGHT, function()
+		-- 	raise()
+		-- 	require('subcomponents.layout')(c)
+		-- end)
+	)
 
-  -- Titlebar Setup!
-  awful.titlebar(c, {
-    size = dpi(36),
-    position = 'top',
-  }):setup({
-    {
-      require('misc.libs.stdlib').force_right(bling.widget.tabbed_misc.titlebar_indicator(c, {
-        layout = wibox.layout.fixed.horizontal,
-        bg_color_focus = beautiful.titlebar_fg_focus,
-        bg_color = '#00000000',
-        widget_template = {
-          {
-            {
-              {
-                widget = wibox.container.background,
-                id = 'bg_role',
-                forced_width = dpi(8),
-                forced_height = dpi(8),
-                shape = function(cr, w, h)
-                  gears.shape.rounded_rect(cr, w, h, 3)
-                end,
-              },
-              widget = wibox.container.margin,
-              margins = dpi(3),
-            },
-            widget = wibox.container.margin,
-            margins = dpi(2),
-            color = beautiful.titlebar_fg_focus,
-          },
-          widget = wibox.container.constraint,
-          width = 32,
-          height = 32,
-          shape = function(cr, w, h)
-            gears.shape.rounded_rect(cr, w, h, 3)
-          end,
-        },
-      })),
-      layout = wibox.layout.align.horizontal,
-    },
-    buttons = titlebar_buttons,
-    widget = wibox.container.margin,
-    -- right = dpi(5),
-    -- left = dpi(5),
-  })
+	local colour = require('platform.stdlib').color
+	local close = wibox.widget({
+		widget = wibox.container.background,
+		draw_empty = true,
+		bg = colour.darken(beautiful.titlebar_bg_focus, 30),
+		forced_width = 20,
+		shape = function(cr, w, h)
+			gears.shape.transform(gears.shape.cross):rotate_at(w / 2, h / 2, math.pi / 4)(cr, w, h, 4)
+		end,
+		buttons = awful.button({}, mouse.LEFT, function()
+			c:kill()
+		end),
+	})
 
-  -- awful.titlebar.hide(c, 'left')
-  -- c:connect_signal('mouse::enter', function()
-  -- 	awful.titlebar.show(c, 'left')
-  -- end)
+	local minimize = wibox.widget({
+		widget = wibox.container.background,
+		draw_empty = true,
+		bg = '#212121',
+		forced_width = 25,
+		shape = function(cr, w, h)
+			gears.shape.transform(gears.shape.isosceles_triangle)
+				:rotate_at(w / 2, h / 2, math.pi)
+				:scale(0.45, 0.45)
+				:translate(20, 10)(cr, w, h)
+		end,
+		buttons = awful.button({}, mouse.RIGHT, function()
+			c.minimized = true
+		end),
+	})
 
-  -- c:connect_signal('mouse::leave', function()
-  -- 	if not (client.focus == c) then
-  -- 		awful.titlebar.hide(c, 'left')
-  -- 	end
-  -- end)
-
-  -- c:connect_signal('unfocus', function()
-  -- 	awful.titlebar.hide(c, 'left')
-  -- end)
+	awful.titlebar(c, {
+		size = dpi(36),
+		position = 'top',
+	}):setup({
+		{
+			{
+				close,
+				minimize,
+				layout = wibox.layout.fixed.horizontal,
+				spacing = 8,
+			},
+			widget = wibox.container.margin,
+			top = 8,
+			left = 12,
+			right = 8,
+			bottom = 8,
+		},
+		{ widget = wibox.widget.separator, buttons = titlebar_buttons, color = '#00000000' },
+		-- buttons = titlebar_buttons,
+		layout = wibox.layout.align.horizontal,
+	})
 end)
-
--- client.connect_signal('focus', function()
--- 	awful.titlebar.show(client.focus, 'left')
--- end)

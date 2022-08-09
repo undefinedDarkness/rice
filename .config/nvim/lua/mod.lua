@@ -11,6 +11,29 @@ return packer.startup(function()
 		cmd = { "PackerSync", "PackerCompile" },
 	})
 
+	-- LSP
+	use({
+		"neovim/nvim-lspconfig",
+		ft = { "c", "rust", "rs" },
+		config = function()
+			local l = require("lspconfig")
+			l.clangd.setup{}
+			l.rust_analyzer.setup{}
+		end
+	})
+
+	use({
+		"echasnovski/mini.nvim",
+		config = function()
+			require("mini.comment").setup {}
+
+			require("mini.completion").setup {
+				set_vim_settings = true,
+				fallback_action = nil
+			}
+		end
+	})
+
 	-- Tree / Project Drawer
 	use({
 		"kyazdani42/nvim-tree.lua",
@@ -18,7 +41,7 @@ return packer.startup(function()
 		requires = "kyazdani42/nvim-web-devicons",
 		config = function()
 			require("nvim-tree").setup({ 
-				auto_close = true,
+				-- auto_close = true,
 				hijack_netrw = true,
 				update_cwd = true,
 				view = {
@@ -37,15 +60,6 @@ return packer.startup(function()
 		end,
 	})
 
-	-- Comment
-	use({
-		"terrortylor/nvim-comment",
-		keys = "gc",
-		config = function()
-			require("nvim_comment").setup()
-		end,
-	})
-
 	use({ 
 		'nvim-treesitter/nvim-treesitter',
 		config = function()
@@ -56,6 +70,10 @@ return packer.startup(function()
 	use({
 		"mattn/emmet-vim",
 		ft = { "html" },
+	})
+
+	use({
+		"ollykel/v-vim",
 	})
 
 	-- Terminal
@@ -129,6 +147,14 @@ return packer.startup(function()
 		ft = 'fennel'
 	})
 
+	use({
+		"savq/melange",
+		disable = true,
+		config = function() 
+			vim.cmd [[ colo melange ]]
+		end
+	})
+
 	-- General Finding Toolkit
 	use {
 		'nvim-telescope/telescope.nvim',
@@ -140,7 +166,7 @@ return packer.startup(function()
 			require("telescope").setup({
 				defaults = {
 					prompt_prefix = 'λ ',
-					vimgrep_arguments = { "ag", "--vimgrep" },
+					-- vimgrep_arguments = { "ag", "--vimgrep" },
 					mappings = {
 						i = {
 							["<esc>"] = actions.close,

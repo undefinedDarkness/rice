@@ -4,7 +4,11 @@
 ;; Language Support
 ;; ================
 
-(use-package gnuplot)
+(use-package yaml-mode
+  :mode "\\.yml\\'")
+
+(use-package gnuplot
+  :mode "\\.plt\\'")
 
 (use-package gdscript-mode
   :mode "\\.gd\\'")
@@ -32,6 +36,13 @@
 (use-package typescript-mode
   :mode "\\.ts\\'")
 
+(use-package simple-httpd)
+(use-package js2-mode
+  :mode "\\.js\\'")
+
+(use-package emmet-mode
+  :mode "\\.html'")
+
 ;; For Emacs Lisp
 (use-package highlight-defined
   :hook (emacs-lisp-mode . highlight-defined-mode))
@@ -41,6 +52,7 @@
 ;; ================
 
 (use-package format-all
+  :load-path "modules/extern"
   :commands (format-all-buffer format-all-mode))
 
 ;; Find bookmarks, files, many other things
@@ -74,9 +86,17 @@
 
 ;; Highlight Color Codes
 (use-package rainbow-mode
-  :unless noninteractive
-  :commands rainbow-mode
-  :hook (css-mode . rainbow-mode))
+  :hook ((css-mode . rainbow-mode)
+         (nxml-mode . rainbow-mode)
+         (conf-mode . rainbow-mode)))
+
+(use-package hl-todo
+  :commands hl-todo-mode
+  :hook (prog-mode . hl-todo-mode)
+  :custom
+  (hl-todo-color-background nil)
+  (hl-todo-keyword-faces '(("TODO" . "#032f62")
+                           ("NOTE" . "#ffc86f"))))
 
 ;; Code Folding
 (use-package origami
@@ -102,7 +122,9 @@
   :custom
   (flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 
-(add-hook 'prog-mode-hook (lambda () (flymake-mode -1)))
+(add-hook 'prog-mode-hook (lambda ()
+                            (flymake-mode -1)
+                            (display-line-numbers-mode 1)))
 
 ;; Spell checking in comments
 ;; (add-hook 'prog-mode-hook (lambda () (flyspell-prog-mode)))

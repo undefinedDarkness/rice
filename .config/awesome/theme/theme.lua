@@ -1,6 +1,6 @@
 -- -*- eval: (rainbow-mode 1); -*-
 
-local color = require('misc.libs.stdlib').color
+local color = require('platform.stdlib').color
 local dpi = require('beautiful.xresources').apply_dpi
 local themes_path = _config_dir .. 'theme/'
 
@@ -14,12 +14,14 @@ theme.bg_light = '#fafafa'
 theme.bg_wall = '#f7f3e8'
 theme.fg_grey = '#b0b0b0'
 
-theme.titlebar_bg_focus = '#FF7538'
-theme.titlebar_bg = '#1a1a1a'
-theme.wibar_bg = '#FFF5EE'
+theme.titlebar_bg_focus = '#c65f5f'
+theme.titlebar_bg = '#413c3a'
+theme.wibar_bg = '#111111'
+theme.wibar_fg = '#fafafa'
 theme.bg_systray = theme.wibar_bg
 theme.tasklist_bg_normal = theme.wibar_bg
 theme.menubar_bg_normal = theme.wibar_bg
+theme.menubar_fg_normal = '#fafafa'
 
 -- theme.menu_bg = '#262322'
 -- theme.menu_section_bg = '#859e82'
@@ -32,19 +34,22 @@ theme.prompt_bg_cursor = theme.bg_gray
 theme.tasklist_maximized = ' &lt;<b>M</b>&gt; '
 
 -- Other
-theme.wibar_top_border_width = dpi(2)
 theme.useless_gap = dpi(8)
 theme.systray_icon_spacing = dpi(8)
 theme.font = 'IBM Plex Sans'
-theme.workspaces = { 'α', 'β', 'γ', 'δ', 'σ' }
+theme.workspaces = { 'Ψ', 'Ω', 'θ', 'φ', 'μ' }
 
 theme.separator_color = '#2a2a2a'
 
 -- Settings
 theme.terminal = 'xterm -geometry 50x20'
 theme.tabbar_disable = true
-theme.clock_fmt = '<b>%R</b>' -- TODO: Use semibold / medium
-theme.on_startup = { 'picom -b -c -C', 'xrdb -load ~/rice/Xresources', 'nm-applet' }
+theme.on_startup = {
+	'sh ~/rice/scripts/master.sh startup',
+	'picom -b -c -C',
+	'xrdb -load ~/rice/Xresources',
+	'nm-applet',
+}
 
 -- Notifications
 theme.notification_spacing = dpi(16)
@@ -64,6 +69,11 @@ theme.layout_floating = assets .. 'layouts/floating.png'
 theme.layout_tile = assets .. 'layouts/tile.png'
 theme.layout_dwindle = assets .. 'layouts/dwindle.png'
 
-theme.wallpaper = assets .. 'buildings.jpg'
+theme.titlebar_close_button_normal = assets .. 'icons/close.svg'
+theme.titlebar_close_button_focus = assets .. 'icons/close-f.svg'
+
+theme.wallpaper = assets .. 'bird.jpg'
+
+theme.icon_theme = 'Adwaita++ Dark'
 
 return theme

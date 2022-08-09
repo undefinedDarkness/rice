@@ -18,7 +18,7 @@ Will work on both org-mode and any mode that accepts plain html."
       (forward-char (if orgp -1 -6)))))
 
 ;; Syntax Highlighting in HTML Export
-;; [NOTE] Will interefere with exporting manually
+;; NOTE Will interefere with exporting manually
 (use-package htmlize
   :when noninteractive)
 
@@ -58,6 +58,8 @@ Will work on both org-mode and any mode that accepts plain html."
 
   (org-export-with-section-numbers nil)
   (org-export-with-toc nil)
+  (org-export-with-date nil)
+  (org-export-with-timestamps nil)
   (org-export-preserve-breaks t)
   :config
   (if noninteractive
@@ -73,13 +75,27 @@ Will work on both org-mode and any mode that accepts plain html."
      
 
   (eval-after-load 'ox-html
-   '(push '(verbatim . "<kbd>%s</kbd>") org-html-text-markup-alist))
+    '(push '(verbatim . "<kbd>%s</kbd>") org-html-text-markup-alist))
+
+  ;; (eval-after-load 'org
+    ;; (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images))
 
   (define-key org-mode-map "\C-ck" #'my/insert-key))
 
 (use-package org-modern
   :load-path "modules/extern"
   :after org
+  :custom
+  (org-modern-checkbox
+                    '((88 . "☒")
+                      (45 . "◫")
+                      (32 . "☐")))
+  (org-modern-list
+                    '((43 . "•")
+                      (45 . "•")
+                      (42 . "•")))
+  (org-modern-star
+                    ["#" "#" "#" "" ""])
   :commands org-modern-mode
   :hook (org-mode . org-modern-mode))
 
@@ -105,6 +121,7 @@ Will work on both org-mode and any mode that accepts plain html."
 (use-package markdown-mode
   :unless noninteractive
   :custom
+  (markdown-header-scaling t)
   (markdown-display-remote-images t)
   (markdown-enable-highlighting-syntax t)
   (markdown-enable-math t)
@@ -152,25 +169,26 @@ Will work on both org-mode and any mode that accepts plain html."
 
 (require 'modeline)
 
-(unless noninteractive
-  ;; Word Count
-  (use-package wc-mode
-    :load-path "modules/extern"
-    :after (org markdown-mode)
-    :custom
-    (wc-modeline-format "%tw Words")))
+;; (unless noninteractive
+;;   ;; Word Count
+;;   (use-package wc-mode
+;;     :load-path "modules/extern"
+;;     :after (org markdown-mode)
+;;     :custom
+;;     (wc-modeline-format "%tw Words")))
 
 ;; Spell Checking
 (use-package flyspell
   :hook ((org-mode . flyspell-mode)
          (markdown-mode . flyspell-mode))
+  :disabled
   :custom
   (ispell-program-name "aspell")
   (flyspell-prog-text-faces '(font-lock-comment-face font-lock-doc-face)))
 
 
 ;; Cleanup stuff for org & markdown mode
-;; [TODO] Move into a actual mode
+;; TODO Move into a actual mode
 (defun my/writing-mode ()
   (variable-pitch-mode 1)
   (flyspell-mode 1)
@@ -183,7 +201,7 @@ Will work on both org-mode and any mode that accepts plain html."
   (toggle-truncate-lines 1)
   (electric-indent-local-mode -1)
 
-  (wc-mode 1)
+  ;; (wc-mode 1)
   (my/mode-line-for-writing)
   (set-window-scroll-bars (minibuffer-window) 0 'none) ;; Fix scrollbars randomly showing up in writing-mode
 

@@ -22,7 +22,7 @@ user_home = os.getenv('HOME')
 beautiful.init(_config_dir .. '/theme/theme.lua')
 
 -- Bling Widget Library
-bling = require('misc.libs.bling')
+bling = require('platform.libs.bling')
 
 -- Misc
 require('awful.hotkeys_popup.keys')
@@ -50,11 +50,12 @@ mouse.SCROLL_DOWN = 5
 
 -- Load Components
 require('components.notifications')
--- require('components.bar')
+require('components.bar')
 require('components.titlebar')
+require('components.weather')
 
 -- Load Global Keybindings
-require('misc.keybindings.global')
+require('platform.keybindings.global')
 
 -- Load Misc
-require('misc.platform')
+require('platform.base')

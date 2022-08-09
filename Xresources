@@ -1,50 +1,51 @@
-! Xterm:
-XTerm.vt100.scrollBar: false
-XTerm.vt100.internalBorder: 16
-XTerm.vt100.borderWidth: 0
-! Xft.rgba: none
-! Xft.hintstyle: hintfull
-XTerm.vt100.faceName: xft:Gohu GohuFont:size=14:antialias=false
-! xft:mononoki:style=Regular:spacing=mono:size=11:antialias=true
-XTerm.vt100.metaSendsEscape: true
+! XTerm:
+XTerm*scrollBar: false
+XTerm*internalBorder: 16
+XTerm*borderWidth: 0
+XTerm*decTerminalID: vt340
+XTerm*numColorRegisters: 256
+! XTerm*faceName: xft:Gohu GohuFont:size=14:antialias=false
+XTerm*faceName: xft:IBM Plex Mono:size=11:style=Medium
+XTerm*metaSendsEscape: true
 
 ! Sane copy paste behaviour
 XTerm.selectToClipboard: true
-XTerm.vt100.translations: #override \
+XTerm*translations: #override \
     Shift Ctrl <Key> C: copy-selection(CLIPBOARD) \n\
     Shift Ctrl <Key> V: insert-selection(CLIPBOARD)
 
-*foreground: #a9b7c6
-*background: #181818
+! XTERM
+XTerm*foreground: #c8bAA4
+XTerm*background: #252221
 
 ! black
-*color0:     #302c2b
-*color8:     #3d3837
+XTerm*color0:     #3d3837
+XTerm*color8:     #3d3837
 
 ! red
-*color1:     #ac0909
-*color9:     #ac0909
+XTerm*color1:     #c65f5f
+XTerm*color9:	  #c65f5f
 
 ! green
-*color2:     #5e8759
-*color10:    #5e8759
+XTerm*color2:     #859e82
+XTerm*color10:    #859e82
 
 ! yellow
-*color3:     #ffc66d
-*color11:    #ffc66d
+XTerm*color3:     #d9b27c
+XTerm*color11:    #d9b27c
 
 ! blue
-*color4:     #7ca8c6
-*color12:    #7ca8c6
+XTerm*color4:     #728797
+XTerm*color12:    #728797
 
 ! magenta
-*color5:     #9676ac
-*color13:    #9676ac
+XTerm*color5:     #998396
+XTerm*color13:    #998396
 
 ! cyan
-*color6:     #829e9b
-*color14:    #829e9b
+XTerm*color6:     #829e9b
+XTerm*color14:    #829e9b
 
 ! white
-*color7:     #e8e8e8
-*color15:    #fafafa
+XTerm*color7:     #cdc0ad
+XTerm*color15:    #beae94
