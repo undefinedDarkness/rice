@@ -6,6 +6,10 @@ case $1 in
         rm ~/.gnuplot_history
         rm ~/.wget-hsts
         rm ~/.viminfo
+		/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
+        xrdb -merge ~/rice/Xresources
+		blueman-applet &
+		transmission-gtk -m &
         exit
         ;;
 
@@ -24,14 +28,15 @@ esac
 
 # -- ALIASES & SETUP -- 
 
-alias rm='rm -v' 
+alias gdb='gdb -q --init-command=~/.config/gdb/gdbinit'
+alias rm='trash -v' 
 alias mv='mv -v'
 alias cp='cp -v'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
-alias nvim='TERM="" nvim'
+alias nvim='XTERM_VERSION= nvim' # We do this to preserve scrolling
 alias emacs='TERM=xterm-direct emacs '  # Get true color working in emacs terminal mode
-alias wget='wget --hsts-file /dev/null' # Disable Wget History
+alias wget='wget --hsts-file /dev/null -c' # Disable Wget History
 alias killall='pkill'
 alias colemak="xmodmap ~/rice/scripts/xmodmap.colemak && xset r 66"
 alias gitFixup='git commit --fixup=HEAD'    # Make a new fixup ~HEAD commit
@@ -46,7 +51,7 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 # export GTK_THEME="phocus"
 export LESSHISTFILE=- # Disable Less History
 export HISTFILE= # Disable History File
-export PATH="$PATH:$HOME/.local/bin:$HOME/.deno/bin" # Path
+export PATH="$PATH:$HOME/.local/bin:$HOME/.deno/bin:$HOME/Downloads/Flutter/bin" # Path
 export PS1="\[\e]0;SH: \W\a\]\[\e[36m\]\w\[\e[m\] \[\e[32m\]->\[\e[m\] " # Prompt
 
 # Set Config Directory To Dotfiles
@@ -68,11 +73,20 @@ case "$(uname -r)" in
 
 esac
 
+# Run polkit
+
 # -- FUNCTIONS --
 
 # Memory Usage
 memoryUsage () {
     ps_mem -p "$(pgrep "$1")"
+}
+
+buildDepReverse () {
+	read -r -p "Enter package name: " packageName
+sudo apt-mark auto $(apt-cache showsrc $packageName | sed -e '/Build-Depends/!d;s/Build-Depends: \|,\|([^)]*),*\|\[[^]]*\]//g' | sed -E 's/\|//g; s/<.*>//g')
+sudo apt-mark manual build-essential fakeroot devscripts
+sudo apt autoremove --purge
 }
 
 # Symlink Files
@@ -102,7 +116,7 @@ packageSize() {
             | numfmt --field=2 --to=si
     else
         dpkg --list | grep "^rc" | cut -d " " -f 3 | xargs sudo dpkg --purge 2> /dev/null
-        dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n
+        dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | numfmt --to=si --invalid=warn --field=1
     fi
 }
 
@@ -112,7 +126,7 @@ keyNames () {
 }
 
 download () {
-    if [[ $1 == *.git ]] || [[ $1 == *github.com*  ]]; then
+    if [[ $1 == *.git ]]; then
         git clone $1 $(basename "$1")
     else
         curl --progress-bar -L -o "$(basename "$1")" "$1"
@@ -120,7 +134,7 @@ download () {
 }
 
 pspConvert() {
-ffmpeg -y -i $1 -flags +bitexact -vcodec libx264 -profile:v baseline -level 3.0 -s 480x272 -r 29.97 -b:v 384k -acodec aac -b:a 96k -ar 48000 -f psp -strict -2 ${1%.*}.MP4
+	ffmpeg -y -i $1 -flags +bitexact -vcodec libx264 -profile:v baseline -level 3.0 -s 480x272 -r 29.97 -b:v 384k -acodec aac -b:a 96k -ar 48000 -f psp -strict -2 ${1%.*}.MP4
 }
 
 manipulateImage () {
@@ -149,4 +163,15 @@ nview -> Display image in new window
 \n'
             ;;
     esac
+}
+
+createDesktopFile() {
+	ofile=$1
+	printf 'Name: \n\e[3m'
+	read -r name
+	printf '\e[0mComment: \n\e[3m'
+	read -r comment
+	printf '\e[0mExec: \n\e[3m'
+	read -r _exec
+	printf '[Desktop Entry]\nType=Application\nVersion=1.0\nName=%s\nComment=%s\nExec=%s' "$name" "$comment" "$_exec" >> "$ofile"
 }

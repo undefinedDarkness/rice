@@ -10,8 +10,7 @@
 
 " Syntax
 hi Statement guifg=#c65f5f gui=none
-hi Type guifg=#d9b27c gui=none
-hi Comment guifg=#665e5c cterm=NONE ctermfg=NONE gui=italic
+hi Comment guifg=#665e5c cterm=italic ctermfg=NONE gui=italic
 hi Identifier guifg=#728797
 hi Underlined guifg=#829e9b
 hi Constant guifg=#859e82
@@ -64,25 +63,41 @@ hi! link vimHiCTerm  vimHiGui
 
 " Typescript
 hi TSVariableBuiltin guifg=#d9b27c
-hi TSField guifg=#998396
-hi TSParameter guifg=#859e82
+hi @property guifg=#998396
+hi @parameter guifg=#859e82
 hi cTSFuncMacro guifg=#d9b27c
 hi cStructure guifg=#829e9b
 hi cTSConstant guifg=#ab9382
 hi TSBoolean guifg=#d08b65
 hi cTSKeywordOperator guifg=#829e9b
+hi! link @type.qualifier Statement
+
+"
+hi! link @text.title Identifier
+
+" Rust
+hi! link @storageclass.lifetime cTSConstant
+
+" HTML
+hi! link @tag.attribute cTSConstant
+
 hi! link TSConstant TSVariableBuiltin
+hi! link @variable Normal
+hi! link @type TSVariableBuiltin
+hi! link Type @type
 hi! link cppNumber Special
 hi! link cNumber cppNumber
 hi! link TSProperty Normal
-hi! link cStorageClass Statement
 hi! link TSNumber luaNumber
 hi! link TSConstructor TSVariableBuiltin
 hi! link TSPunctBracket Normal
 hi! link TSPunctDelimiter Normal
-hi! link TSInclude Statement
-hi! link cInclude TSInclude
-hi! link cPreCondit Statement
+
+" C Stuff 
+hi! link @storageclass Statement
+hi! link @include Statement
+hi! link @define  Statement
+hi! link @preproc Statement
 
 " User Interface
 hi VertSplit cterm=none gui=none guibg=bg guifg=#302c2b
@@ -103,14 +118,25 @@ hi Search guibg=#413c3a guifg=#c8bAA4
 hi! link IncSearch Visual
 hi! link PmenuSel Visual
 
-hi Normal guibg=#252221 guifg=#c8bAA4
 hi LineNr guifg=#413c3a
 hi Folded guibg=#262322 guifg=fg gui=italic
 hi! link NormalFloat Normal
 hi! link NonText LineNr
+hi CursorLine guibg=#302c2b
 
 " Nvim Tree
 hi NvimTreeRootFolder guifg=#ab9382 gui=bold
 hi NvimTreeSpecialFile gui=italic guifg=#998396
 hi NvimTreeExecFile guifg=#c65f5f gui=none 
 hi! link NvimTreeImageFile Normal
+
+" Mini.nvim
+hi! link MiniStarterItemPrefix NvimTreeExecFile 
+
+" == CUSTOMIZATION ==
+" Standard: 
+" hi Normal guibg=#252221 guifg=#c8bAA4
+" Darker:
+hi Normal guibg=#1e1b1a guifg=#c8bAA4
+
+

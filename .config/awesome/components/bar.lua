@@ -1,76 +1,68 @@
 local cl = require('platform.stdlib') --.color
 
 awful.screen.connect_for_each_screen(function(s)
-	local layoutbox = awful.widget.layoutbox.new({ screen = s })
-	layoutbox._layoutbox_tooltip:remove_from_object(layoutbox)
-	require('subcomponents.tooltip').new({
-		placement = awful.placement.top_left,
-		widget = require('subcomponents.tooltip').layoutlist,
-		trigger = layoutbox,
-		mh = 40,
-		mw = 100,
-		autoleave = true,
-	})
-	layoutbox:buttons(gears.table.join(
-		awful.button({}, 1, function()
-			awful.layout.inc(1)
-		end),
-		awful.button({}, 3, function()
-			awful.layout.inc(-1)
-		end),
-		awful.button({}, 4, function()
-			awful.layout.inc(1)
-		end),
-		awful.button({}, 5, function()
-			awful.layout.inc(-1)
-		end)
-	))
-
 	local layout_no = wibox.widget.textbox()
 	layout_no.text = 0 -- s.selected_tag.index
-	layout_no.font = 'IBM Plex Sans Medium'
 	layout_no.valign = 'center'
-	layout_no.align = 'center'
+	layout_no.font = 'JetBrainsMono Nerd Font Bold'
+	layout_no.align = 'left'
 	layout_no:buttons(awful.button({}, mouse.LEFT, function()
 		awful.tag.viewnext(mouse.screen)
 	end))
 
-	local clock = awful.widget.textclock("<b>%H\n<span foreground='#888'>―</span>\n%M</b>")
-	clock.align = 'center'
-	require('subcomponents.tooltip').new({
-		placement = awful.placement.left,
-		widget = awful.widget.textclock('<b>%A</b>\n%d/%m/%y'),
-		trigger = clock,
-		mh = 60,
-		mw = 100,
-		autoleave = true,
-	})
+	-- local clock = awful.widget.textclock('%H:%M')
+	-- clock.align = 'center'
 
+	-- clock:connect_signal('mouse::enter', function()
+	-- 	clock.format = '(%a) %d/%m/%y %H:%M'
+	-- end)
+	--
+	-- clock:connect_signal('mouse::leave', function()
+	-- 	clock.format = '%H:%M'
+	-- end)
+	--
 	awful.screen.focused():connect_signal('tag::history::update', function()
-		layout_no.markup = s.selected_tag.name
+		layout_no.markup = ' ' .. s.selected_tag.name
 	end)
 
-	local tray = wibox.widget.systray()
-	tray:set_horizontal(false)
+	local nowPlaying = wibox.widget.textbox()
+	nowPlaying.align = 'center'
+
+	local lastPlayed
+	playerctl:connect_signal("metadata", function(_,title)
+		nowPlaying.markup = "<span color='#4d4d4d'><i>" .. title .. "</i></span>"
+		lastPlayed = nowPlaying.markup
+	end)
+
+	playerctl:connect_signal("playback_status", function(_,playing)
+		if not playing then 
+			lastPlayed = nowPlaying.markup
+			nowPlaying.markup = "<span color='#4d4d4d'>Paused</span>"
+		else
+			nowPlaying.markup = lastPlayed
+		end
+	end)
+
+	nowPlaying:buttons(awful.button({}, mouse.LEFT, function()
+		playerctl:play_pause()
+	end))
+
+
 
 	s.mywibar = awful.wibar({
-		position = 'left',
+		position = 'bottom',
 		screen = s,
 		ontop = true,
+		height = 24,
 		type = 'dock',
 	})
 	s.mywibar:setup({
-		{
-			layout = wibox.layout.fixed.vertical,
-			spacing = dpi(8),
-			layoutbox,
-			layout_no,
-			require('subcomponents.tasklist'),
-		},
-		clock,
-		{ tray, widget = wibox.container.margin, margins = 8 },
-		layout = wibox.layout.align.vertical,
+		layout_no,
+		nowPlaying,
+		{ wibox.widget.systray(), widget = wibox.container.margin, margins = 2 },
+		layout = wibox.layout.align.horizontal,
+		-- forced_num_cols = 3,
+		-- forced_num_rows = 1,
 		expand = 'none',
-		buttons = awful.button({}, mouse.LEFT, require('components.dashboard')),
 	})
 end)

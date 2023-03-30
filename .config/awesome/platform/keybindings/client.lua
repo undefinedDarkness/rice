@@ -10,6 +10,9 @@ clientkeys = gears.table.join(
 		description = 'toggle fullscreen',
 		group = 'client',
 	}),
+	awful.key({modkey, 'Shift'},'u', function(c)
+		c.ontop = not c.ontop
+	end),
 	awful.key({ modkey, 'Shift' }, 'Up', function(c)
 		awful.client.swap.bydirection('up', c)
 	end, {
@@ -49,7 +52,7 @@ clientkeys = gears.table.join(
 		group = 'client',
 	}),
 	awful.key({ modkey }, 'm', function(c)
-		-- awful.titlebar.toggle(c)
+		awful.titlebar.hide(c)
 		c.maximized = not c.maximized
 		c:raise()
 	end, {

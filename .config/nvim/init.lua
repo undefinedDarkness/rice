@@ -5,11 +5,11 @@
 |__|____||_____|_____|\___/ |__||__|__|__|
 ]]
 
--- 🔧 Basic Platfrom & Utilities
-require("platform")
-
 -- 📦 Plugins & Plugin Manager
 require("mod")
+
+-- 🔧 Basic Platfrom & Utilities
+require("platform")
 
 -- ⌨️  Key Bindings
 require("bindings")

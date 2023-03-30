@@ -82,7 +82,7 @@ end
 
 function M.gtk_lookup_icon(icon_name, size)
 	local theme = Gtk.IconTheme.get_default()
-	return theme:lookup_icon(icon_name, size or 24, { }):get_filename()
+	return theme:lookup_icon(icon_name, size or 24, {}):get_filename()
 end
 -- Table Manipulation
 
@@ -255,9 +255,9 @@ function M.hexagon_shape(cr, width, height)
 	cr:close_path()
 end
 
-function M.formatter(format) 
+function M.formatter(format)
 	return function(s)
-		return "<span "..format..">"..s.."</span>"
+		return '<span ' .. format .. '>' .. s .. '</span>'
 	end
 end
 

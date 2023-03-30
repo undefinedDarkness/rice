@@ -14,8 +14,9 @@ theme.bg_light = '#fafafa'
 theme.bg_wall = '#f7f3e8'
 theme.fg_grey = '#b0b0b0'
 
-theme.titlebar_bg_focus = '#c65f5f'
-theme.titlebar_bg = '#413c3a'
+
+theme.titlebar_bg = '#fde249'
+theme.titlebar_bg_focus = '#fc833a'
 theme.wibar_bg = '#111111'
 theme.wibar_fg = '#fafafa'
 theme.bg_systray = theme.wibar_bg
@@ -35,9 +36,10 @@ theme.tasklist_maximized = ' &lt;<b>M</b>&gt; '
 
 -- Other
 theme.useless_gap = dpi(8)
+theme.gap_single_client = false
 theme.systray_icon_spacing = dpi(8)
-theme.font = 'IBM Plex Sans'
-theme.workspaces = { 'Ψ', 'Ω', 'θ', 'φ', 'μ' }
+theme.font = 'JetBrainsMono Nerd Font'
+theme.workspaces = { 'I', 'II', 'III', 'IV', 'V' }
 
 theme.separator_color = '#2a2a2a'
 
@@ -72,7 +74,7 @@ theme.layout_dwindle = assets .. 'layouts/dwindle.png'
 theme.titlebar_close_button_normal = assets .. 'icons/close.svg'
 theme.titlebar_close_button_focus = assets .. 'icons/close-f.svg'
 
-theme.wallpaper = assets .. 'bird.jpg'
+theme.wallpaper = assets .. 'vhs.jpg'
 
 theme.icon_theme = 'Adwaita++ Dark'
 

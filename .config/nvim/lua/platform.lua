@@ -1,8 +1,8 @@
 local M = {}
 
 -- Opt into filetype.lua
-vim.g.do_filetype_lua = 1
-vim.g.did_load_filetypes = 0
+-- vim.g.do_filetype_lua = 1
+-- vim.g.did_load_filetypes = 0
 
 -- Enable Mouse Support
 vim.opt.mouse = "a"
@@ -27,7 +27,7 @@ vim.opt.shiftwidth = 4
 
 -- Statusline & Command Line
 vim.opt.laststatus = 0
-vim.opt.cmdheight = 0
+-- vim.opt.cmdheight = 0
 
 -- Split below
 vim.opt.splitbelow = true
@@ -42,22 +42,16 @@ vim.opt.title = true
 
 -- Colorscheme
 vim.opt.background = "dark"
-vim.cmd [[ colo chocolate ]]
-
--- Nvim Tree
-vim.g.nvim_tree_show_icons = {
-	git = 0,
-	folders = 1,
-	files = 1,
-	folder_arrows = 0,
-}
-vim.g.nvim_tree_icon_padding = "  "
+vim.cmd([[ colo chocolate ]])
 
 vim.g.user_emmet_leader_key = "<Insert>"
 vim.g.vim_markdown_folding_disabled = true
+vim.g.mapleader = ','
 
 vim.opt.grepprg = "grep -nHbFr"
 vim.opt.grepformat = "%f:%l:%c:%m"
+
+vim.g.c_syntax_for_h = true
 
 -- Disable Default Nvim Plugins {{{
 vim.g.loaded_netrwPlugin = 1
@@ -73,16 +67,16 @@ vim.g.loaded_2html_plugin = 1
 -- Find highlight group
 function _G.foldText()
 	local x = vim.fn.getline(vim.v.foldstart)
-	local s, e = x:find(' .* {{{')
-	return vim.v.folddashes:gsub('-', ';') .. ' ' .. x:sub(s+1, e-3)
+	local s, e = x:find(" .* {{{")
+	return vim.v.folddashes:gsub("-", ";") .. " " .. x:sub(s + 1, e - 3)
 end
 
 function _G.updateRuler()
 	local ft = vim.bo.filetype
-	vim.opt.rulerformat = "%" .. #ft .. '(%Y%)'
+	vim.opt.rulerformat = "%" .. #ft .. "(%Y%)"
 end
 
-vim.opt.foldtext = 'v:lua.foldText()'
-vim.opt.fillchars = { fold = ' ' }
+vim.opt.foldtext = "v:lua.foldText()"
+vim.opt.fillchars = { fold = " " }
 
 return M

@@ -23,6 +23,7 @@ beautiful.init(_config_dir .. '/theme/theme.lua')
 
 -- Bling Widget Library
 bling = require('platform.libs.bling')
+playerctl = bling.signal.playerctl.lib()
 
 -- Misc
 require('awful.hotkeys_popup.keys')
@@ -52,7 +53,8 @@ mouse.SCROLL_DOWN = 5
 require('components.notifications')
 require('components.bar')
 require('components.titlebar')
-require('components.weather')
+require('components.clock')
+-- require('components.weather')
 
 -- Load Global Keybindings
 require('platform.keybindings.global')

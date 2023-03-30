@@ -7,18 +7,18 @@ local screenshot = require('platform.libs.screenshot')
 
 globalkeys = gears.table.join(
 
-	awful.key({}, 'XF86AudioRaiseVolume', function()
-		require('components.volume')(5)
-	end, {
-		description = 'Show volume popup',
-		group = 'hidden',
-	}),
-	awful.key({}, 'XF86AudioLowerVolume', function()
-		require('components.volume')(-5)
-	end, {
-		description = 'Show volume popup',
-		group = 'hidden',
-	}),
+	-- awful.key({}, 'XF86AudioRaiseVolume', function()
+	-- 	require('components.volume')(5)
+	-- end, {
+	-- 	description = 'Show volume popup',
+	-- 	group = 'hidden',
+	-- }),
+	-- awful.key({}, 'XF86AudioLowerVolume', function()
+	-- 	require('components.volume')(-5)
+	-- end, {
+	-- 	description = 'Show volume popup',
+	-- 	group = 'hidden',
+	-- }),
 
 	awful.key({ modkey }, 'Print', function()
 		screenshot.selection()
@@ -34,14 +34,15 @@ globalkeys = gears.table.join(
 		group = 'User',
 	}),
 	awful.key({ modkey }, 'r', function()
-		awful.spawn('rofi -show drun -theme vert')
+		awful.spawn('dmenu_run')
 	end, {
 		description = 'Launch Dmenu (Run)',
 		group = 'User',
 	}),
 
 	awful.key({ modkey }, 'space', function()
-		require('subcomponents.menu').app_menu()
+		awful.spawn('/home/portal/Projects/mkr/build/mkr')
+		-- require('subcomponents.menu').app_menu()
 	end, {
 		description = 'Launch everything switcher',
 		group = 'User',
@@ -61,7 +62,7 @@ globalkeys = gears.table.join(
 	}),
 
 	awful.key({ modkey }, 's', function()
-		require('components.keys')()
+		-- require('components.keys')()
 	end, {
 		description = 'show help',
 		group = 'User',
@@ -132,7 +133,19 @@ globalkeys = gears.table.join(
 	}),
 	awful.key({ modkey, 'Shift' }, 'q', awesome.quit, { description = 'quit awesome', group = 'awesome' }),
 	awful.key({ modkey, 'Shift' }, 'space', function()
+		
 		awful.layout.inc(-1)
+		local layout = awful.layout.get(mouse.screen)
+		if layout == awful.layout.suit.floating then
+			for _,c in ipairs(client.get()) do
+				awful.titlebar.show(c)
+			end
+		else
+			for _, c in ipairs(client.get()) do
+				awful.titlebar.hide(c)
+			end
+		end
+
 	end, {
 		description = 'select previous',
 		group = 'layout',
