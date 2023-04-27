@@ -24,7 +24,7 @@
 	end
 
 	local lisps = { "yuck", "fennel", "clojure", "scheme", "lisp" }
-	local lsp = { "c", "rust", "rs", "typescript", "cpp" }
+	local lsp = { "c", "rust", "rs", "typescript", "cpp", "v", "zig" }
 
 	local opts = {
 		defaults = {
@@ -53,10 +53,13 @@
 				local c = {
 					capabilities = require('cmp_nvim_lsp').default_capabilities()
 				}
-				l.clangd.setup(c)
+				l.zls.setup(c)
+				l.clangd.setup({
+					cmd = {"clangd",  "--limit-results=20", "-j=2", "--background-index", "--pch-storage=memory", "--header-insertion=never" },
+					capabilities = require('cmp_nvim_lsp').default_capabilities()
+				})
 				l.rust_analyzer.setup(c)
 				l.tsserver.setup(c)
-				-- l.denols.setup(c)
 			end,
 		},
 

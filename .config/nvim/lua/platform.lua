@@ -44,6 +44,7 @@ vim.opt.title = true
 vim.opt.background = "dark"
 vim.cmd([[ colo chocolate ]])
 
+vim.g.zig_fmt_autosave = 0
 vim.g.user_emmet_leader_key = "<Insert>"
 vim.g.vim_markdown_folding_disabled = true
 vim.g.mapleader = ','

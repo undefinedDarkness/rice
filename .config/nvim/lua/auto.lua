@@ -32,6 +32,7 @@ au({
 	event = { "BufRead", "BufNewFile" },
 	{ "*.fmt.txt", "set filetype=markdown" },
 	{ "*.svelte", "set filetype=html" },
+	{ "*.v", "set ft=v" },
 	{ "*.vs,*.fs", "set filetype=glsl" },
 })
 

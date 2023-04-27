@@ -72,14 +72,17 @@ hi TSBoolean guifg=#d08b65
 hi cTSKeywordOperator guifg=#829e9b
 hi! link @type.qualifier Statement
 
-"
-hi! link @text.title Identifier
+" Markdown
+hi @text.title guifg=#728797 gui=bold
+hi! link @text.todo.unchecked cTSConstant 
 
 " Rust
 hi! link @storageclass.lifetime cTSConstant
 
 " HTML
 hi! link @tag.attribute cTSConstant
+
+" Markdown
 
 hi! link TSConstant TSVariableBuiltin
 hi! link @variable Normal
@@ -95,6 +98,7 @@ hi! link TSPunctDelimiter Normal
 
 " C Stuff 
 hi! link @storageclass Statement
+hi! link @type.builtin Statement
 hi! link @include Statement
 hi! link @define  Statement
 hi! link @preproc Statement
