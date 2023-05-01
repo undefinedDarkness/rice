@@ -31,7 +31,7 @@ bind("", "<F3>", ":update<CR>", { silent = true })
 bind("", "<F4>", ":lua vim.lsp.buf.format()<CR>", { silent = true })
 
 -- F9 to get highlight group
-bind("n", "<f9>", ":TSHighlightCapturesUnderCursor<CR>", { silent = true })
+-- bind("n", "<f9>", ":TSHighlightCapturesUnderCursor<CR>", { silent = true })
 
 -- Terminal
 bind('t', '<Esc>', [[<C-\><C-n>]])
@@ -58,7 +58,7 @@ function _G.tab_binding()
     return replace_keycodes("<Plug>(Tabout)")
   end
 end
-
+	
 function _G.s_tab_binding()
   if vim.fn.pumvisible() ~= 0 then
     return replace_keycodes("<C-p>")
@@ -75,29 +75,29 @@ bind("i", "<S-Tab>", "v:lua.s_tab_binding()", {expr = true})
 
 -- Nvim DAP Keybindings
 -- {{{
-   vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
-    vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
-    vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
-    vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
-    vim.keymap.set('n', '<Leader>b', function() require('dap').toggle_breakpoint() end)
-    vim.keymap.set('n', '<Leader>B', function() require('dap').set_breakpoint() end)
-    vim.keymap.set('n', '<Leader>lp', function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end)
-    vim.keymap.set('n', '<Leader>dr', function() require('dap').repl.open() end)
-    vim.keymap.set('n', '<Leader>dl', function() require('dap').run_last() end)
-    vim.keymap.set({'n', 'v'}, '<Leader>dh', function()
-      require('dap.ui.widgets').hover()
-    end)
-    vim.keymap.set({'n', 'v'}, '<Leader>dp', function()
-      require('dap.ui.widgets').preview()
-    end)
-    vim.keymap.set('n', '<Leader>df', function()
-      local widgets = require('dap.ui.widgets')
-      widgets.centered_float(widgets.frames)
-    end)
-    vim.keymap.set('n', '<Leader>ds', function()
-      local widgets = require('dap.ui.widgets')
-      widgets.centered_float(widgets.scopes)
-    end)
+   -- vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
+   --  vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
+   --  vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
+   --  vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
+   --  vim.keymap.set('n', '<Leader>b', function() require('dap').toggle_breakpoint() end)
+   --  vim.keymap.set('n', '<Leader>B', function() require('dap').set_breakpoint() end)
+   --  vim.keymap.set('n', '<Leader>lp', function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end)
+   --  vim.keymap.set('n', '<Leader>dr', function() require('dap').repl.open() end)
+   --  vim.keymap.set('n', '<Leader>dl', function() require('dap').run_last() end)
+   --  vim.keymap.set({'n', 'v'}, '<Leader>dh', function()
+   --    require('dap.ui.widgets').hover()
+   --  end)
+   --  vim.keymap.set({'n', 'v'}, '<Leader>dp', function()
+   --    require('dap.ui.widgets').preview()
+   --  end)
+   --  vim.keymap.set('n', '<Leader>df', function()
+   --    local widgets = require('dap.ui.widgets')
+   --    widgets.centered_float(widgets.frames)
+   --  end)
+   --  vim.keymap.set('n', '<Leader>ds', function()
+   --    local widgets = require('dap.ui.widgets')
+   --    widgets.centered_float(widgets.scopes)
+   --  end)
 -- }}}
 
 return M

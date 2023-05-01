@@ -33,7 +33,7 @@ vim.opt.laststatus = 0
 vim.opt.splitbelow = true
 
 -- Folding
-vim.opt.foldmethod = "marker"
+vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 
 -- Ruler, Statusline & Title
 vim.opt.statusline = "::"
@@ -42,15 +42,18 @@ vim.opt.title = true
 
 -- Colorscheme
 vim.opt.background = "dark"
-vim.cmd([[ colo chocolate ]])
+vim.cmd([[ colorscheme personal ]])
 
 vim.g.zig_fmt_autosave = 0
 vim.g.user_emmet_leader_key = "<Insert>"
+vim.g.vsnip_filetypes.dart = {"flutter"}
 vim.g.vim_markdown_folding_disabled = true
 vim.g.mapleader = ','
 
 vim.opt.grepprg = "grep -nHbFr"
 vim.opt.grepformat = "%f:%l:%c:%m"
+
+vim.opt.showmode = false
 
 vim.g.c_syntax_for_h = true
 
@@ -72,12 +75,12 @@ function _G.foldText()
 	return vim.v.folddashes:gsub("-", ";") .. " " .. x:sub(s + 1, e - 3)
 end
 
-function _G.updateRuler()
-	local ft = vim.bo.filetype
-	vim.opt.rulerformat = "%" .. #ft .. "(%Y%)"
-end
+-- function _G.updateRuler()
+-- 	local ft = vim.bo.filetype
+-- 	vim.opt.rulerformat = "%" .. #ft .. "(%Y%)"
+-- end
 
-vim.opt.foldtext = "v:lua.foldText()"
+-- vim.opt.foldtext = "v:lua.foldText()"
 vim.opt.fillchars = { fold = " " }
 
 return M

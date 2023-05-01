@@ -40,7 +40,7 @@ au({
 au({
 	group = "on_filetype",
 	event = "FileType",
-	{ "*", "call v:lua.updateRuler()" },
+	-- { "*", "call v:lua.updateRuler()" },
 	{ "sh", "setl makeprg=shellcheck\\ -f\\ gcc\\ -x\\ " },
 	{ "lua", "setl makeprg=luac\\ -p\\ % | setl errorformat=luac:\\ %f:%l:\\ %m" },
 	{ "help,man", "nnoremap <buffer> <CR> <C-]>" },
