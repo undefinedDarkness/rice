@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 case $1 in
     "startup")
         rm ~/.python_history
@@ -28,7 +27,7 @@ esac
 
 # -- ALIASES & SETUP -- 
 
-alias gdb='gdb -q --init-command=~/.config/gdb/gdbinit'
+alias gdb='gdb -q '
 alias rm='trash -v' 
 alias mv='mv -v'
 alias cp='cp -v'
@@ -51,7 +50,7 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 # export GTK_THEME="phocus"
 export LESSHISTFILE=- # Disable Less History
 export HISTFILE= # Disable History File
-export PATH="$PATH:$HOME/.local/bin:$HOME/.deno/bin:$HOME/Downloads/Flutter/bin" # Path
+export PATH="$PATH:$HOME/.local/bin:$HOME/.deno/bin:$HOME/Downloads/Flutter/bin:$HOME/.zig" # Path
 export PS1="\[\e]0;SH: \W\a\]\[\e[36m\]\w\[\e[m\] \[\e[32m\]->\[\e[m\] " # Prompt
 
 # Set Config Directory To Dotfiles
@@ -175,3 +174,4 @@ createDesktopFile() {
 	read -r _exec
 	printf '[Desktop Entry]\nType=Application\nVersion=1.0\nName=%s\nComment=%s\nExec=%s' "$name" "$comment" "$_exec" >> "$ofile"
 }
+source ~/rice/scripts/gh-comp.sh

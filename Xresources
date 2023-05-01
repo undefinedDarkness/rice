@@ -3,19 +3,16 @@ XTerm*scrollBar: false
 XTerm*internalBorder: 16
 XTerm*borderWidth: 0
 
-! For Sixel Support
-! This breaks nvim scrolling by default
-! A solution is to run nvim with XTERM_VERSION= nvim
+! Enable sixel 
 XTerm*decTerminalID: vt340
-!xterm*numColorRegisters: 256
-!xterm*sixelScrolling: 1
-!xterm*sixelScrollsRight: 1
 
-! Normally:
-!xterm*decTerminalID: vt420
-
-! XTerm*faceName: xft:Gohu GohuFont:size=14:antialias=false
+! Font
 XTerm*faceName: xft:JetBrainsMono Nerd Font:size=11:style=Medium
+XTerm*utf8: true
+XTerm*locale: true
+XTerm*utf8Fonts: always
+
+! Other
 XTerm*metaSendsEscape: true
 
 ! Sane copy paste behaviour
@@ -24,7 +21,7 @@ XTerm*translations: #override \
     Shift Ctrl <Key> C: copy-selection(CLIPBOARD) \n\
     Shift Ctrl <Key> V: insert-selection(CLIPBOARD)
 
-! XTERM
+! Colors
 XTerm*foreground: #c8bAA4
 XTerm*background: #1e1b1a
 

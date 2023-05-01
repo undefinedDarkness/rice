@@ -74,7 +74,7 @@ theme.layout_dwindle = assets .. 'layouts/dwindle.png'
 theme.titlebar_close_button_normal = assets .. 'icons/close.svg'
 theme.titlebar_close_button_focus = assets .. 'icons/close-f.svg'
 
-theme.wallpaper = assets .. 'vhs.jpg'
+theme.wallpaper = assets .. 'city.jpg'
 
 theme.icon_theme = 'Adwaita++ Dark'
 
