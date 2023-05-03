@@ -177,7 +177,7 @@ require("lazy").setup({
 			{ "fi", "<cmd>Telescope live_grep theme=ivy<CR>", silent = true, desc = "File Search" },
 			{ "fb", "<cmd>Telescope buffers theme=ivy<CR>", silent = true, desc = "Buffer Manager" },
 			{ "fs", "<cmd>Telescope lsp_document_symbols theme=ivy<CR>", silent = true, desc = "Symbols in workspace" },
-			-- { "ft", "<cmd>Telescope lsp_diagnostics bufnr=0 theme=ivy<CR>", silent = true, desc = "LSP Diagnostics" }
+			{ "ft", "<cmd>Telescope diagnostics theme=ivy<CR>", silent = true, desc = "LSP Diagnostics" }
 		},
 		dependencies = { "kyazdani42/nvim-web-devicons", "nvim-lua/plenary.nvim" },
 		config = function()
@@ -186,6 +186,8 @@ require("lazy").setup({
 			require("telescope").setup({
 				defaults = {
 					prompt_prefix = "λ ",
+					prompt_title = false,
+					results_title = false,
 					-- vimgrep_arguments = { "ag", "--vimgrep" },
 					mappings = {
 						i = {

@@ -64,4 +64,13 @@ vim.cmd([[ autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimT
 -- Auto Close quickfix
 vim.cmd([[ au WinEnter * if winnr('$') == 1 && &buftype == "quickfix"|q|endif ]])
 
+vim.cmd([[
+function! Syn()
+  for id in synstack(line("."), col("."))
+    echo synIDattr(id, "name") . ' -> ' . synIDattr(synIDtrans(id), 'name')
+  endfor
+endfunction
+command! -nargs=0 Syn call Syn()
+]])
+
 return M

@@ -15,6 +15,8 @@ bind("n", "<C-3>", "<C-w><LEFT>")
 bind("n", "<C-4>", "<C-w><RIGHT>")
 bind("n", "<C-2>", "<C-w><DOWN>")
 
+-- Tab Management
+bind("n", "<C-t>", ":tabnew<CR>")
 
 -- System Clipboard
 bind("i", "<C-v>", '<ESC>"+pa')
