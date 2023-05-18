@@ -7,18 +7,18 @@ local screenshot = require('platform.libs.screenshot')
 
 globalkeys = gears.table.join(
 
-	-- awful.key({}, 'XF86AudioRaiseVolume', function()
-	-- 	require('components.volume')(5)
-	-- end, {
-	-- 	description = 'Show volume popup',
-	-- 	group = 'hidden',
-	-- }),
-	-- awful.key({}, 'XF86AudioLowerVolume', function()
-	-- 	require('components.volume')(-5)
-	-- end, {
-	-- 	description = 'Show volume popup',
-	-- 	group = 'hidden',
-	-- }),
+	awful.key({}, 'XF86AudioRaiseVolume', function()
+		require('components.volume')(5)
+	end, {
+		description = 'Show volume popup',
+		group = 'hidden',
+	}),
+	awful.key({}, 'XF86AudioLowerVolume', function()
+		require('components.volume')(-5)
+	end, {
+		description = 'Show volume popup',
+		group = 'hidden',
+	}),
 
 	awful.key({ modkey }, 'Print', function()
 		screenshot.selection()

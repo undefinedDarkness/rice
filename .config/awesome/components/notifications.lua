@@ -8,14 +8,17 @@ naughty.config.spacing = dpi(16)
 naughty.config.defaults.timeout = 8
 naughty.config.defaults.title = 'Hello There!'
 naughty.config.defaults.position = 'top_left'
-naughty.config.icon_dirs = { '/usr/share/icons/la-capitaine-icon-theme', '/usr/share/icons/Adwaita' }
-naughty.config.icon_formats = { 'png', 'svg' }
 
-local Gtk = require('lgi').Gtk
-awesome.loaded_icon_theme = Gtk.IconTheme.get_default()
 
 naughty.connect_signal('request::display', function(n)
 	n.timeout = 8
+	n.position = 'bottom_right'
+
+	local icon = n.icon or n.image or n.app_icon
+	-- if icon == nil and n.app_name ~= nil then
+		-- icon = C.gtk_lookup_name(n.app_name)
+	-- end
+
 
 	naughty.layout.box({
 		notification = n,
@@ -24,8 +27,8 @@ naughty.connect_signal('request::display', function(n)
 		end,
 		type = 'notification',
 		minimum_width = 100,
-		fg = '#282828',
-		bg = '#fafafa',
+		fg = '#f7f7f7',
+		bg = '#111111',
 		widget_template = {
 			{
 				widget = wibox.container.background,
@@ -38,7 +41,7 @@ naughty.connect_signal('request::display', function(n)
 						halign = 'center',
 						valign = 'center',
 						widget = wibox.widget.imagebox,
-						image = n.icon,
+						image = icon,
 						resize = true,
 					},
 					widget = wibox.container.constraint,
@@ -53,14 +56,13 @@ naughty.connect_signal('request::display', function(n)
 					layout = wibox.layout.flex.vertical,
 					{
 						widget = wibox.widget.textbox,
-						text = n.title or 'Hello There',
-						font = 'IBM Plex Sans Bold',
+						text = n.title,
 						valign = 'bottom',
 					},
 					{
 						valign = 'top',
 						widget = wibox.widget.textbox,
-						text = n.message,
+						markup = n.message,
 					},
 				},
 				widget = wibox.container.margin,

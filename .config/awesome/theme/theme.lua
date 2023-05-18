@@ -38,13 +38,13 @@ theme.tasklist_maximized = ' &lt;<b>M</b>&gt; '
 theme.useless_gap = dpi(8)
 theme.gap_single_client = false
 theme.systray_icon_spacing = dpi(8)
-theme.font = 'JetBrainsMono Nerd Font'
+theme.font = 'Ubuntu Nerd Font'
 theme.workspaces = { 'I', 'II', 'III', 'IV', 'V' }
 
 theme.separator_color = '#2a2a2a'
 
 -- Settings
-theme.terminal = 'xterm -geometry 50x20'
+theme.terminal = 'wezterm'
 theme.tabbar_disable = true
 theme.on_startup = {
 	'sh ~/rice/scripts/master.sh startup',
@@ -55,9 +55,10 @@ theme.on_startup = {
 
 -- Notifications
 theme.notification_spacing = dpi(16)
-theme.notification_bg = '#f0f0f0'
-theme.notification_fg = '#282828'
+theme.notification_fg = '#f0f0f0'
+theme.notification_bg = '#111111'
 theme.notification_icon_size = 64
+theme.notification_position = 'bottom_right'
 
 -- Window Snapping
 theme.snap_bg = beautiful.fg_inactive

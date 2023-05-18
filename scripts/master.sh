@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 case $1 in
     "startup")
-        rm ~/.python_history
-        rm ~/.gnuplot_history
+		mv ~/.bash_history /tmp/bsh
+		rm ~/.*_history
+		mv /tmp/bsh ~/.bash_history
         rm ~/.wget-hsts
         rm ~/.viminfo
 		/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
@@ -83,9 +84,13 @@ memoryUsage () {
 
 buildDepReverse () {
 	read -r -p "Enter package name: " packageName
-sudo apt-mark auto $(apt-cache showsrc $packageName | sed -e '/Build-Depends/!d;s/Build-Depends: \|,\|([^)]*),*\|\[[^]]*\]//g' | sed -E 's/\|//g; s/<.*>//g')
-sudo apt-mark manual build-essential fakeroot devscripts
-sudo apt autoremove --purge
+	sudo apt-mark auto $(apt-cache showsrc $packageName | sed -e '/Build-Depends/!d;s/Build-Depends: \|,\|([^)]*),*\|\[[^]]*\]//g' | sed -E 's/\|//g; s/<.*>//g')
+	sudo apt-mark manual build-essential fakeroot devscripts
+	sudo apt autoremove --purge
+}
+
+m () {
+	nvim
 }
 
 # Symlink Files
@@ -134,6 +139,10 @@ download () {
 
 pspConvert() {
 	ffmpeg -y -i $1 -flags +bitexact -vcodec libx264 -profile:v baseline -level 3.0 -s 480x272 -r 29.97 -b:v 384k -acodec aac -b:a 96k -ar 48000 -f psp -strict -2 ${1%.*}.MP4
+}
+
+whatsappConvert() {
+	ffmpeg -i $1 -vcodec libx264 -acodec aac output.mp4
 }
 
 manipulateImage () {

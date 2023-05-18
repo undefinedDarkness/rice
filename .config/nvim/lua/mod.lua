@@ -14,9 +14,40 @@ end
 vim.opt.rtp:prepend(lazypath)
 -- }}}
 
-
 local lisps = { "yuck", "fennel", "clojure", "scheme", "lisp" }
 local lsp = { "c", "rust", "rs", "typescript", "cpp", "v", "zig" }
+
+function getHeader()
+	local header = vim.split(
+		[[
+							  ,-.       _,---._ __  / \
+							 /  )    .-'       `./ /   \
+							(  (   ,'            `/    /|
+							 \  `-"             \'\   / |
+							  `.              ,  \ \ /  |
+							   /`.          ,'-`----Y   |
+							  (            ;        |   '
+							  |  ,-.    ,-'         |  /
+							  |  | (   |            | /
+							  )  |  \  `.___________|/
+							  `--'   `--'                                                               
+]],
+		"\n"
+	)
+
+	local maxlen = 0
+	for _, line in ipairs(header) do
+		if #line > maxlen then
+			maxlen = #line
+		end
+	end
+
+	for _, line in ipairs(header) do
+		header[_] = line .. string.rep(" ", maxlen - #line)
+	end
+
+	return header
+end
 
 local opts = {
 	defaults = {
@@ -50,6 +81,12 @@ require("lazy").setup({
 				capabilities = require("cmp_nvim_lsp").default_capabilities(),
 			}
 			l.zls.setup(c)
+			l.denols.setup({
+				init_options = {
+					unstable = true
+				},
+				capabilities = c.capabilities
+			})
 			l.clangd.setup({
 				cmd = {
 					"clangd",
@@ -62,15 +99,14 @@ require("lazy").setup({
 				capabilities = require("cmp_nvim_lsp").default_capabilities(),
 			})
 			l.rust_analyzer.setup(c)
-			l.tsserver.setup(c)
+			-- l.tsserver.setup(c)
 			-- }}}
-		
-		local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-		for type, icon in pairs(signs) do
-          local hl = "DiagnosticSign" .. type
-          vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-        end
 
+			local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+			for type, icon in pairs(signs) do
+				local hl = "DiagnosticSign" .. type
+				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+			end
 		end,
 	},
 	-- }}}
@@ -82,20 +118,25 @@ require("lazy").setup({
 		ft = "yuck",
 	},
 
+	{
+		"zah/nim.vim",
+		ft = "nim"
+		},
+
 	-- Shader Language
 	{
 		"tikhomirov/vim-glsl",
 		ft = "glsl",
 	},
 
-	-- Fennel 
+	-- Fennel
 	{
 		"mnacamura/vim-fennel-syntax",
 		ft = "fennel",
 	},
 	-- }}}
-	
-	-- Misc {{{	
+
+	-- Misc {{{
 
 	-- Auto Save
 	{
@@ -108,27 +149,22 @@ require("lazy").setup({
 	{
 		"nvim-treesitter/playground",
 		keys = {
-			{"<f9>", ":TSHighlightCapturesUnderCursor<cr>"}
+			{ "<f9>", ":TSHighlightCapturesUnderCursor<cr>" },
 		},
 		dependencies = { "nvim-treesitter" },
 		cmd = { "TSHighlightCapturesUnderCursor" },
 	},
 	-- }}}
-	
+
 	-- Other UI {{{
-		{
+	{
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			require("todo-comments").setup({
-				-- colors = {
-				-- 	info = { "#666666" },
-				-- 	warning = { "#ffdd75" },
-				-- 	error = { "#d53c6a" }
-				-- },
 				highlight = {
-					multiline = false
-				}
+					multiline = false,
+				},
 			})
 		end,
 		event = "VeryLazy",
@@ -168,6 +204,7 @@ require("lazy").setup({
 		end,
 	},
 
+
 	-- General Finding Toolkit
 	{
 		"nvim-telescope/telescope.nvim",
@@ -176,19 +213,25 @@ require("lazy").setup({
 			{ "ff", "<cmd>Telescope find_files theme=ivy hidden=true<CR>", silent = true, desc = "File Finder" },
 			{ "fi", "<cmd>Telescope live_grep theme=ivy<CR>", silent = true, desc = "File Search" },
 			{ "fb", "<cmd>Telescope buffers theme=ivy<CR>", silent = true, desc = "Buffer Manager" },
-			{ "fs", "<cmd>Telescope lsp_document_symbols theme=ivy<CR>", silent = true, desc = "Symbols in workspace" },
-			{ "ft", "<cmd>Telescope diagnostics theme=ivy<CR>", silent = true, desc = "LSP Diagnostics" }
+			{
+				"fs",
+				"<cmd>Telescope lsp_document_symbols theme=ivy<CR>",
+				silent = true,
+				desc = "Symbols in workspace",
+			},
+			{ "ft", "<cmd>Telescope diagnostics theme=ivy<CR>", silent = true, desc = "LSP Diagnostics" },
 		},
-		dependencies = { "kyazdani42/nvim-web-devicons", "nvim-lua/plenary.nvim" },
+		dependencies = {
+			"kyazdani42/nvim-web-devicons",
+			"nvim-lua/plenary.nvim",
+		},
 		config = function()
 			local actions = require("telescope.actions")
-
 			require("telescope").setup({
 				defaults = {
 					prompt_prefix = "λ ",
 					prompt_title = false,
 					results_title = false,
-					-- vimgrep_arguments = { "ag", "--vimgrep" },
 					mappings = {
 						i = {
 							["<esc>"] = actions.close,
@@ -201,14 +244,39 @@ require("lazy").setup({
 		end,
 	},
 
+	-- {
+	-- 	"nvimdev/dashboard-nvim",
+	-- 	event = "VimEnter",
+	-- 	config = function()
+	-- 		require("dashboard").setup({
+	-- 			config = {
+	-- 				shortcut = {
+	-- 					{ desc = 'An eye for an eye makes the world blind.' }
+	-- 				},
+	-- 				header = getHeader(),
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
+
 	-- }}}
 
 	-- Debugger {{{
 	{
 		"mfussenegger/nvim-dap",
 		keys = {
-			{ "<F6>", function() require('dap').continue() end },
-			{ "<leader>b", function() require('dap').toggle_breakpoint() end },
+			{
+				"<F6>",
+				function()
+					require("dap").continue()
+				end,
+			},
+			{
+				"<leader>b",
+				function()
+					require("dap").toggle_breakpoint()
+				end,
+			},
 		},
 		config = function()
 			local dap = require("dap")
@@ -260,9 +328,7 @@ require("lazy").setup({
 		dependencies = {
 			"nvim-dap",
 		},
-		keys = {
-			
-		},
+		keys = {},
 		config = function()
 			local dap, dapui = require("dap"), require("dapui")
 			dapui.setup()
@@ -327,7 +393,7 @@ require("lazy").setup({
 	},
 	{
 		"machakann/vim-sandwich",
-		event = "VeryLazy"
+		event = "VeryLazy",
 	},
 
 	-- }}}
@@ -338,17 +404,20 @@ require("lazy").setup({
 		branch = "main",
 		event = "BufRead",
 		dependencies = { "kyazdani42/nvim-web-devicons" },
-		keys = { { "<S-r>", "<cmd>Lspsaga rename<CR>", silent = true },
-			 },
+		keys = { { "<S-r>", "<cmd>Lspsaga rename<CR>", silent = true } },
 		config = function()
 			require("lspsaga").setup({
 				symbol_in_winbar = {
+					enable = false,
 					separator = " / ",
+				},
+				ui = {
+					border = "rounded",
 				},
 				lightbulb = {
 					enable = true,
 					sign = true,
-					enable_in_insert=true
+					enable_in_insert = true,
 				},
 				outline = {
 					keys = {
@@ -359,13 +428,11 @@ require("lazy").setup({
 		end,
 	},
 
-
-
 	{
 		"hrsh7th/cmp-nvim-lsp",
 		dependencies = {
-			"rafamadriz/friendly-snippets"
-		}
+			"rafamadriz/friendly-snippets",
+		},
 	},
 
 	{
@@ -376,7 +443,7 @@ require("lazy").setup({
 			"windwp/nvim-autopairs",
 			"hrsh7th/vim-vsnip",
 			"hrsh7th/cmp-vsnip",
-			"onsails/lspkind.nvim"
+			"onsails/lspkind.nvim",
 		},
 		lazy = false,
 		config = function()
@@ -389,26 +456,26 @@ require("lazy").setup({
 				},
 				formatting = {
 					fields = { "kind", "abbr", "menu" },
-					format = function(entry,vi)
-						local kind = require('lspkind').cmp_format({
-						mode = "",
-						menu = {
-							buffer = "[buf]",
-							nvim_lsp = "[lsp]",
-							vsnip = "[snp]"
-						}
-					})(entry,vi)
+					format = function(entry, vi)
+						local kind = require("lspkind").cmp_format({
+							mode = "",
+							menu = {
+								buffer = "[buf]",
+								nvim_lsp = "[lsp]",
+								vsnip = "[snp]",
+							},
+						})(entry, vi)
 						local parts = vim.split(kind.kind, "%s", { trimempty = true })
 						kind.kind = " " .. (parts[1] or "") .. ""
 						return kind
-					end
+					end,
 				},
 				window = {
 					completion = {
 						winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
 						col_offset = -3,
-						side_padding = 0
-					}
+						side_padding = 0,
+					},
 				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-b>"] = cmp.mapping.scroll_docs(-4),
@@ -419,7 +486,7 @@ require("lazy").setup({
 				}),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
-					{ name = "vsnip" }
+					{ name = "vsnip" },
 				}, {
 					{ name = "path" },
 				}),
@@ -429,5 +496,4 @@ require("lazy").setup({
 	},
 
 	-- }}}
-
 }, opts)

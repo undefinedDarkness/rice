@@ -24,6 +24,9 @@ hi link TelescopeTitle Title
 hi TelescopeMatching guibg=#222222 gui=bold 
 hi TelescopePromptNormal guifg=fg
 
+" Markdown
+hi @text.todo.unchecked guifg=#666666 guibg=bg
+
 " Editing
 hi MatchParen guibg=bg guifg=#f0f0f0
 hi Visual guibg=#222222 
@@ -38,7 +41,9 @@ hi Constant guifg=#ff8274
 hi Delimiter guifg=#333333
 hi Type guibg=bg guifg=fg gui=bold
 hi Identifier guifg=fg guibg=bg 
-hi Keyword guifg=#d3d3d3
+hi Keyword guifg=#b0b0b0
+hi link @exception Keyword
+hi link Conditional Keyword
 hi @type.qualifier gui=none guibg=bg guifg=fg
 hi @function guibg=#111111
 hi @punctuation.bracket guifg=#666666
@@ -71,6 +76,6 @@ hi! DiagnosticError guifg=#d53c6a guibg=bg
 hi! DiagnosticWarn guifg=#888888 guibg=bg
 " Possible: #C7EAE4
 hi! DiagnosticInfo guifg=#888888 guibg=bg
-
+hi Todo guifg=bg guibg=#888888 gui=bold
 " Type Colors:
 " #6D72C3 #3C6997

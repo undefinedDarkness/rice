@@ -5,6 +5,8 @@
 |__|____||_____|_____|\___/ |__||__|__|__|
 ]]
 
+vim.loader.enable()
+
 -- 📦 Plugins & Plugin Manager
 require("mod")
 

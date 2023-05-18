@@ -80,6 +80,10 @@ end
 -- 	vim.opt.rulerformat = "%" .. #ft .. "(%Y%)"
 -- end
 
+vim.g.markdown_fenced_languages = {
+  "ts=typescript"
+}
+
 -- vim.opt.foldtext = "v:lua.foldText()"
 vim.opt.fillchars = { fold = " " }
 
