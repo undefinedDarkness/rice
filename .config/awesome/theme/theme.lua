@@ -44,7 +44,7 @@ theme.workspaces = { 'I', 'II', 'III', 'IV', 'V' }
 theme.separator_color = '#2a2a2a'
 
 -- Settings
-theme.terminal = 'wezterm'
+theme.terminal = 'xterm'
 theme.tabbar_disable = true
 theme.on_startup = {
 	'sh ~/rice/scripts/master.sh startup',

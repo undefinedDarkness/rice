@@ -67,6 +67,12 @@ hi NvimTreeSpecialFile guifg=fg gui=none
 hi NvimTreeExecFile guifg=fg gui=none
 hi NvimTreeImageFile guifg=fg gui=none
 
+hi! link tclKeyword Keyword
+hi! link tclPrimary Keyword
+hi! link tclBraces @punctuation.bracket
+
+hi Bold gui=bold
+
 " CMP
 hi CmpItemMenu guifg=#333333
 hi CmpItemKind guifg=#cccccc
