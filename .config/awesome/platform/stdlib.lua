@@ -1,4 +1,4 @@
-local Gtk = require('lgi').Gtk
+local Gtk = require('lgi').require('Gtk', '3.0')
 local Gio = require('lgi').Gio
 local M = {}
 

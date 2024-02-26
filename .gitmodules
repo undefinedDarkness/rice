@@ -1,3 +1,15 @@
 [submodule ".config/awesome/misc/libs/bling"]
 	path = .config/awesome/misc/libs/bling
 	url = git@github.com:BlingCorp/bling.git
+[submodule ".config/awesome/platform/libs/.config/awesome/platform/libs/rubato"]
+	path = .config/awesome/platform/libs/.config/awesome/platform/libs/rubato
+	url = https://github.com/andOrlando/rubato.git
+[submodule ".config/awesome/platform/libs/awesome/platform/libs/rubato"]
+	path = .config/awesome/platform/libs/awesome/platform/libs/rubato
+	url = https://github.com/andOrlando/rubato.git
+[submodule ".config/awesome/platform/libs/rubato"]
+	path = .config/awesome/platform/libs/rubato
+	url = https://github.com/andOrlando/rubato.git
+[submodule ".config/awesome/platform/libs/bling"]
+	path = .config/awesome/platform/libs/bling
+	url = https://github.com/BlingCorp/bling.git

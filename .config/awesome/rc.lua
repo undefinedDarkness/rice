@@ -14,7 +14,7 @@ wibox = require('wibox')
 beautiful = require('beautiful')
 
 -- Config Directory
-_config_dir = gears.filesystem.get_dir('config')
+_config_dir = gears.filesystem.get_configuration_dir()
 dpi = require('beautiful.xresources').apply_dpi
 user_home = os.getenv('HOME')
 
