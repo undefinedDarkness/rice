@@ -21,3 +21,5 @@ apps/**/*.o
 !.config/awesome
 !.config/emacs
 !.config/nvim
+
+.config/nvim/lazy-lock.json

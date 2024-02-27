@@ -6,6 +6,7 @@ if { $argc != 1 } {
 set metadata ""
 set failure 0
 source "match-version.tcl"
+source "installfns.tcl"
 
 proc :name name {
 	upvar metadata metadata
@@ -21,11 +22,20 @@ proc :repo url {
 }
 
 proc fail v {
-	puts "\033\[31mFAIL\033\[0m $v"
+	report v "fail"
+	# puts "\033\[31mFAIL\033\[0m $v"
 }
 
-proc report v {
-	puts "\033\[34mINFO\033\[0m $v"
+proc report { v { why "info" } } {
+	if { $why eq "info" } {
+		puts "\033\[34mINFO\033\[0m $v"
+	} elseif { $why eq "warn" } {
+		puts "\033\[33mWARN\033\[0m $v"
+	} elseif { $why eq "install" } {
+		puts "\033\[36mINSTALL\033\[0m $v"
+	} else {
+		puts "\033\[31mERROR\033\[0m $v"
+	}
 }
 
 proc check-dependency {bin args} {
@@ -57,11 +67,8 @@ proc :depends { dependencies } {
 }
 
 proc :install { steps } {
-	
+	namespace eval install_env $steps 
+	report "Install completed!" "info"
 }
 
 source "rice.tcl"
-
-dict for {k v} $metadata {
-	puts "\033\[1m[string totitle $k]\033\[0m: $v"
-}

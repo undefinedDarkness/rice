@@ -7,7 +7,7 @@ XTerm*borderWidth: 0
 XTerm*decTerminalID: vt340
 
 ! Font
-XTerm*faceName: xft:JetBrainsMono Nerd Font:size=11:style=Medium
+XTerm*faceName: xft:FantasqueSansM Nerd Font:style=Regular:size=11
 XTerm*utf8: true
 XTerm*locale: true
 XTerm*utf8Fonts: always

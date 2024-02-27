@@ -67,9 +67,10 @@ hi NvimTreeSpecialFile guifg=fg gui=none
 hi NvimTreeExecFile guifg=fg gui=none
 hi NvimTreeImageFile guifg=fg gui=none
 
-hi! link tclKeyword Keyword
-hi! link tclPrimary Keyword
-hi! link tclBraces @punctuation.bracket
+hi link tclKeyword Keyword
+hi link tclPrimary Keyword
+hi link tclBraces @punctuation.bracket
+hi link tclCommand @function.builtin
 
 hi Bold gui=bold
 
