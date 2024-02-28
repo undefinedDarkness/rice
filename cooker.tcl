@@ -29,22 +29,26 @@ proc fail v {
 proc report { v { why "info" } } {
 	if { $why eq "info" } {
 		puts "\033\[34mINFO\033\[0m $v"
-	} elseif { $why eq "warn" } {
+		} elseif { $why eq "warn" } {
 		puts "\033\[33mWARN\033\[0m $v"
-	} elseif { $why eq "install" } {
+		} elseif { $why eq "install" } {
 		puts "\033\[36mINSTALL\033\[0m $v"
-	} else {
+		} else {
 		puts "\033\[31mERROR\033\[0m $v"
 	}
 }
 
 proc check-dependency {bin args} {
 	set sys-version 0
-	array set options { -version "" }
+	array set options { -version "" -optional "" }
 	array set options $args 
-	
+
 	if { [ auto_execok $bin ] eq "" } {
-		fail "`$bin` not found."
+		if { $options(-optional) ne "" } {
+			report "optional dependency `$bin` not found." "warn"
+			} else {
+			report "required dependency `$bin` not found." "error"
+		}
 		return 0
 	}
 

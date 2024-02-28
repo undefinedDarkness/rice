@@ -16,14 +16,6 @@ proc cmd { args } {
 	exec >&/dev/null {*}$args
 }
 
-proc symlink { from to } {
-	set real_from [ file normalize $from ]
-	# set real_to [ file normalize $to ]
-
-	report "Linking $to to $real_from" "install"
-	# file link -symlink $real_to $real_from
-}
-
 proc ask { prompt } {
 	puts $prompt
 	return [gets stdin]
