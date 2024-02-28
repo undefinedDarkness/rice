@@ -3,6 +3,8 @@
 local color = require('platform.stdlib').color
 local dpi = require('beautiful.xresources').apply_dpi
 local themes_path = _config_dir .. 'theme/'
+local bling_helpers = require('platform.libs.bling.helpers')
+local rice_path = require("os").getenv("HOME") .. "/rice"
 
 local theme = {}
 
@@ -17,8 +19,8 @@ theme.fg_grey = '#b0b0b0'
 
 theme.titlebar_bg = '#fde249'
 theme.titlebar_bg_focus = '#fc833a'
-theme.wibar_bg = '#111111'
-theme.wibar_fg = '#fafafa'
+theme.wibar_bg = '#FFEFD5'
+theme.wibar_fg = bling_helpers.color.darken(theme.wibar_bg, 64)
 theme.bg_systray = theme.wibar_bg
 theme.tasklist_bg_normal = theme.wibar_bg
 theme.menubar_bg_normal = theme.wibar_bg
@@ -44,12 +46,12 @@ theme.workspaces = { 'I', 'II', 'III', 'IV', 'V' }
 theme.separator_color = '#2a2a2a'
 
 -- Settings
-theme.terminal = 'xterm'
+theme.terminal = rice_path .. '/scripts/i3-sensible-terminal'
 theme.tabbar_disable = true
 theme.on_startup = {
-	'sh ~/rice/scripts/master.sh startup',
+	'sh ' .. rice_path .. '/scripts/master.sh startup',
 	'picom -b -c -C',
-	'xrdb -load ~/rice/Xresources',
+	'xrdb -load ' .. rice_path .. '/Xresources',
 	'nm-applet',
 }
 
@@ -75,7 +77,7 @@ theme.layout_dwindle = assets .. 'layouts/dwindle.png'
 theme.titlebar_close_button_normal = assets .. 'icons/close.svg'
 theme.titlebar_close_button_focus = assets .. 'icons/close-f.svg'
 
-theme.wallpaper = assets .. 'city.jpg'
+theme.wallpaper = rice_path .. '/wallpapers/' .. 'swordlady.png'
 
 theme.icon_theme = 'Adwaita++ Dark'
 

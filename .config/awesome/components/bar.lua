@@ -58,14 +58,14 @@ awful.screen.connect_for_each_screen(function(s)
 
 	local lastPlayed-- {{{
 	playerctl:connect_signal("metadata", function(_, title)
-		nowPlaying.markup = "<span color='#4d4d4d'>󰎆 <i>" .. title .. "</i></span>"
+		nowPlaying.markup = "<span>󰎆 <i>" .. title .. "</i></span>"
 		lastPlayed = nowPlaying.markup
 	end)
 
 	playerctl:connect_signal("playback_status", function(_, playing)
 		if not playing then
 			lastPlayed = nowPlaying.markup
-			nowPlaying.markup = "<span color='#4d4d4d'>Paused</span>"
+			nowPlaying.markup = "<span>Paused</span>"
 		else
 			nowPlaying.markup = lastPlayed
 		end
@@ -76,13 +76,12 @@ awful.screen.connect_for_each_screen(function(s)
 	end))-- }}}
 
 	s.mywibar = awful.wibar({
-		position = "bottom",
+		position = "left",
 		screen = s,
-		ontop = true,
-		height = 24,
+		ontop = false,
 		type = "dock",
 	})
-	s.mywibar:setup({
+	s.mywibar:setup({{
 		layout_no,
 		playerLayout,
 		{
@@ -90,7 +89,7 @@ awful.screen.connect_for_each_screen(function(s)
 			{ wibox.widget.systray(), widget = wibox.container.margin, margins = 2 },
 			layout = wibox.layout.fixed.horizontal,
 		},
-		layout = wibox.layout.align.horizontal,
+		layout = wibox.layout.align.vertical,
 		expand = "none",
-	})
+	}, widget = wibox.container.margin, margins = 8})
 end)
