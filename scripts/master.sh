@@ -183,4 +183,12 @@ createDesktopFile() {
 	read -r _exec
 	printf '[Desktop Entry]\nType=Application\nVersion=1.0\nName=%s\nComment=%s\nExec=%s' "$name" "$comment" "$_exec" >> "$ofile"
 }
+
+testAwesome () {
+	 Xephyr :1 -ac -br -noreset -screen 1152x720 &
+	 DISPLAY=:1.0 awesome
+	 sleep 1
+	 killall Xephyr
+}
+
 source ~/rice/scripts/gh-comp.sh
