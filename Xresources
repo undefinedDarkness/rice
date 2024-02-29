@@ -1,5 +1,6 @@
 ! XTerm:
-XTerm*scrollBar: false
+XTerm*scrollBar: true
+XTerm*rightScrollBar: true
 XTerm*internalBorder: 16
 XTerm*borderWidth: 0
 
