@@ -40,14 +40,14 @@ proc report { v { why "info" } } {
 
 proc check-dependency {bin args} {
 	set sys-version 0
-	array set options { -version "" -optional "" }
+	array set options { -version "" -optional "" -message "" }
 	array set options $args 
 
 	if { [ auto_execok $bin ] eq "" } {
 		if { $options(-optional) ne "" } {
-			report "optional dependency `$bin` not found." "warn"
+			report "optional dependency `$bin` not found. ($options(-message))" "warn"
 			} else {
-			report "required dependency `$bin` not found." "error"
+			report "required dependency `$bin` not found. ($options(-message))" "error"
 		}
 		return 0
 	}
@@ -57,7 +57,7 @@ proc check-dependency {bin args} {
 		return 0
 	}
 
-	report "$bin found installed"
+	report "$bin found installed ($options(-message))"
 }
 
 proc :depends { dependencies } {
@@ -71,7 +71,7 @@ proc :depends { dependencies } {
 }
 
 proc :install { steps } {
-	namespace eval install_env $steps 
+	# namespace eval install_env $steps 
 	report "Install completed!" "info"
 }
 
