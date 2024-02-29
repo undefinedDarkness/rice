@@ -29,6 +29,8 @@ theme.menubar_fg_normal = '#fafafa'
 -- theme.menu_bg = '#262322'
 -- theme.menu_section_bg = '#859e82'
 
+theme.playerctl_position_update_interval = 2
+
 theme.prompt_bg = theme.fg_normal
 theme.prompt_fg = theme.bg_light
 theme.prompt_bg_cursor = theme.bg_gray

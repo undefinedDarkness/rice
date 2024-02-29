@@ -53,7 +53,7 @@ mouse.SCROLL_DOWN = 5
 require('components.notifications')
 require('components.bar')
 require('components.titlebar')
--- require('components.clock')
+require('components.clock')
 -- require('components.weather')
 
 -- Load Global Keybindings

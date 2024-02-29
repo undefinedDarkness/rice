@@ -1,15 +1,31 @@
+local clock_hr = awful.widget.textclock("%H")
+clock_hr.font = "Recursive Mono Casual Static Black 72"
+local clock_min = awful.widget.textclock("%M")
+clock_min.font = "Recursive Mono Casual Static Black 72"
+local clock = wibox.widget {
+	clock_hr,
+	clock_min,
+	layout = wibox.layout.fixed.vertical
+}
+
 awful.popup({
-	placement = function(c) awful.placement.top_right(c, {
-		margins = {
-			top = 50,
-			right = 50
-		}
-	}) end,
+	position = "left",
+	screen = s,
+	sticky = true,
+	bg = beautiful.wibar_bg,
+	visible = true,
+	ontop = false,
+	type = "splash",
+	width = 100,
+	fg = beautiful.wibar_fg,
+	placement = function(d) awful.placement.top_left(d, { margins = { left = 20, top = 20 } }) end,
 	widget = {
-		widget = wibox.widget.textclock,
-		format = "<span size=\"90000\" font=\"Paralines\">%H\n%M</span>"
-	},
-	type = 'dock',
-	bg = '#00000000',
-	fg = '#fafafa'
+		{
+			clock,
+			layout = wibox.layout.fixed.vertical,
+			spacing = 8
+		},
+		widget = wibox.container.margin,
+	}
 })
+
