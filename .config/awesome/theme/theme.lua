@@ -19,6 +19,8 @@ theme.fg_grey = '#b0b0b0'
 
 theme.titlebar_bg = '#fde249'
 theme.titlebar_bg_focus = '#fc833a'
+theme.hotkeys_bg = theme.bg_shadow
+theme.hotkeys_fg = theme.bg_ligh
 theme.wibar_bg = '#FFEFD5'
 theme.wibar_fg = bling_helpers.color.darken(theme.wibar_bg, 64)
 theme.bg_systray = theme.wibar_bg

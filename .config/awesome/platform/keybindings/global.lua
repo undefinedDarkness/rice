@@ -1,4 +1,4 @@
--- local hotkeys_popup = require("awful.hotkeys_popup")
+local hotkeys_popup = require("awful.hotkeys_popup")
 
 local tabbed = bling.module.tabbed
 bling.widget.window_switcher.enable({})
@@ -63,6 +63,7 @@ globalkeys = gears.table.join(
 
 	awful.key({ modkey }, 's', function()
 		-- require('components.keys')()
+		hotkeys_popup.show_help()
 	end, {
 		description = 'show help',
 		group = 'User',
