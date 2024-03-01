@@ -6,7 +6,7 @@
 	awesome -message "Window Manager"
 	nvim -version 0.7+ -message "Editor" -optional true
 	picom -message "Compositer"
-	xterm -message "Default Terminal" -optional true
+	wezterm -message "Configured Terminal" -optional true
 	playerctl -message "Used to get now playing"
 	wget 
 	nm-applet
