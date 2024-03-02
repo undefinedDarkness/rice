@@ -10,7 +10,7 @@ clientkeys = gears.table.join(
 		description = 'toggle fullscreen',
 		group = 'client',
 	}),
-	awful.key({modkey, 'Shift'},'u', function(c)
+	awful.key({ modkey, 'Shift' }, 'u', function(c)
 		c.ontop = not c.ontop
 	end),
 	awful.key({ modkey, 'Shift' }, 'Up', function(c)

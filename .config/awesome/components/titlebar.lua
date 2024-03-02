@@ -23,20 +23,22 @@ client.connect_signal('request::titlebars', function(c)
 
 	local colour = require('platform.stdlib').color
 
-	awful.titlebar(c, {
-		size = dpi(36),
-		position = 'top',
-	}):setup({
-		{
-			widget = wibox.container.margin,
-			top = 8,
-			left = 12,
-			right = 8,
-			bottom = 8,
-		},
-		{ widget = wibox.widget.separator, buttons = titlebar_buttons, color = '#00000000' },
-		layout = wibox.layout.align.horizontal,
-	})
+	awful
+		.titlebar(c, {
+			size = dpi(36),
+			position = 'top',
+		})
+		:setup({
+			{
+				widget = wibox.container.margin,
+				top = 8,
+				left = 12,
+				right = 8,
+				bottom = 8,
+			},
+			{ widget = wibox.widget.separator, buttons = titlebar_buttons, color = '#00000000' },
+			layout = wibox.layout.align.horizontal,
+		})
 
 	if awful.layout.get(mouse.screen) ~= awful.layout.suit.floating then
 		awful.titlebar.hide(c)

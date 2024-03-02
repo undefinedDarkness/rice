@@ -2,6 +2,8 @@ local Gtk = require('lgi').require('Gtk', '3.0')
 local Gio = require('lgi').Gio
 local M = {}
 
+-- vim: set fdm=marker :
+
 -- Cursed Shadow Box {{{
 M.shadow_box = {}
 function M.shadow_box.new(widget, size, offset, bg)
@@ -111,6 +113,10 @@ function M.title_case(phrase)
 		return first:upper() .. rest:lower()
 	end)
 	return result
+end
+
+function M.trim(s)
+	return s:match('^%s*(.-)%s*$')
 end
 
 -- Layout

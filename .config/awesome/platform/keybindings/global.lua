@@ -1,4 +1,4 @@
-local hotkeys_popup = require("awful.hotkeys_popup")
+local hotkeys_popup = require('awful.hotkeys_popup')
 
 local tabbed = bling.module.tabbed
 bling.widget.window_switcher.enable({})
@@ -134,11 +134,10 @@ globalkeys = gears.table.join(
 	}),
 	awful.key({ modkey, 'Shift' }, 'q', awesome.quit, { description = 'quit awesome', group = 'awesome' }),
 	awful.key({ modkey, 'Shift' }, 'space', function()
-		
 		awful.layout.inc(-1)
 		local layout = awful.layout.get(mouse.screen)
 		if layout == awful.layout.suit.floating then
-			for _,c in ipairs(client.get()) do
+			for _, c in ipairs(client.get()) do
 				awful.titlebar.show(c)
 			end
 		else
@@ -146,7 +145,6 @@ globalkeys = gears.table.join(
 				awful.titlebar.hide(c)
 			end
 		end
-
 	end, {
 		description = 'select previous',
 		group = 'layout',

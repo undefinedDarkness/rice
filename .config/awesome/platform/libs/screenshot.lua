@@ -1,7 +1,7 @@
 local GLib = require('lgi').GLib
 local DateTime = GLib.DateTime
 local home = os.getenv('HOME')
-local gears = require("gears")
+local gears = require('gears')
 local dt = DateTime.new_now_local()
 
 local function screenshot(cmd)

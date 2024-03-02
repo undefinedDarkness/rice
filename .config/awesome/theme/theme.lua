@@ -4,7 +4,7 @@ local color = require('platform.stdlib').color
 local dpi = require('beautiful.xresources').apply_dpi
 local themes_path = _config_dir .. 'theme/'
 local bling_helpers = require('platform.libs.bling.helpers')
-local rice_path = require("os").getenv("HOME") .. "/rice"
+local rice_path = require('os').getenv('HOME') .. '/rice'
 
 local theme = {}
 
@@ -15,7 +15,6 @@ theme.fg_normal = '#181818'
 theme.bg_light = '#fafafa'
 theme.bg_wall = '#f7f3e8'
 theme.fg_grey = '#b0b0b0'
-
 
 theme.titlebar_bg = '#fde249'
 theme.titlebar_bg_focus = '#fc833a'
@@ -44,7 +43,7 @@ theme.tasklist_maximized = ' &lt;<b>M</b>&gt; '
 theme.useless_gap = dpi(8)
 theme.gap_single_client = false
 theme.systray_icon_spacing = dpi(8)
-theme.font = 'Ubuntu Nerd Font'
+theme.font = 'Inter Medium'
 theme.workspaces = { 'I', 'II', 'III', 'IV', 'V' }
 
 theme.separator_color = '#2a2a2a'

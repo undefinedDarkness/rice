@@ -1,7 +1,7 @@
 local shadow_box = require('platform.stdlib').shadow_box
 local contain_image = require('platform.stdlib').contain_image
 
-local m = { widget = require('platform.libs.backport.imagebox') }
+local m = { widget = wibox.widget.imagebox }
 
 local shutdown_fn = function()
 	awful.spawn('systemctl poweroff')

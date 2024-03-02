@@ -9,16 +9,14 @@ naughty.config.defaults.timeout = 8
 naughty.config.defaults.title = 'Hello There!'
 naughty.config.defaults.position = 'top_left'
 
-
 naughty.connect_signal('request::display', function(n)
 	n.timeout = 8
 	n.position = 'bottom_right'
 
 	local icon = n.icon or n.image or n.app_icon
 	-- if icon == nil and n.app_name ~= nil then
-		-- icon = C.gtk_lookup_name(n.app_name)
+	-- icon = C.gtk_lookup_name(n.app_name)
 	-- end
-
 
 	naughty.layout.box({
 		notification = n,

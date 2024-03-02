@@ -55,6 +55,8 @@ require('components.bar')
 require('components.titlebar')
 require('components.clock')
 require('components.tagindicator')
+require('components.nowplaying')
+require('components.battery')
 -- require('components.weather')
 
 -- Load Global Keybindings

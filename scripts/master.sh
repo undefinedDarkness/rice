@@ -186,9 +186,8 @@ createDesktopFile() {
 
 testAwesome () {
 	 Xephyr :1 -ac -br -noreset -screen 1152x720 &
-	 DISPLAY=:1.0 awesome
-	 sleep 1
-	 killall Xephyr
+	sleep 5
+	DISPLAY=:1.0 awesome
 }
 
 source ~/rice/scripts/gh-comp.sh
