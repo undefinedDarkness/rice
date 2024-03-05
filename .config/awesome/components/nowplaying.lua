@@ -32,13 +32,13 @@ local albumArt = wibox.widget.imagebox()
 albumArt.clip_shape = std.rounded
 albumArt.resize = true
 
-local albumArtEffect = wibox.widget {
+local albumArtEffect = wibox.widget({
 	widget = wibox.container.background,
 	forced_height = 256,
 	bg = '#181818',
 	opacity = 0,
-	shape = std.rounded
-}
+	shape = std.rounded,
+})
 
 local playerLayout = wibox.widget({
 	{
@@ -80,23 +80,13 @@ albumArt:connect_signal('mouse::leave', function()
 	albumArtEffect.opacity = 0
 end)
 
-function shorten_if_too_long(str)
-	if #str > 32 then
-		return str:sub(0, 25) .. '...'
-	else
-		return str
-	end
-end
-
 -- {{{
 playerctl:connect_signal('metadata', function(_, title, artist, album_path, album)
-	local album_str = (album ~= '' and album ~= title) and ' (<i>' .. album .. '</i>)' or ''
-	title = std.trim(title:gsub('%([^%)]*%)', ''))
-	title = shorten_if_too_long(title)
+	local album_str = (album ~= '' and album ~= title) and ' (<i>' .. std.ellipsize(album, 16) .. '</i>)' or ''
+	title = std.ellipsize(std.trim(title:gsub('%([^%)]*%)', '')), 26)
 	nowPlaying.markup = '<span>Playing\n<i>'
 		.. title
 		.. '</i>'
-		.. album_str
 		.. (artist ~= '' and ' by<i>\n' .. artist or '')
 		.. '</i></span>'
 	albumArt.image = album_path
@@ -104,9 +94,9 @@ end)
 
 playerctl:connect_signal('playback_status', function(_, playing)
 	if not playing then
-playPause.markup = '<span color="white">⏵</span>'
+		playPause.markup = '<span color="white">⏵</span>'
 	else
-playPause.markup = '<span color="white">⏸</span>'
+		playPause.markup = '<span color="white">⏸</span>'
 	end
 end)
 
@@ -118,14 +108,15 @@ nowPlaying:buttons(awful.button({}, mouse.LEFT, function()
 	playerctl:play_pause()
 end)) -- }}}
 
-awful.popup({
+require('components.tagdashboard').register(awful.popup({
 	fg = beautiful.wibar_fg,
-	widget = playerLayout,
+	bg = 'transparent',
+	widget = wibox.widget { playerLayout, widget = wibox.container.margin, margins = 15 }, 
 	placement = function(d)
-		awful.placement.bottom_right(d, { margins = 15 })
+		awful.placement.bottom_right(d)
 	end,
 	screen = mouse.screen,
 	visible = true,
-	bg = 'transparent',
-	type = 'splash',
-})
+	shape = std.rounded,
+	type = 'dock',
+}))

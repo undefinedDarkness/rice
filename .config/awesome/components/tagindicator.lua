@@ -21,10 +21,10 @@ local taglist_buttons = {
 	end),
 }
 
-awful.screen.connect_for_each_screen(function(screen)
-	awful.popup({
-		widget = awful.widget.taglist({
-			screen = screen,
+local popup = awful.popup({
+	widget = wibox.widget {
+		awful.widget.taglist({
+			screen = mouse.screen,
 			filter = awful.widget.taglist.filter.all,
 			style = {
 				bg_focus = '#fbc595',
@@ -45,12 +45,16 @@ awful.screen.connect_for_each_screen(function(screen)
 			},
 			buttons = taglist_buttons,
 		}),
-		bg = beautiful.wibar_bg,
-		placement = function(d)
-			awful.placement.top(d, { margins = { top = 8 } })
-		end,
-		ontop = false,
-		type = 'splash',
-		screen = screen,
-	})
-end)
+		widget = wibox.container.margin,
+		margins = 8,
+	},
+	shape = require('platform.stdlib').rounded,
+	bg = beautiful.wibar_bg,
+	placement = function(d)
+		awful.placement.top(d)
+	end,
+	ontop = false,
+	type = 'splash',
+})
+
+require('components.tagdashboard').register(popup)

@@ -6,7 +6,7 @@ return function(content)
 		visible = false,
 		ontop = true,
 		widget = content,
-		bg = '#181818af',
+		bg = '#181818',
 		fg = '#f0f0f0',
 		type = 'splash',
 		shape = require('platform.stdlib').rounded(16),
@@ -14,6 +14,7 @@ return function(content)
 			awful.placement.bottom(d, { margins = { bottom = 40 } })
 		end,
 	})
+
 	if last ~= nil then
 		last.visible = false
 	end
@@ -28,6 +29,15 @@ return function(content)
 			popup.opacity = 1 - pos
 		end,
 	})
+
+	popup:connect_signal('mouse::enter', function()
+		timer.target = 0
+		timer.pos = 0
+	end)
+
+	popup:connect_signal('mouse::leave', function()
+		timer.target = 1
+	end)
 
 	timer.ended:subscribe(function()
 		popup.visible = false

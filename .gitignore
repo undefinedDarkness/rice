@@ -23,3 +23,4 @@ apps/**/*.o
 !.config/nvim
 
 .config/nvim/lazy-lock.json
+scripts/*.dump

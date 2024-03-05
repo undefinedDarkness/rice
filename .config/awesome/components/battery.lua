@@ -12,6 +12,7 @@ battery_state_icons[1] = '󰂇 '
 battery_state_icons[2] = '󰁿 '
 battery_state_icons[3] = '󰂎 '
 battery_state_icons[4] = '󰂅 '
+battery_state_icons[5] = '󰚥 '
 
 local last_percentage = 0
 
@@ -20,14 +21,14 @@ battery_widget:connect_signal('upower::update', function(w, device)
 	if last_percentage == math.floor(0.5 + device.percentage) then
 		return
 	else
-		last_percentage = math.floor(0.5  + device.percentage)
+		last_percentage = math.floor(0.5 + device.percentage)
 	end
 	require('components.splashmsg')({
 		{
 			{
 				widget = wibox.widget.textbox,
 				font = 'FantasqueSansM Nerd Font 16',
-				text = is_on_battery and (battery_state_icons[device.state] or '') or '󰚥 ',
+				text = is_on_battery and (battery_state_icons[device.state] or tostring(device.state)) or '󰚥 ',
 				align = 'center',
 			},
 			-- { widget = wibox.widget.textbox, text = device.power_supply and 'YES' or 'NO' },

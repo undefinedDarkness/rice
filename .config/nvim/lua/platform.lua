@@ -46,9 +46,9 @@ vim.cmd([[ colorscheme personal ]])
 
 vim.g.zig_fmt_autosave = 0
 vim.g.user_emmet_leader_key = "<Insert>"
-vim.g.vsnip_filetypes.dart = {"flutter"}
+vim.g.vsnip_filetypes.dart = { "flutter" }
 vim.g.vim_markdown_folding_disabled = true
-vim.g.mapleader = ','
+vim.g.mapleader = ","
 
 vim.opt.grepprg = "grep -nHbFr"
 vim.opt.grepformat = "%f:%l:%c:%m"
@@ -81,7 +81,7 @@ end
 -- end
 
 vim.g.markdown_fenced_languages = {
-  "ts=typescript"
+	"ts=typescript",
 }
 
 -- vim.opt.foldtext = "v:lua.foldText()"

@@ -4,6 +4,14 @@ local M = {}
 
 -- vim: set fdm=marker :
 
+function M.ellipsize(str, n)
+	if #str > (n or 32) then
+		return str:sub(0, n)
+	else
+		return str
+	end
+end
+
 -- Cursed Shadow Box {{{
 M.shadow_box = {}
 function M.shadow_box.new(widget, size, offset, bg)
@@ -146,6 +154,51 @@ function M.force_right(x)
 	})
 end
 
+-- Helper Widgets
+
+function M.txt_button(text, fn, hovertxt)
+	local w = wibox.widget({
+		{
+			{
+				widget = wibox.widget.textbox,
+				font = beautiful.font .. ' 24',
+				markup = text,
+				buttons = {
+					awful.button({}, mouse.LEFT, fn),
+				},
+			},
+			widget = wibox.container.margin,
+			left = 32,
+			right = 32,
+			top = 16,
+			bottom = 16,
+		},
+		widget = wibox.container.background,
+	})
+
+	if hovertxt ~= nil then
+		awful.tooltip({
+			objects = { w },
+			text = hovertxt,
+		})
+	end
+
+	-- TODO: Change mouse cursor on hover
+	w:connect_signal('mouse::enter', function()
+		w.bg = 'skyblue'
+		w.fg = 'white'
+	end)
+
+	w:connect_signal('mouse::leave', function()
+		w.bg = nil
+		w.fg = nil
+	end)
+
+	M.pointer(w)
+
+	return w
+end
+
 function M.contain_image(i, w, h, opt)
 	return wibox.widget({
 		gears.table.crush({
@@ -159,6 +212,12 @@ function M.contain_image(i, w, h, opt)
 	})
 end
 
+function M.add_buttons(wdgt, btns)
+	wdgt.buttons = btns or {}
+
+	return wdgt
+end
+
 local cairo = require('lgi').cairo
 function M.color.monochrome_image(image)
 	local surface = require('gears').surface.duplicate_surface(image)
@@ -170,7 +229,29 @@ function M.color.monochrome_image(image)
 	return surface
 end
 
+function M.color.hexa(str, alpha)
+	return str .. string.format('%02x', alpha * 255)
+end
+
 -- Misc
+
+function M.pointer(w)
+	w:connect_signal('mouse::enter', function()
+		local wibox = mouse.object_under_pointer()
+		if wibox ~= nil then
+			wibox.cursor = 'hand2'
+		end
+	end)
+
+	w:connect_signal('mouse::leave', function()
+		local wibox = mouse.object_under_pointer()
+		if wibox ~= nil then
+			wibox.cursor = 'left_ptr'
+		end
+	end)
+
+	return w
+end
 
 -- Popup that exits once you click somewhere else {{{
 function M.only_popup(popup, e, dont_keygrab, bindings)

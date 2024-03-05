@@ -3,6 +3,7 @@
 local color = require('platform.stdlib').color
 local dpi = require('beautiful.xresources').apply_dpi
 local themes_path = _config_dir .. 'theme/'
+local std = require('platform.stdlib')
 local bling_helpers = require('platform.libs.bling.helpers')
 local rice_path = require('os').getenv('HOME') .. '/rice'
 
@@ -16,6 +17,7 @@ theme.bg_light = '#fafafa'
 theme.bg_wall = '#f7f3e8'
 theme.fg_grey = '#b0b0b0'
 
+theme.dashboard_bg = std.color.hexa(std.color.lighten('#ffefd5', 16), 0.68)
 theme.titlebar_bg = '#fde249'
 theme.titlebar_bg_focus = '#fc833a'
 theme.hotkeys_bg = theme.bg_shadow
@@ -24,6 +26,7 @@ theme.wibar_bg = '#FFEFD5'
 theme.wibar_fg = bling_helpers.color.darken(theme.wibar_bg, 64)
 theme.bg_systray = theme.wibar_bg
 theme.tasklist_bg_normal = theme.wibar_bg
+theme.tasklist_plain_task_name = true
 theme.menubar_bg_normal = theme.wibar_bg
 theme.menubar_fg_normal = '#fafafa'
 

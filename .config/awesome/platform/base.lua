@@ -14,10 +14,10 @@ awful.layout.layouts = {
 }
 
 -- Setup Tags
-local wall = gears.surface.load(beautiful.wallpaper)
+mouse.screen.mywall = gears.surface.load(beautiful.wallpaper)
 awful.screen.connect_for_each_screen(function(s)
 	awful.tag(beautiful.workspaces, s, awful.layout.layouts[1])
-	gears.wallpaper.maximized(wall, s, '#f0f0f0')
+	gears.wallpaper.maximized(mouse.screen.mywall, s, '#f0f0f0')
 end)
 
 -- Errors {{{

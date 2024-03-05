@@ -16,7 +16,7 @@ au({
 	group = "terminal",
 	event = "TermOpen",
 	{ "*", "setlocal nonumber" },
-	{ "*", "startinsert" }
+	{ "*", "startinsert" },
 })
 
 -- Open quick fix window automatically

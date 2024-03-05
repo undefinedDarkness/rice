@@ -41,7 +41,8 @@ globalkeys = gears.table.join(
 	}),
 
 	awful.key({ modkey }, 'space', function()
-		awful.spawn('/home/portal/Projects/mkr/build/mkr')
+		require('components.tagdashboard').toggle()
+		-- awful.spawn('/home/portal/Projects/mkr/build/mkr')
 		-- require('subcomponents.menu').app_menu()
 	end, {
 		description = 'Launch everything switcher',

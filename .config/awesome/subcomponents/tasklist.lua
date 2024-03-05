@@ -18,7 +18,7 @@ local tasklist_buttons = gears.table.join(
 )
 
 local only_minimized = function(c, screen)
-	return awful.widget.tasklist.filter.currenttags(c, screen) and c.minimized == true
+	return awful.widget.tasklist.filter.currenttags(c, screen) -- and c.minimized == true
 end
 
 return {
@@ -27,7 +27,20 @@ return {
 	awful.widget.tasklist({
 		screen = mouse.screen,
 		buttons = tasklist_buttons,
-		filter = only_minimized,
+		filter = function(a, b)
+			return true
+		end,
+		widget_template = {
+			layout = wibox.layout.fixed.horizontal,
+			{
+				widget = wibox.widget.imagebox,
+				id = 'icon_role',
+			},
+			{
+				widget = wibox.widget.textbox,
+				id = 'text_role',
+			},
+		},
 		layout = {
 			layout = wibox.layout.fixed.vertical,
 			spacing = 16,
