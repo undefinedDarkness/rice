@@ -186,7 +186,7 @@ createDesktopFile() {
 
 testAwesome () {
 	 Xephyr :1 -ac -br -noreset -screen 1152x720 &
-	sleep 5
+	sleep 1
 	DISPLAY=:1.0 awesome
 }
 
