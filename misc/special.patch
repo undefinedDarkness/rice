@@ -1,0 +1,177 @@
+diff --git a/objects/client.c b/objects/client.c
+index 6946dbc6..15463474 100644
+--- a/objects/client.c
++++ b/objects/client.c
+@@ -977,6 +977,15 @@ lua_class_t client_class;
+  * @see awesome.composite_manager_running
+  */
+ 
++/**
++ * The client is above even widgets that are marked ontop
++ * @tparam[opt=false] boolean special
++ * @propemits false false
++ * @see above
++ * @see below
++ * @see special
++ */
++
+ /**
+  * The client is on top of every other windows.
+  *
+@@ -2709,6 +2718,7 @@ client_set_fullscreen(lua_State *L, int cidx, bool s)
+             client_set_below(L, cidx, false);
+             client_set_above(L, cidx, false);
+             client_set_ontop(L, cidx, false);
++            client_set_special(L, cidx, false);
+         }
+         int abs_cidx = luaA_absindex(L, cidx); \
+         lua_pushstring(L, "fullscreen");
+@@ -2814,6 +2824,7 @@ client_set_above(lua_State *L, int cidx, bool s)
+             client_set_below(L, cidx, false);
+             client_set_ontop(L, cidx, false);
+             client_set_fullscreen(L, cidx, false);
++            client_set_special(L, cidx, false);
+         }
+         c->above = s;
+         stack_windows();
+@@ -2838,6 +2849,7 @@ client_set_below(lua_State *L, int cidx, bool s)
+         {
+             client_set_above(L, cidx, false);
+             client_set_ontop(L, cidx, false);
++            client_set_special(L, cidx, false);
+             client_set_fullscreen(L, cidx, false);
+         }
+         c->below = s;
+@@ -2882,6 +2894,7 @@ client_set_ontop(lua_State *L, int cidx, bool s)
+             client_set_above(L, cidx, false);
+             client_set_below(L, cidx, false);
+             client_set_fullscreen(L, cidx, false);
++            client_set_special(L, cidx, false);
+         }
+         c->ontop = s;
+         stack_windows();
+@@ -2889,6 +2902,32 @@ client_set_ontop(lua_State *L, int cidx, bool s)
+     }
+ }
+ 
++/** Set a client ontop, or not.
++ * \param L The Lua VM state.
++ * \param cidx The client index.
++ * \param s Set or not the client ontop attribute.
++ */
++void
++client_set_special(lua_State *L, int cidx, bool s)
++{
++    client_t *c = luaA_checkudata(L, cidx, &client_class);
++
++    if(c->special != s)
++    {
++        /* You can only be part of one of the special layers. */
++        if(s)
++        {
++            client_set_above(L, cidx, false);
++            client_set_below(L, cidx, false);
++            client_set_fullscreen(L, cidx, false);
++            client_set_ontop(L, cidx, false);
++        }
++        c->special = s;
++        stack_windows();
++        luaA_object_emit_signal(L, cidx, "property::special", 0);
++    }
++}
++
+ /** Unban a client and move it back into the viewport.
+  * \param c The client.
+  */
+@@ -3843,6 +3882,14 @@ luaA_client_set_size_hints_honor(lua_State *L, client_t *c)
+     return 0;
+ }
+ 
++
++static int
++luaA_client_set_special(lua_State *L, client_t *c)
++{
++    client_set_special(L, -3, luaA_checkboolean(L, -1));
++    return 0;
++}
++
+ static int
+ luaA_client_set_ontop(lua_State *L, client_t *c)
+ {
+@@ -3928,6 +3975,7 @@ LUA_OBJECT_EXPORT_PROPERTY(client, client_t, minimized, lua_pushboolean)
+ LUA_OBJECT_EXPORT_PROPERTY(client, client_t, fullscreen, lua_pushboolean)
+ LUA_OBJECT_EXPORT_PROPERTY(client, client_t, modal, lua_pushboolean)
+ LUA_OBJECT_EXPORT_PROPERTY(client, client_t, ontop, lua_pushboolean)
++LUA_OBJECT_EXPORT_PROPERTY(client, client_t, special, lua_pushboolean)
+ LUA_OBJECT_EXPORT_PROPERTY(client, client_t, urgent, lua_pushboolean)
+ LUA_OBJECT_EXPORT_PROPERTY(client, client_t, above, lua_pushboolean)
+ LUA_OBJECT_EXPORT_PROPERTY(client, client_t, below, lua_pushboolean)
+@@ -4619,6 +4667,10 @@ client_class_setup(lua_State *L)
+                             NULL,
+                             (lua_class_propfunc_t) luaA_client_get_icon_sizes,
+                             NULL);
++     luaA_class_add_property(&client_class, "special",
++                            (lua_class_propfunc_t) luaA_client_set_special,
++                            (lua_class_propfunc_t) luaA_client_get_special,
++                            (lua_class_propfunc_t) luaA_client_set_special);
+     luaA_class_add_property(&client_class, "ontop",
+                             (lua_class_propfunc_t) luaA_client_set_ontop,
+                             (lua_class_propfunc_t) luaA_client_get_ontop,
+diff --git a/objects/client.h b/objects/client.h
+index 70b05d19..225abd39 100644
+--- a/objects/client.h
++++ b/objects/client.h
+@@ -144,6 +144,8 @@ struct client_t
+     bool modal;
+     /** True if the client is on top */
+     bool ontop;
++    /** True if the client is above even widgets with ontop=true **/
++    bool special;
+     /** True if a client is banned to a position outside the viewport.
+      * Note that the geometry remains unchanged and that the window is still mapped.
+      */
+diff --git a/stack.c b/stack.c
+index 17213fde..9809d617 100644
+--- a/stack.c
++++ b/stack.c
+@@ -119,7 +119,8 @@ typedef enum
+     WINDOW_LAYER_FULLSCREEN,
+     WINDOW_LAYER_ONTOP,
+     /** This one only used for counting and is not a real layer */
+-    WINDOW_LAYER_COUNT
++    WINDOW_LAYER_COUNT,
++    WINDOW_LAYER_SPECIAL
+ } window_layer_t;
+ 
+ /** Get the real layer of a client according to its attribute (fullscreen, …)
+@@ -130,7 +131,9 @@ static window_layer_t
+ client_layer_translator(client_t *c)
+ {
+     /* first deal with user set attributes */
+-    if(c->ontop)
++    if(c->special)
++        return WINDOW_LAYER_SPECIAL;
++    else if (c->ontop)
+         return WINDOW_LAYER_ONTOP;
+     /* Fullscreen windows only get their own layer when they have the focus */
+     else if(c->fullscreen && globalconf.focus.client == c)
+@@ -155,7 +158,7 @@ client_layer_translator(client_t *c)
+     return WINDOW_LAYER_NORMAL;
+ }
+ 
+-/** Restack clients.
++/** Restack clienndow title, the window role allows a [window manager][gtk-X11-arch] to identify “the same” window when an application is restarted. So for example you might set the “toolbox” role on your app’s toolbox window, so that when the user restarts their session, the window manager can put the toolbox back in the same place.ts.
+  * \todo It might be worth stopping to restack everyone and only stack `c'
+  * relatively to the first matching in the list.
+  */
+@@ -195,6 +198,10 @@ stack_refresh()
+             next = (*drawin)->window;
+         }
+ 
++    foreach(node, globalconf.stack)
++        if (client_layer_translator(*node) == WINDOW_LAYER_SPECIAL)
++            next = stack_client_above(*node, next);
++
+     need_stack_refresh = false;
+ }
+ 
