@@ -22,7 +22,7 @@ theme.titlebar_bg = '#fde249'
 theme.titlebar_bg_focus = '#fc833a'
 theme.hotkeys_bg = theme.bg_shadow
 theme.hotkeys_fg = theme.bg_ligh
-theme.wibar_bg = '#FFEFD5'
+theme.wibar_bg = '#fbe7e8' -- #FFEFD5'
 theme.wibar_fg = bling_helpers.color.darken(theme.wibar_bg, 64)
 theme.bg_systray = theme.wibar_bg
 theme.tasklist_bg_normal = theme.wibar_bg
@@ -83,7 +83,7 @@ theme.layout_dwindle = assets .. 'layouts/dwindle.png'
 theme.titlebar_close_button_normal = assets .. 'icons/close.svg'
 theme.titlebar_close_button_focus = assets .. 'icons/close-f.svg'
 
-theme.wallpaper = rice_path .. '/wallpapers/' .. 'swordlady.png'
+theme.wallpaper = rice_path .. '/wallpapers/' .. 'girlsitting.png'
 
 theme.icon_theme = 'Adwaita++ Dark'
 

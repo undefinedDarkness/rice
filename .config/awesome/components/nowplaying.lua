@@ -48,10 +48,10 @@ local playerLayout = wibox.widget({
 			{
 				{
 					layout = wibox.layout.align.horizontal,
-					playPrev,
-					playPause,
 					expand = 'none',
-					playNext,
+					std.pointer(playPrev),
+					std.pointer(playPause),
+					std.pointer(playNext),
 				},
 				widget = wibox.container.margin,
 				margins = 16,
@@ -108,15 +108,8 @@ nowPlaying:buttons(awful.button({}, mouse.LEFT, function()
 	playerctl:play_pause()
 end)) -- }}}
 
-require('components.tagdashboard').register(awful.popup({
-	fg = beautiful.wibar_fg,
-	bg = 'transparent',
-	widget = wibox.widget { playerLayout, widget = wibox.container.margin, margins = 15 }, 
-	placement = function(d)
-		awful.placement.bottom_right(d)
-	end,
-	screen = mouse.screen,
-	visible = true,
-	shape = std.rounded,
-	type = 'dock',
-}))
+require('components.dashboard').register({
+	widget = wibox.widget({ playerLayout, widget = wibox.container.margin, margins = 15 }),
+	valign = 'bottom',
+	halign = 'right',
+})

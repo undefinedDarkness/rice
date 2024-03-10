@@ -8,13 +8,13 @@ local screenshot = require('platform.libs.screenshot')
 globalkeys = gears.table.join(
 
 	awful.key({}, 'XF86AudioRaiseVolume', function()
-		require('components.volume')(5)
+		require('components.volume').update(5)
 	end, {
 		description = 'Show volume popup',
 		group = 'hidden',
 	}),
 	awful.key({}, 'XF86AudioLowerVolume', function()
-		require('components.volume')(-5)
+		require('components.volume').update(-5)
 	end, {
 		description = 'Show volume popup',
 		group = 'hidden',
@@ -41,7 +41,7 @@ globalkeys = gears.table.join(
 	}),
 
 	awful.key({ modkey }, 'space', function()
-		require('components.tagdashboard').toggle()
+		require('components.dashboard').toggle()
 		-- awful.spawn('/home/portal/Projects/mkr/build/mkr')
 		-- require('subcomponents.menu').app_menu()
 	end, {

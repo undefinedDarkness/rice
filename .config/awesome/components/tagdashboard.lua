@@ -1,13 +1,27 @@
 local std = require('platform.stdlib')
 local bling_tagpreview = bling.widget.tag_preview
 
-local widget = wibox.widget({
+local tag_dashboard = wibox.widget({
 	spacing = 16,
 	layout = wibox.layout.fixed.vertical,
 })
 
-function update()
-	widget:reset()
+local tag_dashboard_ani_wrapper = wibox.widget({
+	width = 300,
+	tag_dashboard,
+	widget = wibox.container.constraint,
+})
+
+local dashboard_fold = false
+
+-- }
+local update_before_display = function(display)
+	if not display then
+		return
+	end
+
+	tag_dashboard:reset()
+
 	for _, tag in ipairs(root.tags()) do
 		local scale = 0.18
 		local margin = 2
@@ -24,12 +38,15 @@ function update()
 		local max_w = scale * geo.width + margin * 2
 		local max_h = scale * geo.height + margin * 2
 
-		widget:add({
+		tag_dashboard:add({
 			{
+
 				std.add_buttons(
 					std.pointer(
 						bling_tagpreview.draw_widget(
 							tag,
+							nil,
+							nil,
 							true,
 							scale,
 							8,
@@ -63,41 +80,71 @@ function update()
 				width = max_w,
 				height = max_h,
 			},
+
+			awful.widget.tasklist({
+				screen = mouse.screen,
+				filter = filter_for_tag,
+				layout = {
+					layout = wibox.layout.fixed.vertical,
+					spacing = 20,
+				},
+				widget_template = {
+					{
+						widget = wibox.widget.imagebox,
+						id = 'icon_role',
+					},
+					widget = wibox.container.constraint,
+					width = 24,
+					height = 24,
+				},
+			}),
 			spacing = 16,
 			layout = wibox.layout.fixed.horizontal,
 		})
 	end
 end
-local popup = awful.popup({
-	screen = mouse.screen,
-	ontop = true,
-	visible = false,
-	type = 'dock',
-	widget = { widget, widget = wibox.container.margin, left = 20, top = 10, bottom = 20, right = 20 },
-	-- type = 'splash',
-	bg = beautiful.dashboard_bg,
-})
 
 bling_tagpreview.enable({
 	show_client_content = true,
 })
 
-
-local dashboard_components = {}
-return {
-	toggle = function()
-		if not popup.visible then
-			update()
-		end
-		for i, component in ipairs(dashboard_components) do
-			component.ontop = not popup.visible
-			component.visible = true
-			component.bg = (not popup.visible) and beautiful.dashboard_bg or 'transparent'
-			-- component.type = 'normal'
-		end
-		popup.visible = not popup.visible
-	end,
-	register = function(popup)
-		table.insert(dashboard_components, popup)
-	end,
-}
+local fold_btn = wibox.widget({
+	widget = wibox.widget.textbox,
+	text = '󰍜 ',
+	font = beautiful.font .. ' 32',
+	valign = 'top',
+	buttons = {
+		awful.button({}, mouse.LEFT, function()
+			dashboard_fold = not dashboard_fold
+			local timer = require('platform.libs.rubato').timed({
+				duration = 2,
+				awestore_compat = true,
+				subscribed = function(pos)
+					tag_dashboard.forced_width = 450 * (dashboard_fold and 1 - pos or pos)
+				end,
+			})
+			timer.target = 1
+		end),
+	},
+})
+require('components.dashboard').register({
+	widget = {
+		widget = wibox.container.background,
+		{
+			{
+				-- fold_btn,
+				tag_dashboard,
+				layout = wibox.layout.fixed.horizontal,
+			},
+			widget = wibox.container.margin,
+			left = 20,
+			right = 20,
+			top = 10,
+			bottom = 20,
+		},
+	},
+	halign = 'left',
+	valign = 'top',
+	content_fill_vertical = true,
+	update = update_before_display,
+})

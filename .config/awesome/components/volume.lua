@@ -1,11 +1,18 @@
-return function(volume)
+local M = {
+	volume = 50,
+}
+
+function M.update(volume)
 	local sign = '+'
 	if volume < 0 then
 		sign = '-'
 		volume = volume * -1
 	end
 	awful.spawn.easy_async("amixer sset 'Master' " .. tostring(volume) .. '%' .. sign, function(stdout, stderr, reason)
-		local const = stdout:match('%[(%d%d%d?)%%]')
+		local const = tonumber(stdout:match('%[(%d%d%d?)%%]'))
+		-- TODO: allow to update OSD if already on screen
+		M.volume = const
+		awesome.emit_signal('custom::volume_update', M.volume)
 		require('components.splashmsg')({
 			{
 				{
@@ -41,3 +48,5 @@ return function(volume)
 		})
 	end)
 end
+
+return M

@@ -30,4 +30,31 @@ awful.rules.rules = {
 		},
 		properties = { titlebars_enabled = false },
 	},
+
+	{
+		rule = {
+			type = 'utility',
+		},
+		properties = { sticky = true, special = true },
+	},
+
+	{
+		rule = {
+			name = "Picture-in-Picture"
+		},
+		properties = {
+			ontop = true
+		}
+	},
+
+	{
+		rule = {
+			name = 'Notion Dashboard'
+		},
+		properties = {
+			special = true,
+			sticky = true,
+			placement = awful.placement.centered
+		}
+	}
 }

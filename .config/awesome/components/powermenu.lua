@@ -7,7 +7,7 @@ return function()
 			awful.spawn('systemctl poweroff')
 		end, 'Poweroff'),
 		std.txt_button('󰜉 ', function()
-			awful.spawn('systemctl restart')
+			awful.spawn('systemctl reboot')
 		end, 'Restart'),
 		std.txt_button('󰍃 ', function()
 			awesome.quit()

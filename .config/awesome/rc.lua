@@ -52,12 +52,14 @@ mouse.SCROLL_DOWN = 5
 -- Load Components
 require('components.notifications')
 require('components.bar')
+require('subcomponents.notiontodo')
 require('components.titlebar')
 require('components.clock')
 require('components.tagindicator')
 require('components.nowplaying')
 require('components.battery')
 require('components.tagdashboard')
+require('components.volume').update(0)
 
 -- Load Global Keybindings
 require('platform.keybindings.global')

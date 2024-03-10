@@ -14,7 +14,20 @@ local clock = wibox.widget({
 	layout = wibox.layout.fixed.vertical,
 })
 
-awful.popup({
+local volume_widget = {
+	widget = wibox.widget.progressbar,
+	max_value = 100,
+	color = '#f0f0f0',
+	background_color = require('platform.stdlib').color.darken('#f0f0f0', 64),
+	value = const,
+	shape = require('platform.stdlib').rounded,
+}
+
+awesome.connect_signal('custom::volume_update', function(vol)
+	volume_widget.value = vol
+end)
+
+local popup = awful.popup({
 	position = 'left',
 	screen = s,
 	sticky = true,
@@ -24,15 +37,33 @@ awful.popup({
 	type = 'splash',
 	width = 100,
 	fg = beautiful.wibar_fg,
-	placement = function(d)
-		awful.placement.top_left(d, { margins = { left = 40, top = 40 } })
-	end,
+	placement = awful.placement.top_left,
 	widget = {
-		{
-			clock,
-			layout = wibox.layout.fixed.vertical,
-			spacing = 8,
-		},
+		clock,
+		top = 40,
+		right = 40,
+		left = 40,
 		widget = wibox.container.margin,
 	},
+})
+
+require('components.dashboard').register({
+	widget = {
+		{
+			layout = wibox.layout.fixed.horizontal,
+			spacing = 20,
+			-- {
+			-- 	{ volume_widget, widget = wibox.container.rotate, direction = 'east' },
+			-- 	widget = wibox.container.constraint,
+			-- 	height = 60,
+			-- 	width = 20
+			-- },
+			clock,
+		},
+		widget = wibox.container.margin,
+		right = 40,
+		top = 40,
+	},
+	halign = 'right',
+	valign = 'top',
 })
