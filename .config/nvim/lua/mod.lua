@@ -56,6 +56,7 @@ local opts = {
 }
 
 require("lazy").setup({
+	
 	-- Components {{{
 	-- Tresitter
 	{
@@ -352,6 +353,11 @@ require("lazy").setup({
 
 	-- Editing: {{{
 
+	{
+		"tpope/vim-surround",
+		lazy = false
+	},
+
 	-- HTML Editing
 	{
 		"mattn/emmet-vim",
@@ -402,6 +408,12 @@ require("lazy").setup({
 	},
 
 	-- }}}
+
+{
+    'dgagn/diagflow.nvim',
+    event = 'LspAttach', -- This is what I use personnally and it works great
+    opts = {}
+},
 
 	-- LSP Components {{{
 	{

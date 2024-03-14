@@ -5,7 +5,7 @@ clock_min.font = 'Recursive Mono Casual Static Black 72'
 
 local clock_date = awful.widget.textclock('%d-%m-%Y')
 clock_date.align = 'center'
-clock_date.font = 'Victor Mono Italic'
+clock_date.font = 'azuki_font 18'
 
 local clock = wibox.widget({
 	clock_hr,

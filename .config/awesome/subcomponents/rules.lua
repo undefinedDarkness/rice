@@ -40,21 +40,30 @@ awful.rules.rules = {
 
 	{
 		rule = {
-			name = "Picture-in-Picture"
+			name = 'Picture-in-Picture',
 		},
 		properties = {
-			ontop = true
-		}
+			ontop = true,
+		},
 	},
 
 	{
 		rule = {
-			name = 'Notion Dashboard'
+			name = 'Notion Dashboard',
 		},
 		properties = {
 			special = true,
 			sticky = true,
-			placement = awful.placement.centered
-		}
-	}
+			placement = awful.placement.centered,
+		},
+	},
 }
+
+client.connect_signal("property::maximized", function(c) 
+    if c.maximized then
+              awful.titlebar.hide(c, beautiful.titlebar_position) 
+	else
+              awful.titlebar.show(c, beautiful.titlebar_position)
+	end
+	(awful.placement.no_offscreen + awful.placement.maximize)(c)
+end)

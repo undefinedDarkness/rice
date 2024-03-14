@@ -26,7 +26,7 @@ client.connect_signal('request::titlebars', function(c)
 	awful
 		.titlebar(c, {
 			size = dpi(36),
-			position = 'top',
+			position = 'left',
 		})
 		:setup({
 			{
@@ -37,10 +37,10 @@ client.connect_signal('request::titlebars', function(c)
 				bottom = 8,
 			},
 			{ widget = wibox.widget.separator, buttons = titlebar_buttons, color = '#00000000' },
-			layout = wibox.layout.align.horizontal,
+			layout = wibox.layout.align.vertical,
 		})
 
 	if awful.layout.get(mouse.screen) ~= awful.layout.suit.floating then
-		awful.titlebar.hide(c)
+		awful.titlebar.hide(c, beautiful.titlebar_position)
 	end
 end)

@@ -61,8 +61,9 @@ class MyWindow(Gtk.Window):
         self.set_visual(self.get_screen().get_rgba_visual())
         self.set_type_hint(Gdk.WindowTypeHint.DIALOG)
         self.set_position(Gtk.WindowPosition.CENTER)
+        self.set_decorated(False)
         self.set_keep_above(True)
-        self.set_default_size(800, 600)
+        self.set_default_size(1000, 500)
 
         # Load GTK CSS
         style_provider = Gtk.CssProvider()
@@ -92,7 +93,10 @@ class MyWindow(Gtk.Window):
         self.connect("destroy", Gtk.main_quit)
         self.connect("destroy", lambda _: store_session(self.webview))
 
-        self.add(self.webview)
+        self.scroller = Gtk.ScrolledWindow(hadjustment=None, vadjustment=None)
+        self.scroller.add(self.webview)
+
+        self.add(self.scroller)
 
 with PidFile(piddir="/tmp"):
     win = MyWindow()

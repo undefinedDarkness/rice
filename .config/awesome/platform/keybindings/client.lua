@@ -52,7 +52,7 @@ clientkeys = gears.table.join(
 		group = 'client',
 	}),
 	awful.key({ modkey }, 'm', function(c)
-		awful.titlebar.hide(c)
+		-- awful.titlebar.hide(c, beautiful.titlbar_position)
 		c.maximized = not c.maximized
 		c:raise()
 	end, {
@@ -62,7 +62,7 @@ clientkeys = gears.table.join(
 
 	-- Toggle titlebar
 	awful.key({ modkey }, 'k', function(c)
-		awful.titlebar.toggle(c)
+		awful.titlebar.toggle(c, beautiful.titlebar_position)
 	end, {
 		description = 'Toggle titlebar',
 		group = 'client',

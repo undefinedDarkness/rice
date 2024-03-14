@@ -8,8 +8,8 @@ require('awful.autofocus')
 
 -- Setup Window Layouts
 awful.layout.layouts = {
-	awful.layout.suit.tile,
 	awful.layout.suit.floating,
+	awful.layout.suit.tile,
 	awful.layout.suit.spiral.dwindle,
 }
 

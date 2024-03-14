@@ -2,7 +2,7 @@
 local std = require('platform.stdlib')
 
 local nowPlaying = wibox.widget.textbox()
-nowPlaying.font = 'Victor Mono SemiBold 15'
+nowPlaying.font = 'azuki_font 18'
 
 local playPause = wibox.widget.textbox()
 playPause.font = beautiful.font .. ' 32'
@@ -84,11 +84,10 @@ end)
 playerctl:connect_signal('metadata', function(_, title, artist, album_path, album)
 	local album_str = (album ~= '' and album ~= title) and ' (<i>' .. std.ellipsize(album, 16) .. '</i>)' or ''
 	title = std.ellipsize(std.trim(title:gsub('%([^%)]*%)', '')), 26)
-	nowPlaying.markup = '<span>Playing\n<i>'
+	nowPlaying.markup = 'Playing\n'
 		.. title
-		.. '</i>'
-		.. (artist ~= '' and ' by<i>\n' .. artist or '')
-		.. '</i></span>'
+		.. (artist ~= '' and ' by\n' .. artist or '')
+		.. ''
 	albumArt.image = album_path
 end)
 

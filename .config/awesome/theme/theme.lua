@@ -18,8 +18,8 @@ theme.bg_wall = '#f7f3e8'
 theme.fg_grey = '#b0b0b0'
 
 theme.dashboard_bg = std.color.hexa(std.color.lighten('#ffefd5', 16), 0.68)
-theme.titlebar_bg = '#fde249'
-theme.titlebar_bg_focus = '#fc833a'
+theme.titlebar_bg_focus = '#f3b3b4'
+theme.titlebar_bg = '#c7a8a1'
 theme.hotkeys_bg = theme.bg_shadow
 theme.hotkeys_fg = theme.bg_ligh
 theme.wibar_bg = '#fbe7e8' -- #FFEFD5'
@@ -30,6 +30,7 @@ theme.tasklist_plain_task_name = true
 theme.menubar_bg_normal = theme.wibar_bg
 theme.menubar_fg_normal = '#fafafa'
 
+theme.titlebar_position = 'left'
 -- theme.menu_bg = '#262322'
 -- theme.menu_section_bg = '#859e82'
 

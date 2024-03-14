@@ -136,14 +136,30 @@ globalkeys = gears.table.join(
 	awful.key({ modkey, 'Shift' }, 'q', awesome.quit, { description = 'quit awesome', group = 'awesome' }),
 	awful.key({ modkey, 'Shift' }, 'space', function()
 		awful.layout.inc(-1)
+		require('components.splashmsg')(wibox.widget({
+			{
+				{ widget = awful.widget.layoutbox },
+				widget = wibox.container.constraint,
+				width = 32,
+			},
+			layout = wibox.layout.fixed.horizontal,
+			spacing = 24,
+			{
+				widget = wibox.widget.textbox,
+				text = awful.layout.getname(awful.layout.get(mouse.screen)):upper(),
+			},
+		}))
+
 		local layout = awful.layout.get(mouse.screen)
 		if layout == awful.layout.suit.floating then
 			for _, c in ipairs(client.get()) do
-				awful.titlebar.show(c)
+				if not c.maximized then
+					awful.titlebar.show(c, beautiful.titlebar_position)
+				end
 			end
 		else
 			for _, c in ipairs(client.get()) do
-				awful.titlebar.hide(c)
+				awful.titlebar.hide(c, beautiful.titlebar_position)
 			end
 		end
 	end, {
