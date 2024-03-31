@@ -1,4 +1,5 @@
 local math = require('math')
+local std = require('platform.stdlib')
 
 client.connect_signal('request::titlebars', function(c)
 	-- Titlebar Buttons
@@ -21,15 +22,26 @@ client.connect_signal('request::titlebars', function(c)
 		end)
 	)
 
-	local colour = require('platform.stdlib').color
+
+    local close_button = awful.titlebar.widget.closebutton(c)
+	close_button.forced_height = dpi(24)
+	close_button.forced_width = dpi(24)
+
+	-- local max_btn = awful.titlebar.widget.maximizedbutton(c)
+	-- max_btn.forced_width = 24
+	-- max_btn.forced_height = 24
 
 	awful
 		.titlebar(c, {
 			size = dpi(36),
-			position = 'left',
+			position = beautiful.titlebar_position,
 		})
 		:setup({
 			{
+				{
+				    close_button,
+					layout = wibox.layout.fixed.horizontal,
+				},
 				widget = wibox.container.margin,
 				top = 8,
 				left = 12,
@@ -37,7 +49,7 @@ client.connect_signal('request::titlebars', function(c)
 				bottom = 8,
 			},
 			{ widget = wibox.widget.separator, buttons = titlebar_buttons, color = '#00000000' },
-			layout = wibox.layout.align.vertical,
+			layout = wibox.layout.align.horizontal,
 		})
 
 	if awful.layout.get(mouse.screen) ~= awful.layout.suit.floating then

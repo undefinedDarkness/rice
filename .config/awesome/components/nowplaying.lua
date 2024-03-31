@@ -84,10 +84,7 @@ end)
 playerctl:connect_signal('metadata', function(_, title, artist, album_path, album)
 	local album_str = (album ~= '' and album ~= title) and ' (<i>' .. std.ellipsize(album, 16) .. '</i>)' or ''
 	title = std.ellipsize(std.trim(title:gsub('%([^%)]*%)', '')), 26)
-	nowPlaying.markup = 'Playing\n'
-		.. title
-		.. (artist ~= '' and ' by\n' .. artist or '')
-		.. ''
+	nowPlaying.markup = 'Playing\n' .. title .. (artist ~= '' and ' by\n' .. artist or '') .. ''
 	albumArt.image = album_path
 end)
 

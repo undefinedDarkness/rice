@@ -6,8 +6,8 @@ return function(content)
 		visible = false,
 		ontop = true,
 		widget = content,
-		bg = '#181818',
-		fg = '#f0f0f0',
+		bg = beautiful.palette.white,--'#181818',
+		fg = beautiful.palette.black,--'#f0f0f0',
 		type = 'splash',
 		shape = require('platform.stdlib').rounded(16),
 		placement = function(d)

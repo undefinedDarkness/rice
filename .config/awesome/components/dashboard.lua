@@ -1,8 +1,20 @@
 local std = require('platform.stdlib')
+-- local surface_filters = require('platform.libs.surface_filters')
 local components = {}
 
 local dashboard = nil
 local update_fns = {}
+
+-- local blur_bg = function(v)
+-- 		if v then
+-- 			awful.spawn.easy_async("magick convert x:root -blur 0x2 /tmp/blur-screenshot.png", function()
+-- 				dashboard.bgimage = gears.surface.load_uncached('/tmp/blur-screenshot.png')
+-- 				dashboard.visible = v
+-- 			end)
+-- 		else
+-- 			dashboard.visible = v
+-- 		end
+-- 	end
 
 function create()
 	local children = {
@@ -20,12 +32,13 @@ function create()
 	end
 
 	return awful.popup({
-		widget = children,
+		widget = { children, widget = wibox.container.background, bg = std.color.hexa('#181818', 0.75) },
 		visible = false,
 		ontop = true,
 		fg = beautiful.wibar_bg,
 		placement = awful.placement.maximize,
-		bg = std.color.hexa('#181818', 0.75),
+		bgimage = '/tmp/blur-screenshot.png',
+		bg = std.color.hexa(beautiful.palette.black, 0.75),
 	})
 end
 
@@ -42,6 +55,7 @@ return {
 			if dashboard == nil then
 				require('naughty').notify({ text = 'Failed to create dashboard' })
 			end
+			-- table.insert(update_fns, blur_bg)
 		end
 
 		for i, fn in ipairs(update_fns) do

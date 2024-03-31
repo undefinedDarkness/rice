@@ -6,17 +6,13 @@ naughty.config.padding = dpi(8)
 naughty.config.spacing = dpi(16)
 
 naughty.config.defaults.timeout = 8
-naughty.config.defaults.title = 'Hello There!'
-naughty.config.defaults.position = 'top_left'
+naughty.config.defaults.title = '┗ ┻ ┣'
 
 naughty.connect_signal('request::display', function(n)
 	n.timeout = 8
-	n.position = 'bottom_right'
+	n.position = 'top_right'
 
 	local icon = n.icon or n.image or n.app_icon
-	-- if icon == nil and n.app_name ~= nil then
-	-- icon = C.gtk_lookup_name(n.app_name)
-	-- end
 
 	naughty.layout.box({
 		notification = n,
@@ -25,13 +21,14 @@ naughty.connect_signal('request::display', function(n)
 		end,
 		type = 'notification',
 		minimum_width = 100,
-		fg = '#f7f7f7',
-		bg = '#111111',
+		fg = beautiful.palette.black,
+		border = 0,
+		bg = '#f0f0f0',--C.color.hexa(beautiful.dark, 0.85),
 		widget_template = {
 			{
 				widget = wibox.container.background,
 				forced_width = 8,
-				bg = n.urgency == 'low' and 'blue' or (n.urgency == 'critical' and 'red' or 'orange'),
+				bg = n.urgency == 'low' and beautiful.palette.blue or (n.urgency == 'critical' and beautiful.palette.red or beautiful.palette.gold),
 			},
 			{
 				{
@@ -52,14 +49,17 @@ naughty.connect_signal('request::display', function(n)
 			{
 				{
 					layout = wibox.layout.flex.vertical,
+					spacing = 8,
 					{
 						widget = wibox.widget.textbox,
 						text = n.title,
+						font = 'azukifontP 14',
 						valign = 'bottom',
 					},
 					{
 						valign = 'top',
 						widget = wibox.widget.textbox,
+						font = 'azukifontP 14',
 						markup = n.message,
 					},
 				},

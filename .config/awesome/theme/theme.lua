@@ -10,6 +10,14 @@ local rice_path = require('os').getenv('HOME') .. '/rice'
 local theme = {}
 
 -- Colors
+theme.palette = {
+	black = '#2a2428',
+	white = '#f9efee',
+	red = '#a77668',
+	blue = '#4b5c76',
+	gold = '#e3bf9f'
+}
+
 theme.bg_normal = '#ff0000'
 theme.bg_shadow = '#111111'
 theme.fg_normal = '#181818'
@@ -20,6 +28,8 @@ theme.fg_grey = '#b0b0b0'
 theme.dashboard_bg = std.color.hexa(std.color.lighten('#ffefd5', 16), 0.68)
 theme.titlebar_bg_focus = '#f3b3b4'
 theme.titlebar_bg = '#c7a8a1'
+-- theme.titlebar_bg = 'transparent'
+-- theme.titlebar_bg_focus = 'transparent'
 theme.hotkeys_bg = theme.bg_shadow
 theme.hotkeys_fg = theme.bg_ligh
 theme.wibar_bg = '#fbe7e8' -- #FFEFD5'
@@ -30,7 +40,7 @@ theme.tasklist_plain_task_name = true
 theme.menubar_bg_normal = theme.wibar_bg
 theme.menubar_fg_normal = '#fafafa'
 
-theme.titlebar_position = 'left'
+theme.titlebar_position = 'top'
 -- theme.menu_bg = '#262322'
 -- theme.menu_section_bg = '#859e82'
 
@@ -83,6 +93,9 @@ theme.layout_dwindle = assets .. 'layouts/dwindle.png'
 
 theme.titlebar_close_button_normal = assets .. 'icons/close.svg'
 theme.titlebar_close_button_focus = assets .. 'icons/close-f.svg'
+
+theme.titlebar_maximized_button_focus = assets .. 'icons/max.svg'
+theme.titlebar_maximized_button_normal = assets .. 'icons/max-f.svg'
 
 theme.wallpaper = rice_path .. '/wallpapers/' .. 'girlsitting.png'
 

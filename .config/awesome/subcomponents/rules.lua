@@ -54,16 +54,25 @@ awful.rules.rules = {
 		properties = {
 			special = true,
 			sticky = true,
-			placement = awful.placement.centered,
+			-- placement = awful.placement.top,
 		},
 	},
+
+{
+		rule = {
+			name = "mkr"
+		},
+		properties = {
+			special = true
+		}
+	}
 }
 
-client.connect_signal("property::maximized", function(c) 
-    if c.maximized then
-              awful.titlebar.hide(c, beautiful.titlebar_position) 
+client.connect_signal('property::maximized', function(c)
+	if c.maximized then
+		awful.titlebar.hide(c, beautiful.titlebar_position)
 	else
-              awful.titlebar.show(c, beautiful.titlebar_position)
+		awful.titlebar.show(c, beautiful.titlebar_position)
 	end
 	(awful.placement.no_offscreen + awful.placement.maximize)(c)
 end)

@@ -55,6 +55,7 @@ clientkeys = gears.table.join(
 		-- awful.titlebar.hide(c, beautiful.titlbar_position)
 		c.maximized = not c.maximized
 		c:raise()
+		awful.placement.no_offscreen(c)
 	end, {
 		description = '(un)maximize',
 		group = 'client',
