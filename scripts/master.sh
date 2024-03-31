@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 case $1 in
     "startup")
-		mv ~/.bash_history /tmp/bsh
-		rm ~/.*_history
-		mv /tmp/bsh ~/.bash_history
+		# mv ~/.bash_history /tmp/bsh
+		# rm ~/.*_history
+		# mv /tmp/bsh ~/.bash_history
         rm ~/.wget-hsts
         rm ~/.viminfo
 		/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
@@ -50,7 +50,7 @@ bind 'set enable-bracketed-paste on' # Enable Bracket Paste Mode
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 # export GTK_THEME="phocus"
 export LESSHISTFILE=- # Disable Less History
-export HISTFILE= # Disable History File
+# export HISTFILE= # Disable History File
 export PATH="$PATH:$HOME/.local/bin:$HOME/.deno/bin:$HOME/Downloads/Flutter/bin:$HOME/.zig" # Path
 export PS1="\[\e]0;SH: \W\a\]\[\e[36m\]\w\[\e[m\] \[\e[32m\]->\[\e[m\] " # Prompt
 

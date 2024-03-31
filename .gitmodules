@@ -16,3 +16,6 @@
 [submodule ".config/awesome/platform/libs/awesome-upower-battery"]
 	path = .config/awesome/platform/libs/awesome-upower-battery
 	url = git@github.com:berlam/awesome-upower-battery.git
+[submodule ".config/awesome/platform/libs/surface_filters"]
+	path = .config/awesome/platform/libs/surface_filters
+	url = git@github.com:undefinedDarkness/surface_filters.git

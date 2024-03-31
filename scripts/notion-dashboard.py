@@ -48,12 +48,16 @@ def restore_session(webview):
 
 class MyWindow(Gtk.Window):
     window_shown = True
+    window_position = (0, 0)
 
     def toggle(self):
         if self.window_shown:
+            pos = self.get_position()
+            self.window_position = (pos.root_x, pos.root_y)
             self.hide()
         else:
             self.show_all()
+            self.move(self.window_position[0], self.window_position[1])
         self.window_shown = not self.window_shown
 
     def __init__(self):
