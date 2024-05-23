@@ -1,3 +1,6 @@
+> [!WARNING]
+> This documentation is very out-of-date and my rice uses lots of custom bits to get stuff working, bits I end up reverse engineering whenever I need to re-install 😅, So don't follow this please thank you!
+
 Hello & welcome to my little corner of the internet. This is where I keep all my configuration files
 for my Linux installation, If they interest you feel free to peruse them.
 
