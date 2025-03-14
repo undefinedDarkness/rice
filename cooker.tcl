@@ -21,8 +21,8 @@ proc :repo url {
 	dict set metadata url "$url"
 }
 
-proc fail v {
-	report v "fail"
+proc fail { { v "UNKNOWN" } } {
+	report $v "fail"
 	# puts "\033\[31mFAIL\033\[0m $v"
 }
 
@@ -39,6 +39,8 @@ proc report { v { why "info" } } {
 }
 
 proc check-dependency {bin args} {
+	# 1 - OK
+	# 0 - FAIL
 	set sys-version 0
 	array set options { -version "" -optional "" -message "" }
 	array set options $args 
@@ -46,10 +48,11 @@ proc check-dependency {bin args} {
 	if { [ auto_execok $bin ] eq "" } {
 		if { $options(-optional) ne "" } {
 			report "optional dependency `$bin` not found. ($options(-message))" "warn"
+			return 1
 			} else {
 			report "required dependency `$bin` not found. ($options(-message))" "error"
+			return 0
 		}
-		return 0
 	}
 
 	set version $options(-version) 
@@ -58,6 +61,7 @@ proc check-dependency {bin args} {
 	}
 
 	report "$bin found installed ($options(-message))"
+	return 1
 }
 
 proc :depends { dependencies } {
@@ -66,7 +70,10 @@ proc :depends { dependencies } {
 			continue;
 		}
 
-		check-dependency {*}$dependency
+		if { [check-dependency {*}$dependency] == 0 } {
+			report "Exiting b/c of missing required dependency or version mismatch"
+			exit 1
+		}
 	}
 }
 

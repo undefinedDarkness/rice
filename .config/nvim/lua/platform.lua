@@ -42,7 +42,7 @@ vim.opt.title = true
 
 -- Colorscheme
 vim.opt.background = "dark"
-vim.cmd([[ colorscheme personal ]])
+-- vim.cmd([[ colorscheme personal ]])
 
 vim.g.zig_fmt_autosave = 0
 vim.g.user_emmet_leader_key = "<Insert>"

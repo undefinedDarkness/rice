@@ -145,14 +145,6 @@ require("lazy").setup({
 
 	-- Misc {{{
 
-	-- Auto Save
-	{
-		"Pocco81/auto-save.nvim",
-		config = function()
-			require("auto-save").setup({})
-		end,
-		event = "VeryLazy",
-	},
 	{
 		"nvim-treesitter/playground",
 		keys = {
@@ -414,6 +406,23 @@ require("lazy").setup({
     event = 'LspAttach', -- This is what I use personnally and it works great
     opts = {}
 },
+
+	{
+		'loctvl842/monokai-pro.nvim',
+		lazy = false,
+		config = function()
+			require('monokai-pro').setup({
+				filter = "spectrum"
+			})
+			vim.cmd([[ colorscheme monokai-pro ]])
+		end
+	},
+
+	{
+		'github/copilot.vim',
+		event = "VeryLazy"
+
+	},
 
 	-- LSP Components {{{
 	{

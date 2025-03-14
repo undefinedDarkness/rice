@@ -29,12 +29,13 @@ esac
 # -- ALIASES & SETUP -- 
 
 alias gdb='gdb -q '
-alias rm='trash -v' 
+# alias rm='trash -v' 
 alias mv='mv -v'
 alias cp='cp -v'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias nvim='XTERM_VERSION= nvim' # We do this to preserve scrolling
+alias vim='XTERM_VERSION= nvim'
 alias emacs='TERM=xterm-direct emacs '  # Get true color working in emacs terminal mode
 alias wget='wget --hsts-file /dev/null -c' # Disable Wget History
 alias killall='pkill'
@@ -90,11 +91,13 @@ buildDepReverse () {
 }
 
 m () {
-	nvim
+	nvim $@
 }
 
 # Symlink Files
 symlink () {
+	# print symlink
+	echo "Creating link $1 -> $2"
     ln -s "$(realpath "$1")" "$(realpath "$2")"
 }
 
@@ -185,9 +188,9 @@ createDesktopFile() {
 }
 
 testAwesome () {
-	 Xephyr :1 -ac -br -noreset -screen 1152x720 &
+	 Xephyr :2 -ac -br -noreset -screen 1152x720 &
 	sleep 1
-	DISPLAY=:1.0 awesome
+	DISPLAY=:2.0 awesome
 }
 
 source ~/rice/scripts/gh-comp.sh

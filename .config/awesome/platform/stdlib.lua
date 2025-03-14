@@ -230,7 +230,7 @@ function M.color.monochrome_image(image)
 end
 
 function M.color.hexa(str, alpha)
-	return str .. string.format('%02x', alpha * 255)
+	return str .. string.format('%02x', math.floor(alpha) * 255)
 end
 
 -- Misc
