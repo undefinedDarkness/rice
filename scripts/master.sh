@@ -4,12 +4,14 @@ case $1 in
 		# mv ~/.bash_history /tmp/bsh
 		# rm ~/.*_history
 		# mv /tmp/bsh ~/.bash_history
-        rm ~/.wget-hsts
-        rm ~/.viminfo
+        # rm ~/.wget-hsts
+        # rm ~/.viminfo
+		printf '=== STARTUP ===\n'
 		/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
         xrdb -merge ~/rice/Xresources
 		blueman-applet &
 		transmission-gtk -m &
+		printf '==== STARTUP FIN ===\n'
         exit
         ;;
 

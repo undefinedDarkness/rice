@@ -9,25 +9,7 @@ from gi.repository import Gtk, WebKit2, Gio, GLib, Gdk
 
 script_path = pathlib.Path(__file__).parent.resolve()
 stylesheet_source = """
-.notion-topbar {
-    display: none;
-}
 
-.notion-scroller > :nth-child(2n), .notion-scroller > :nth-child(3n), .pseudoSelection, .notion-help-button {
-    display: none !important;
-}
-
-.notion-table-view {
-    padding: 3em !important;
-}
-
-main {
-    height: 100% !important;
-}
-
-main,.notion-app-inner,.notion-cursor-listener,.notion-body {
-    background: transparent !important;
-}
 """
 
 def store_session(webview):
@@ -101,6 +83,8 @@ class MyWindow(Gtk.Window):
         self.scroller.add(self.webview)
 
         self.add(self.scroller)
+
+
 
 with PidFile(piddir="/tmp"):
     win = MyWindow()
