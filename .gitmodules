@@ -19,3 +19,9 @@
 [submodule ".config/awesome/platform/libs/surface_filters"]
 	path = .config/awesome/platform/libs/surface_filters
 	url = git@github.com:undefinedDarkness/surface_filters.git
+[submodule "misc/mkr"]
+	path = misc/mkr
+	url = git@github.com:undefinedDarkness/mkr.git
+[submodule "misc/dmenu"]
+	path = misc/dmenu
+	url = git@github.com:undefinedDarkness/dmenu-flexipatch.git

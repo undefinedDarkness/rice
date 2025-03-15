@@ -1,5 +1,5 @@
 diff --git a/objects/client.c b/objects/client.c
-index 6946dbc6..15463474 100644
+index 17ad387a..65e01b6d 100644
 --- a/objects/client.c
 +++ b/objects/client.c
 @@ -977,6 +977,15 @@ lua_class_t client_class;
@@ -118,7 +118,7 @@ index 6946dbc6..15463474 100644
                              (lua_class_propfunc_t) luaA_client_set_ontop,
                              (lua_class_propfunc_t) luaA_client_get_ontop,
 diff --git a/objects/client.h b/objects/client.h
-index 70b05d19..225abd39 100644
+index 70b05d19..9c43ed91 100644
 --- a/objects/client.h
 +++ b/objects/client.h
 @@ -144,6 +144,8 @@ struct client_t
@@ -130,6 +130,14 @@ index 70b05d19..225abd39 100644
      /** True if a client is banned to a position outside the viewport.
       * Note that the geometry remains unchanged and that the window is still mapped.
       */
+@@ -221,6 +223,7 @@ void client_set_above(lua_State *, int, bool);
+ void client_set_below(lua_State *, int, bool);
+ void client_set_modal(lua_State *, int, bool);
+ void client_set_ontop(lua_State *, int, bool);
++void client_set_special(lua_State *, int, bool);
+ void client_set_fullscreen(lua_State *, int, bool);
+ void client_set_maximized(lua_State *, int, bool);
+ void client_set_maximized_horizontal(lua_State *, int, bool);
 diff --git a/stack.c b/stack.c
 index 17213fde..9809d617 100644
 --- a/stack.c
