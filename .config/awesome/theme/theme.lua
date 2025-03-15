@@ -57,7 +57,7 @@ theme.tasklist_maximized = ' &lt;<b>M</b>&gt; '
 theme.useless_gap = dpi(8)
 theme.gap_single_client = false
 theme.systray_icon_spacing = dpi(8)
-theme.font = 'Inter Medium'
+theme.font = 'Recursive Sans Linear Static'
 theme.workspaces = { 'I', 'II', 'III', 'IV', 'V' }
 
 theme.separator_color = '#2a2a2a'
