@@ -1,6 +1,6 @@
-local clock_hr = awful.widget.textclock('%H')
+local clock_hr = wibox.widget.textclock('%H')
 clock_hr.font = 'Recursive Mono Casual Static Black 72'
-local clock_min = awful.widget.textclock('%M')
+local clock_min = wibox.widget.textclock('%M')
 clock_min.font = 'Recursive Mono Casual Static Black 72'
 
 local clock_date = wibox.widget.textclock('%d-%m-%Y')

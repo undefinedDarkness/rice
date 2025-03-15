@@ -1,46 +1,70 @@
-> [!WARNING]
-> This documentation is very out-of-date and my rice uses lots of custom bits to get stuff working, bits I end up reverse engineering whenever I need to re-install 😅, So don't follow this please thank you!
+# RICE
+When cloning this repo, please clone with submodules `git clone --recurse-submodules https://github.com/undefinedDarkness/rice` or if you have already cloned, run `git submodule update --init --recursive`
+Also please clone it to `~/rice`, many paths are coded to expect the repo to be there
 
-Hello & welcome to my little corner of the internet. This is where I keep all my configuration files
-for my Linux installation, If they interest you feel free to peruse them.
+## Requirements
+- awesomewm (see below)
+- playerctl & playerctl gir for bling to load
+- wezterm ~ you need some kind of terminal, this is what I use but you can easily swap it out ig
+- nvim ~ a modern version should just work technically (see below)
+- dmenu ~ or you can use something else 
+- mkr (see below)
+- xclip
+- picom (this one's important)
 
-Required Packages:
-- awesome (stable+)
-- xterm
-- firefox
-- emacs (compiled from master, 29+)
+For `notion-dashboard` and many other scripts to work, you will need `python3-gi` installed
+To build awesome and others you'll need `build-essential cmake meson libgtk-3-dev`
 
-*If using another init system, need to modify powermenu commands in =.config/awesome/components/powermenu.lua=
-*If using another screenshot program, need to modify screenshot commands in =.config/awesome/misc/libs/screenshot.lua=
+## Installation
+once you have all the requirements, installation is pretty much just symlinking folders from `~/rice/.config` to `~/.config`
 
-Setup from scratch (assuming repo is cloned to ~/rice):
+## Special Notes
 
-Append to ~/.bashrc
-#+begin_src shell
-source $HOME/rice/scripts/master.sh
-#+end_src
+## notion-dashboard
+You will need to modify the script `~/rice/scripts/notion-dashboard.py` to match your notion, the rest should be okay
 
-Create symlink
-#+begin_src shell
-ln -s $(realpath ~/rice/.config) $(realpath ~/.config)
-#+end_src
+You'll need `convert` (imagemagick) for the blurred background - NOTE TO SELF, Consider only depending on ffmpeg
 
-OR
+## dmenu
+```
+cd rice/misc/dmenu
+sudo make install
+```
 
-Modify /usr/share/xsessions/awesome.desktop 
-#+being_src ini
-Exec=awesome
-#+end_src
-becomes
-#+begin_src ini
-Exec=awesome -c /home/USERNAME/rice/.config/awesome/rc.lua
-#+end_src
+### Mkr
+Mkr is my custom launcher and you'll have to build it or swap it out with rofi or the like, To build it:
+```
+cd rice/misc/mkr
+meson setup build
+meson compile -C build
+```
 
-*If cloning somewhere modify master script to point there instead
+Might rip it out later, I dunno
 
-Emacs configuration should /just work/
-*CURRENTLY UNMAINTAINED*: Neovim configuration will need you to install packer
+### Neovim
+Please do `:TSInstall` for any languages you often use or it won't look quite right, besides that it should just work,
+It's just a standard lazy.nvim setup
 
-*NOTE*:
-Configuration is not based on Xresources at all,
-That is currently only for xterm.
+I think you might need `rg` installed for telescope to work properly
+
+### Awesome
+This rice uses a custom build of awesome with a few patches applied which you can find in misc/
+On Ubuntu, you need to 
+1. clone awesome source code
+2. apply the patch
+3. install build dependencies
+   `sudo apt-get build-dep awesome`
+   for this you will need to enable source code repos, by either modifying `/etc/apt/sources.list` or using the additional software menu
+4. Run the build  commands:
+```
+mkdir build
+cd build
+cmake ..
+make package
+sudo apt install ./*.deb
+```
+
+Refer to awesomewm documentation for building if you get stuck
+
+## Credits
+this rice wouldn't be possible w/o awesome wm, bling and rubato

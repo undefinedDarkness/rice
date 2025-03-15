@@ -56,7 +56,7 @@ local opts = {
 }
 
 require("lazy").setup({
-	
+
 	-- Components {{{
 	-- Tresitter
 	{
@@ -401,11 +401,11 @@ require("lazy").setup({
 
 	-- }}}
 
-{
-    'dgagn/diagflow.nvim',
-    event = 'LspAttach', -- This is what I use personnally and it works great
-    opts = {}
-},
+	{
+		'dgagn/diagflow.nvim',
+		event = 'LspAttach', -- This is what I use personnally and it works great
+		opts = {}
+	},
 
 	{
 		'loctvl842/monokai-pro.nvim',
@@ -419,9 +419,21 @@ require("lazy").setup({
 	},
 
 	{
-		'github/copilot.vim',
-		event = "VeryLazy"
+		'zbirenbaum/copilot.lua',
+		event = "VeryLazy",
+		config = function()
+			require('copilot').setup({
+				suggestion = {enabled = false},
+				panel = {enabled=false}
+			})
+		end
+	},
 
+	{
+		"zbirenbaum/copilot-cmp",
+		config = function ()
+			require("copilot_cmp").setup()
+		end
 	},
 
 	-- LSP Components {{{
@@ -541,11 +553,12 @@ require("lazy").setup({
 					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				}),
 				sources = cmp.config.sources({
+					{ name = "copilot" },
 					{ name = "nvim_lsp" },
 					{ name = "vsnip" },
 				}, {
-					{ name = "path" },
-				}),
+						{ name = "path" },
+					}),
 			})
 			cmp.event:on("confirm_done", require("nvim-autopairs.completion.cmp").on_confirm_done())
 		end,

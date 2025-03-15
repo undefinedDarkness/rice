@@ -5,16 +5,16 @@ local components = {}
 local dashboard = nil
 local update_fns = {}
 
--- local blur_bg = function(v)
--- 		if v then
--- 			awful.spawn.easy_async("magick convert x:root -blur 0x2 /tmp/blur-screenshot.png", function()
--- 				dashboard.bgimage = gears.surface.load_uncached('/tmp/blur-screenshot.png')
--- 				dashboard.visible = v
--- 			end)
--- 		else
--- 			dashboard.visible = v
--- 		end
--- 	end
+local blur_bg = function(v)
+		if v then
+			awful.spawn.easy_async("convert x:root -gaussian-blur 0x2 /tmp/blur-screenshot.png", function()
+				dashboard.bgimage = gears.surface.load_uncached('/tmp/blur-screenshot.png')
+				-- dashboard.visible = v
+			end)
+		else
+			-- dashboard.visible = v
+		end
+	end
 
 function create()
 	local children = {
@@ -55,7 +55,7 @@ return {
 			if dashboard == nil then
 				require('naughty').notify({ text = 'Failed to create dashboard' })
 			end
-			-- table.insert(update_fns, blur_bg)
+			table.insert(update_fns, blur_bg)
 		end
 
 		for i, fn in ipairs(update_fns) do
