@@ -7,12 +7,12 @@ local update_fns = {}
 
 local blur_bg = function(v)
 		if v then
-			awful.spawn.easy_async("convert x:root -gaussian-blur 0x2 /tmp/blur-screenshot.png", function()
+			awful.spawn.easy_async("convert x:root -gaussian-blur 0x2 -evaluate multiply 0.75 /tmp/blur-screenshot.png", function()
 				dashboard.bgimage = gears.surface.load_uncached('/tmp/blur-screenshot.png')
-				-- dashboard.visible = v
+				dashboard.visible = v
 			end)
 		else
-			-- dashboard.visible = v
+			dashboard.visible = v
 		end
 	end
 
@@ -37,8 +37,9 @@ function create()
 		ontop = true,
 		fg = beautiful.wibar_bg,
 		placement = awful.placement.maximize,
-		bgimage = '/tmp/blur-screenshot.png',
-		bg = std.color.hexa(beautiful.palette.black, 0.75),
+		-- type = 'menu',
+		-- bgimage = '/tmp/blur-screenshot.png',
+		bg = std.color.rgba(0, 0, 0, 0.25),
 	})
 end
 
@@ -55,7 +56,7 @@ return {
 			if dashboard == nil then
 				require('naughty').notify({ text = 'Failed to create dashboard' })
 			end
-			table.insert(update_fns, blur_bg)
+			-- table.insert(update_fns, blur_bg)
 		end
 
 		for i, fn in ipairs(update_fns) do

@@ -3,7 +3,7 @@ local custom = require('platform.stdlib')
 clientkeys = gears.table.join(
 	-- Fullscreen Window
 	awful.key({ modkey }, 'f', function(c)
-		awful.screen.focused().mywibar.ontop = c.fullscreen
+		-- awful.screen.focused().mywibar.ontop = c.fullscreen
 		c.fullscreen = not c.fullscreen
 		c:raise()
 	end, {

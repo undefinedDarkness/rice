@@ -14,6 +14,28 @@ local tag_dashboard_ani_wrapper = wibox.widget({
 
 local dashboard_fold = false
 
+local tasklist_buttons = gears.table.join(
+                     awful.button({ }, 1, function (c)
+                                              if c == client.focus then
+                                                  c.minimized = true
+                                              else
+                                                  c:emit_signal(
+                                                      "request::activate",
+                                                      "tasklist",
+                                                      {raise = true}
+                                                  )
+                                              end
+                                          end),
+                     awful.button({ }, 3, function()
+                                              awful.menu.client_list({ theme = { width = 250 } })
+                                          end),
+                     awful.button({ }, 4, function ()
+                                              awful.client.focus.byidx(1)
+                                          end),
+                     awful.button({ }, 5, function ()
+                                              awful.client.focus.byidx(-1)
+                                          end))
+
 -- }
 local update_before_display = function(display)
 	if not display then
@@ -46,7 +68,7 @@ local update_before_display = function(display)
 						bling_tagpreview.draw_widget(
 							tag,
 							-- nil,
-							nil,
+							true,
 							-- true,
 							scale,
 							8,
@@ -90,12 +112,19 @@ local update_before_display = function(display)
 				},
 				widget_template = {
 					{
-						widget = wibox.widget.imagebox,
-						id = 'icon_role',
+						widget = awful.widget.clienticon,
+						id = 'clienticon',
 					},
 					widget = wibox.container.constraint,
 					width = 24,
 					height = 24,
+					create_callback = function(self, c, index, objs)
+						self:get_children_by_id('clienticon')[1].client = c
+						-- focus the child when clienticon is clicked	
+						self:connect_signal("button::press", function()
+							c:emit_signal('request::activate', 'tasklist', {raise=true})
+						end)
+					end
 				},
 			}),
 			spacing = 16,

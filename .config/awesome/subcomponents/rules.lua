@@ -54,7 +54,7 @@ awful.rules.rules = {
 		properties = {
 			special = true,
 			sticky = true,
-			-- placement = awful.placement.top,
+			placement = function(c) awful.placement.centered(c, { offset = { x = 130 } }) end,
 		},
 	},
 
